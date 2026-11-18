@@ -18,14 +18,13 @@ jobs:
 
       - name: Install and Build
         run: |
-          cd aplikasi
           npm install
           npm run build
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: aplikasi/dist
+          path: dist
 
   deploy:
     needs: build-and-deploy
