@@ -601,14 +601,20 @@ function App() {
     })
   )
 
-  const daftarMapel = [
-    'Matematika - SD Sederajat (Paket 1)',
-    'Matematika - SD Sederajat (Paket 2)',
-    'Bahasa Indonesia - SD Sederajat (Paket 1)',
-    'Bahasa Indonesia - SD Sederajat (Paket 2)',
-    'Bahasa Inggris - SD Sederajat (Paket 1)',
-    'Bahasa Inggris - SD Sederajat (Paket 2)'
-  ]
+  const daftarJenjang =
+    jenjang === 'SD/MI/Sederajat'
+      ? ['SD/MI/Sederajat']
+      : ['SD/MI/Sederajat']
+
+  const daftarJenisMapel =
+    jenjang === 'SD/MI/Sederajat'
+      ? ['Mata Pelajaran Wajib']
+      : []
+
+  const daftarMapel =
+    jenjang === 'SD/MI/Sederajat' && jenis === 'Mata Pelajaran Wajib'
+      ? ['Bahasa Indonesia - SD Sederajat (Paket 1)']
+      : []
 
   const identitasPeserta = `${username} - PESERTA SAS 1`
 
@@ -923,28 +929,47 @@ function App() {
               <select
                 value={jenjang}
                 onChange={e => {
-                  setJenjang(e.target.value)
+                  const nilaiBaru = e.target.value
+                  setJenjang(nilaiBaru)
+                  setJenis(nilaiBaru === 'SD/MI/Sederajat' ? 'Mata Pelajaran Wajib' : '')
                   setMapel('')
                 }}
               >
-                <option>SD/MI/Sederajat</option>
-                <option>SMP/MTs/Sederajat</option>
-                <option>SMA/MA/SMK/MAK/Sederajat</option>
+                {daftarJenjang.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="awal-group">
               <label>▣ &nbsp;Jenis Mata Pelajaran:</label>
-              <select value={jenis} onChange={e => setJenis(e.target.value)}>
-                <option>Mata Pelajaran Wajib</option>
-                <option>Mata Pelajaran Pilihan</option>
+              <select
+                value={jenis}
+                onChange={e => {
+                  setJenis(e.target.value)
+                  setMapel('')
+                }}
+              >
+                {daftarJenisMapel.length === 0 ? (
+                  <option value="">Kosong (tidak tersedia)</option>
+                ) : (
+                  daftarJenisMapel.map(item => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
 
             <div className="awal-group">
               <label>📖 &nbsp;Mata Pelajaran:</label>
               <select value={mapel} onChange={e => setMapel(e.target.value)}>
-                <option value="">Pilih mata pelajaran...</option>
+                <option value="">
+                  {daftarMapel.length === 0 ? 'Kosong (tidak tersedia)' : 'Pilih mata pelajaran...'}
+                </option>
                 {daftarMapel.map(item => (
                   <option key={item} value={item}>
                     {item}
