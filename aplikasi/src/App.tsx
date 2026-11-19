@@ -573,6 +573,7 @@ const daftarMapel = [
 
 function App() {
   const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
+  const [sesiKey, setSesiKey] = useState(0)
 
   const [jenjang, setJenjang] = useState('SD/MI/Sederajat')
   const [jenis, setJenis] = useState('Mata Pelajaran Wajib')
@@ -648,6 +649,7 @@ function App() {
     setLihatInfo(false)
     setUkuranFont(16)
 
+    setSesiKey(k => k + 1)
     setHalaman('awal')
   }
 
@@ -941,7 +943,7 @@ function App() {
   // 1. HALAMAN AWAL
   if (halaman === 'awal') {
     return (
-      <div className="awal-page">
+      <div key={`awal-${sesiKey}`} className="awal-page">
         <header className="awal-header">
           <div className="awal-brand">
             <LogoTutWuri />
@@ -1028,10 +1030,17 @@ function App() {
   // 2. HALAMAN LOGIN
   if (halaman === 'login') {
     return (
-      <div className="login-page">
+      <div key={`login-${sesiKey}`} className="login-page">
         <Header />
         <main className="login-main">
-          <div className="login-card">
+          <form
+            className="login-card"
+            autoComplete="off"
+            onSubmit={e => {
+              e.preventDefault()
+              loginPeserta()
+            }}
+          >
             <h3>Selamat Datang</h3>
             <p>Silakan login dengan menggunakan username dan password yang anda miliki</p>
 
@@ -1039,6 +1048,8 @@ function App() {
               <span>👤</span>
               <input
                 type="text"
+                name={`tka_user_${sesiKey}`}
+                autoComplete="off"
                 placeholder="Username"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
@@ -1049,12 +1060,11 @@ function App() {
               <span>🔒</span>
               <input
                 type={showPassword ? 'text' : 'password'}
+                name={`tka_pass_${sesiKey}`}
+                autoComplete="new-password"
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') loginPeserta()
-                }}
               />
               <button
                 type="button"
@@ -1069,19 +1079,18 @@ function App() {
               <span>🏫</span>
               <input
                 type="text"
+                name={`tka_lembaga_${sesiKey}`}
+                autoComplete="off"
                 placeholder="Nama Lembaga"
                 value={namaLembaga}
                 onChange={e => setNamaLembaga(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') loginPeserta()
-                }}
               />
             </div>
 
-            <button className="login-button" onClick={loginPeserta}>
+            <button type="submit" className="login-button">
               Login
             </button>
-          </div>
+          </form>
         </main>
       </div>
     )
@@ -1090,7 +1099,7 @@ function App() {
   // 3. HALAMAN KONFIRMASI DATA PESERTA
   if (halaman === 'konfirmasi') {
     return (
-      <div className="konfirmasi-page">
+      <div key={`konfirmasi-${sesiKey}`} className="konfirmasi-page">
         <Header peserta />
 
         <main className="konfirmasi-layout">
@@ -1098,7 +1107,7 @@ function App() {
             <div className="token-content">
               <span>Token :</span>
               <strong>{token}</strong>
-              <button onClick={refreshToken}>Refresh</button>
+              <button type="button" onClick={refreshToken}>Refresh</button>
             </div>
           </section>
 
@@ -1142,6 +1151,8 @@ function App() {
                 <label>Nama Peserta</label>
                 <input
                   type="text"
+                  name={`tka_nama_${sesiKey}`}
+                  autoComplete="off"
                   placeholder="Ketikkan Nama Peserta"
                   value={namaPeserta}
                   onChange={e => setNamaPeserta(e.target.value)}
@@ -1181,13 +1192,15 @@ function App() {
                 <label>Token</label>
                 <input
                   type="text"
+                  name={`tka_token_${sesiKey}`}
+                  autoComplete="off"
                   placeholder="Ketikkan token di sini"
                   value={tokenInput}
                   onChange={e => setTokenInput(e.target.value.toUpperCase())}
                 />
               </div>
 
-              <button className="submit-data" onClick={submitKonfirmasi}>
+              <button type="button" className="submit-data" onClick={submitKonfirmasi}>
                 Submit
               </button>
             </div>
