@@ -560,6 +560,17 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   }
 ]
 
+const MAPEL_AKTIF = 'Bahasa Indonesia - SD Sederajat (Paket 1)'
+
+const daftarMapel = [
+  'Matematika - SD Sederajat (Paket 1)',
+  'Matematika - SD Sederajat (Paket 2)',
+  'Bahasa Indonesia - SD Sederajat (Paket 1)',
+  'Bahasa Indonesia - SD Sederajat (Paket 2)',
+  'Bahasa Inggris - SD Sederajat (Paket 1)',
+  'Bahasa Inggris - SD Sederajat (Paket 2)'
+]
+
 function App() {
   const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
 
@@ -601,20 +612,9 @@ function App() {
     })
   )
 
-  const daftarJenjang =
-    jenjang === 'SD/MI/Sederajat'
-      ? ['SD/MI/Sederajat']
-      : ['SD/MI/Sederajat']
-
-  const daftarJenisMapel =
-    jenjang === 'SD/MI/Sederajat'
-      ? ['Mata Pelajaran Wajib']
-      : []
-
-  const daftarMapel =
-    jenjang === 'SD/MI/Sederajat' && jenis === 'Mata Pelajaran Wajib'
-      ? ['Bahasa Indonesia - SD Sederajat (Paket 1)']
-      : []
+  const jenjangTersedia = jenjang === 'SD/MI/Sederajat'
+  const jenisTersedia = jenjangTersedia && jenis === 'Mata Pelajaran Wajib'
+  const mapelTersedia = jenisTersedia && mapel === MAPEL_AKTIF
 
   const identitasPeserta = `${username} - PESERTA SAS 1`
 
@@ -727,8 +727,8 @@ function App() {
   }
 
   const mulaiSimulasi = () => {
-    if (!mapel) {
-      alert('Silakan pilih mata pelajaran terlebih dahulu!')
+    if (!mapelTersedia) {
+      alert('Pilihan kosong atau tidak tersedia untuk soal saat ini. Silakan pilih SD/MI/Sederajat, Mata Pelajaran Wajib, dan Bahasa Indonesia - SD Sederajat (Paket 1).')
       return
     }
     setHalaman('login')
@@ -929,18 +929,19 @@ function App() {
               <select
                 value={jenjang}
                 onChange={e => {
-                  const nilaiBaru = e.target.value
-                  setJenjang(nilaiBaru)
-                  setJenis(nilaiBaru === 'SD/MI/Sederajat' ? 'Mata Pelajaran Wajib' : '')
+                  setJenjang(e.target.value)
                   setMapel('')
                 }}
               >
-                {daftarJenjang.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
+                <option>SD/MI/Sederajat</option>
+                <option>SMP/MTs/Sederajat</option>
+                <option>SMA/MA/SMK/MAK/Sederajat</option>
               </select>
+              {!jenjangTersedia && (
+                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
+                  Kosong / tidak tersedia untuk soal yang aktif saat ini.
+                </small>
+              )}
             </div>
 
             <div className="awal-group">
@@ -952,30 +953,31 @@ function App() {
                   setMapel('')
                 }}
               >
-                {daftarJenisMapel.length === 0 ? (
-                  <option value="">Kosong (tidak tersedia)</option>
-                ) : (
-                  daftarJenisMapel.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))
-                )}
+                <option>Mata Pelajaran Wajib</option>
+                <option>Mata Pelajaran Pilihan</option>
               </select>
+              {jenjangTersedia && !jenisTersedia && (
+                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
+                  Kosong / tidak tersedia untuk Mata Pelajaran Pilihan.
+                </small>
+              )}
             </div>
 
             <div className="awal-group">
               <label>📖 &nbsp;Mata Pelajaran:</label>
               <select value={mapel} onChange={e => setMapel(e.target.value)}>
-                <option value="">
-                  {daftarMapel.length === 0 ? 'Kosong (tidak tersedia)' : 'Pilih mata pelajaran...'}
-                </option>
+                <option value="">Pilih mata pelajaran...</option>
                 {daftarMapel.map(item => (
                   <option key={item} value={item}>
                     {item}
                   </option>
                 ))}
               </select>
+              {jenisTersedia && mapel !== '' && !mapelTersedia && (
+                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
+                  Kosong / belum ada soal untuk mata pelajaran ini.
+                </small>
+              )}
             </div>
 
             <button className="awal-button" onClick={mulaiSimulasi}>
