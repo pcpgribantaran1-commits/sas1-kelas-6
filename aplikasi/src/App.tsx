@@ -580,6 +580,7 @@ function App() {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [namaLembaga, setNamaLembaga] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
   const [namaPeserta, setNamaPeserta] = useState('')
@@ -681,6 +682,7 @@ function App() {
     const payload = {
       namaPeserta: namaPeserta,
       username: username,
+      namaLembaga: namaLembaga.trim(),
       mapel: mapel,
       skor: nilaiSkala100, // Nilai akhir skala 0 - 100
       jawaban: jawaban
@@ -735,8 +737,8 @@ function App() {
   }
 
   const loginPeserta = () => {
-    if (!username.trim() || !password.trim()) {
-      alert('Username dan password wajib diisi!')
+    if (!username.trim() || !password.trim() || !namaLembaga.trim()) {
+      alert('Username, password, dan nama lembaga wajib diisi!')
       return
     }
     setHalaman('konfirmasi')
@@ -1031,6 +1033,19 @@ function App() {
               </button>
             </div>
 
+            <div className="login-field">
+              <span>🏫</span>
+              <input
+                type="text"
+                placeholder="Nama Lembaga"
+                value={namaLembaga}
+                onChange={e => setNamaLembaga(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') loginPeserta()
+                }}
+              />
+            </div>
+
             <button className="login-button" onClick={loginPeserta}>
               Login
             </button>
@@ -1067,6 +1082,11 @@ function App() {
               <div className="data-group">
                 <label>Nama Peserta</label>
                 <div className="readonly-value">{identitasPeserta}</div>
+              </div>
+
+              <div className="data-group">
+                <label>Nama Lembaga</label>
+                <div className="readonly-value">{namaLembaga}</div>
               </div>
 
               <div className="data-group">
