@@ -981,7 +981,7 @@ function App() {
             </div>
 
             <button className="awal-button" onClick={mulaiSimulasi}>
-              ▶ &nbsp; Mulai Simulasi
+              ▶ &nbsp; Mulai Ujian
             </button>
           </div>
 
