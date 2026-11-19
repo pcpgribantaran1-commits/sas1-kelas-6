@@ -619,6 +619,38 @@ function App() {
 
   const identitasPeserta = `${username} - PESERTA SAS 1`
 
+  // RESET SELURUH DATA SAAT KELUAR KE HALAMAN AWAL
+  const keluarKeHalamanAwal = () => {
+    setJenjang('SD/MI/Sederajat')
+    setJenis('Mata Pelajaran Wajib')
+    setMapel('')
+
+    setUsername('')
+    setPassword('')
+    setNamaLembaga('')
+    setShowPassword(false)
+
+    setNamaPeserta('')
+    setJenisKelamin('')
+    setHari('')
+    setBulan('')
+    setTahun('')
+
+    setTokenInput('')
+    setToken(buatToken())
+
+    setBankSoalAktif([])
+    setNomorAktif(1)
+    setJawaban({})
+    setRagu([])
+    setSisaWaktu(75 * 60)
+    setLihatDaftar(false)
+    setLihatInfo(false)
+    setUkuranFont(16)
+
+    setHalaman('awal')
+  }
+
   // FUNGSI HITUNG NILAI SKALA 100 & KIRIM KE GOOGLE SHEETS
   const kirimNilaiKeGuru = async () => {
     let totalPoinMentah = 0;
@@ -1406,7 +1438,7 @@ function App() {
               </div>
 
               <button
-                onClick={() => setHalaman('awal')}
+                onClick={keluarKeHalamanAwal}
                 style={{
                   background: '#dc2626',
                   color: '#ffffff',
