@@ -574,6 +574,7 @@ const daftarMapel = [
 function App() {
   const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
   const [sesiKey, setSesiKey] = useState(0)
+  const [sedangMengirim, setSedangMengirim] = useState(false)
 
   const [jenjang, setJenjang] = useState('SD/MI/Sederajat')
   const [jenis, setJenis] = useState('Mata Pelajaran Wajib')
@@ -648,13 +649,17 @@ function App() {
     setLihatDaftar(false)
     setLihatInfo(false)
     setUkuranFont(16)
+    setSedangMengirim(false)
 
     setSesiKey(k => k + 1)
     setHalaman('awal')
   }
 
-  // FUNGSI HITUNG NILAI SKALA 100 & KIRIM KE GOOGLE SHEETS
+  // FUNGSI HITUNG NILAI SKALA 100 & KIRIM KE GOOGLE SHEETS (ANTI GANDA)
   const kirimNilaiKeGuru = async () => {
+    if (sedangMengirim) return;
+    setSedangMengirim(true);
+
     let totalPoinMentah = 0;
     const maxPoinTotal = 30; // Total 30 soal, dikonversi ke skala 100
 
@@ -714,8 +719,8 @@ function App() {
     const nilaiSkala100 = Math.round((totalPoinMentah / maxPoinTotal) * 100);
 
     const payload = {
-      namaPeserta: namaPeserta,
-      username: username,
+      namaPeserta: namaPeserta.trim(),
+      username: username.trim(),
       namaLembaga: namaLembaga.trim(),
       mapel: mapel,
       skor: nilaiSkala100, // Nilai akhir skala 0 - 100
@@ -733,9 +738,10 @@ function App() {
       });
     } catch (error) {
       console.error("Gagal mengirim nilai:", error);
+    } finally {
+      setSedangMengirim(false);
+      setHalaman('reviu');
     }
-
-    setHalaman('reviu');
   };
 
   // TIMER UJIAN
@@ -1274,20 +1280,24 @@ function App() {
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-start' }}>
               <button
+                type="button"
+                disabled={sedangMengirim}
                 onClick={kirimNilaiKeGuru}
                 style={{
-                  background: '#dc2626',
+                  background: sedangMengirim ? '#9ca3af' : '#dc2626',
                   color: '#ffffff',
                   border: 'none',
                   padding: '10px 20px',
                   borderRadius: '8px',
                   fontWeight: 600,
-                  cursor: 'pointer'
+                  cursor: sedangMengirim ? 'not-allowed' : 'pointer'
                 }}
               >
-                SELESAI TES
+                {sedangMengirim ? 'MENGIRIM...' : 'SELESAI TES'}
               </button>
               <button
+                type="button"
+                disabled={sedangMengirim}
                 onClick={() => setHalaman('ujian')}
                 style={{
                   background: '#059669',
@@ -1296,7 +1306,7 @@ function App() {
                   padding: '10px 20px',
                   borderRadius: '8px',
                   fontWeight: 600,
-                  cursor: 'pointer'
+                  cursor: sedangMengirim ? 'not-allowed' : 'pointer'
                 }}
               >
                 KEMBALI
@@ -1451,6 +1461,7 @@ function App() {
               </div>
 
               <button
+                type="button"
                 onClick={keluarKeHalamanAwal}
                 style={{
                   background: '#dc2626',
