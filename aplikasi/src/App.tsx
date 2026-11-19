@@ -124,7 +124,7 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 1,
     tipe: 'pg',
-    bacaanGambar: '/cerita-sungai-bersih.png',
+    bacaanGambar: './cerita-sungai-bersih.png',
     pertanyaan: 'Apa kemampuan yang ditunjukkan Lani dalam cerita?',
     opsi: [
       { kode: 'A', teks: 'Mengajak teman-temannya bekerja sama' },
@@ -138,7 +138,7 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 2,
     tipe: 'tabel',
-    bacaanGambar: '/cerita-sungai-bersih.png',
+    bacaanGambar: './cerita-sungai-bersih.png',
     pertanyaan: 'Apa contoh perilaku yang dapat ditemukan dalam kehidupan sehari-hari berdasarkan pesan dalam cerita?',
     petunjuk: 'Tentukan Sesuai atau Tidak Sesuai untuk setiap pernyataan berikut!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -153,7 +153,7 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 3,
     tipe: 'pgk',
-    bacaanGambar: '/cerita-sungai-bersih.png',
+    bacaanGambar: './cerita-sungai-bersih.png',
     pertanyaan: 'Apa saja kegiatan yang dapat menjadi hobi berdasarkan cerita tersebut?',
     petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
     opsi: [
@@ -168,7 +168,7 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 4,
     tipe: 'isian',
-    bacaanGambar: '/cerita-sungai-bersih.png',
+    bacaanGambar: './cerita-sungai-bersih.png',
     pertanyaan: 'Rusa, burung, tupai, dan teman-teman Lani bekerja sama membersihkan sungai. Hobi yang sesuai adalah ....',
     kunciText: 'Kunci jawaban: Menjaga kebersihan lingkungan.',
     kunciTeksReviu: 'Menjaga kebersihan lingkungan'
@@ -293,7 +293,7 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 13,
     tipe: 'pg',
-    bacaanGambar: '/komik-aldi.png',
+    bacaanGambar: './komik-aldi.png',
     bacaanTeks: [
       'Aldi memiliki hobi membuat komik sederhana. Ia sering menggambar tokoh dan menulis cerita pendek pada waktu luang. Suatu hari, temannya mengatakan bahwa komik buatannya masih kurang menarik. Aldi sempat kecewa, tetapi kemudian ia meminta saran dari guru dan berlatih membuat gambar serta cerita yang lebih baik. Beberapa minggu kemudian, komik Aldi menjadi lebih menarik dan ia berani memajangnya di kelas.'
     ],
@@ -830,7 +830,7 @@ function App() {
     <div className="pus-logo">
       {!logoError ? (
         <img
-          src="/logo-tutwuri.png"
+          src="logo-tutwuri.png"
           alt="Logo Tut Wuri Handayani"
           onError={() => setLogoError(true)}
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -840,6 +840,12 @@ function App() {
       )}
     </div>
   )
+
+  const labelPesertaKanan = namaPeserta.trim()
+    ? `${namaPeserta.trim()} - PESERTA SAS 1`
+    : username.trim()
+      ? `${username.trim()} - PESERTA SAS 1`
+      : ''
 
   const Header = ({ peserta = false, reviu = false }: { peserta?: boolean; reviu?: boolean }) => (
     <header
@@ -859,20 +865,35 @@ function App() {
         <LogoTutWuri />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.4 }}>
           <strong>PUSMENDIK</strong>
-          <small>APLIKASI ANBK - Simulasi TKA</small>
+          <small>APLIKASI TKA - SUMATIF AKHIR SEMESTER 1</small>
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', color: '#ffffff' }}>
         {reviu && (
           <span style={{ fontSize: '13px', color: '#ffffff', fontWeight: 500 }}>Reviu Hasil Simulasi</span>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#ffffff' }}>
-          <span style={{ fontSize: '14px' }}>a - a</span>
-          <div style={{ background: '#ffffff', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e3a8a' }}>
-            👤
-          </div>
-        </div>
+        {peserta && labelPesertaKanan && (
+          <span style={{ fontSize: '14px', fontWeight: 500, color: '#ffffff' }}>
+            {labelPesertaKanan}
+          </span>
+        )}
+        <span
+          title="Simulasi TKA"
+          style={{
+            background: '#60a5fa',
+            borderRadius: '6px',
+            width: '32px',
+            height: '32px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '17px',
+            lineHeight: 1
+          }}
+        >
+          🎓
+        </span>
       </div>
     </header>
   )
