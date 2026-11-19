@@ -1065,12 +1065,23 @@ function App() {
             <div className="login-field">
               <span>🔒</span>
               <input
-                type={showPassword ? 'text' : 'password'}
-                name={`tka_pass_${sesiKey}`}
-                autoComplete="new-password"
+                type="text"
+                name={`tka_kode_akses_${sesiKey}`}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                data-form-type="other"
+                data-lpignore="true"
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                style={
+                  {
+                    WebkitTextSecurity: showPassword ? 'none' : 'disc',
+                    textSecurity: showPassword ? 'none' : 'disc'
+                  } as any
+                }
               />
               <button
                 type="button"
