@@ -612,9 +612,9 @@ function App() {
     })
   )
 
-  const jenjangTersedia = jenjang === 'SD/MI/Sederajat'
-  const jenisTersedia = jenjangTersedia && jenis === 'Mata Pelajaran Wajib'
-  const mapelTersedia = jenisTersedia && mapel === MAPEL_AKTIF
+  const jenjangValid = jenjang === 'SD/MI/Sederajat'
+  const jenisValid = jenjangValid && jenis === 'Mata Pelajaran Wajib'
+  const mapelValid = jenisValid && mapel === MAPEL_AKTIF
 
   const identitasPeserta = `${username} - PESERTA SAS 1`
 
@@ -727,8 +727,8 @@ function App() {
   }
 
   const mulaiSimulasi = () => {
-    if (!mapelTersedia) {
-      alert('Pilihan kosong atau tidak tersedia untuk soal saat ini. Silakan pilih SD/MI/Sederajat, Mata Pelajaran Wajib, dan Bahasa Indonesia - SD Sederajat (Paket 1).')
+    if (!mapelValid) {
+      alert('Pilihan kosong atau tidak tersedia untuk soal saat ini.')
       return
     }
     setHalaman('login')
@@ -933,14 +933,14 @@ function App() {
                   setMapel('')
                 }}
               >
-                <option>SD/MI/Sederajat</option>
-                <option>SMP/MTs/Sederajat</option>
-                <option>SMA/MA/SMK/MAK/Sederajat</option>
+                <option value="SD/MI/Sederajat">SD/MI/Sederajat</option>
+                <option value="SMP/MTs/Sederajat">SMP/MTs/Sederajat</option>
+                <option value="SMA/MA/SMK/MAK/Sederajat">SMA/MA/SMK/MAK/Sederajat</option>
               </select>
-              {!jenjangTersedia && (
-                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
-                  Kosong / tidak tersedia untuk soal yang aktif saat ini.
-                </small>
+              {!jenjangValid && (
+                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
+                  (Kosong / tidak tersedia)
+                </div>
               )}
             </div>
 
@@ -953,13 +953,13 @@ function App() {
                   setMapel('')
                 }}
               >
-                <option>Mata Pelajaran Wajib</option>
-                <option>Mata Pelajaran Pilihan</option>
+                <option value="Mata Pelajaran Wajib">Mata Pelajaran Wajib</option>
+                <option value="Mata Pelajaran Pilihan">Mata Pelajaran Pilihan</option>
               </select>
-              {jenjangTersedia && !jenisTersedia && (
-                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
-                  Kosong / tidak tersedia untuk Mata Pelajaran Pilihan.
-                </small>
+              {jenjangValid && !jenisValid && (
+                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
+                  (Kosong / tidak tersedia)
+                </div>
               )}
             </div>
 
@@ -973,10 +973,10 @@ function App() {
                   </option>
                 ))}
               </select>
-              {jenisTersedia && mapel !== '' && !mapelTersedia && (
-                <small style={{ color: '#dc2626', display: 'block', marginTop: '4px' }}>
-                  Kosong / belum ada soal untuk mata pelajaran ini.
-                </small>
+              {jenisValid && mapel !== '' && !mapelValid && (
+                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
+                  (Kosong / belum tersedia)
+                </div>
               )}
             </div>
 
