@@ -1142,38 +1142,48 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
   const kartuBoxStyle = {
     background: '#f8fafc',
     border: '1px solid #cbd5e1',
-    borderRadius: '10px',
+    borderRadius: '12px',
     padding: '12px',
     marginTop: '6px'
   }
 
+  // 1. Kartu digit polos dengan tanda tanya (tidak membocorkan nilai tempat/hasil)
   if (nomorAsli === 1) {
-    const kolom = [
-      { digit: '5', label: 'Puluh Ribuan' },
-      { digit: '7', label: 'Ribuan' },
-      { digit: '.', label: 'Pemisah' },
-      { digit: '6', label: 'Ratusan' },
-      { digit: '3', label: 'Puluhan' },
-      { digit: '1', label: 'Satuan' }
-    ]
+    const item = ['5', '7', '.', '6', '3', '1']
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#2563eb', marginBottom: '8px', textAlign: 'center' }}>
-          Papan Angka 57.631
+      <div style={{ ...kartuBoxStyle, background: 'linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%)', borderColor: '#93c5fd' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e40af', marginBottom: '8px', textAlign: 'center' }}>
+          Kartu Bilangan: 57.631
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '6px', textAlign: 'center' }}>
-          {kolom.map((k, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: k.digit === '.' ? '#e2e8f0' : '#eff6ff',
-                border: '1.5px solid #93c5fd',
-                borderRadius: '8px',
-                padding: '8px 4px'
-              }}
-            >
-              <div style={{ fontSize: '20px', fontWeight: 700, color: '#1e3a8a' }}>{k.digit}</div>
-              <div style={{ fontSize: '10px', color: '#475569', marginTop: '4px', lineHeight: 1.2 }}>{k.label}</div>
+          {item.map((ch, idx) => (
+            <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div
+                style={{
+                  background: ch === '.' ? '#e2e8f0' : '#ffffff',
+                  border: '1.5px solid #60a5fa',
+                  borderRadius: '8px',
+                  padding: '8px 4px',
+                  fontSize: '19px',
+                  fontWeight: 800,
+                  color: '#0f172a'
+                }}
+              >
+                {ch}
+              </div>
+              <div
+                style={{
+                  background: '#f1f5f9',
+                  border: '1px dashed #94a3b8',
+                  borderRadius: '6px',
+                  padding: '3px 2px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: '#64748b'
+                }}
+              >
+                {ch === '.' ? '•' : '?'}
+              </div>
             </div>
           ))}
         </div>
@@ -1181,36 +1191,43 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
+  // 3. Pengumuman data angka tanpa menuliskan ejaan jawaban
   if (nomorAsli === 3) {
     return (
-      <div style={{ ...kartuBoxStyle, textAlign: 'center', background: '#eff6ff', borderColor: '#93c5fd' }}>
-        <div style={{ fontSize: '12px', color: '#1d4ed8', fontWeight: 600 }}>Data Kasus Akhir Tahun 2021</div>
-        <div style={{ fontSize: '28px', fontWeight: 800, color: '#1e3a8a', margin: '6px 0' }}>18.745 Orang</div>
-        <div style={{ fontSize: '12px', color: '#334155' }}>&ldquo;delapan belas ribu tujuh ratus empat puluh lima&rdquo;</div>
+      <div style={{ ...kartuBoxStyle, background: '#f0f9ff', borderColor: '#7dd3fc', textAlign: 'center' }}>
+        <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#0369a1', textTransform: 'uppercase' }}>
+          Catatan Laporan Akhir Tahun 2021
+        </div>
+        <div style={{ marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #bae6fd' }}>
+          <span style={{ fontSize: '13px', color: '#475569' }}>Jumlah Terkonfirmasi: </span>
+          <strong style={{ fontSize: '16px', color: '#0f172a' }}>[ ... orang ]</strong>
+        </div>
       </div>
     )
   }
 
+  // 4. Label harga Brem dengan penanda posisi digit 4 (netral, tanpa menuliskan nilai/nama tempat)
   if (nomorAsli === 4) {
     const chars = ['4', '3', '.', '5', '0', '0']
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#0f766e', marginBottom: '8px', textAlign: 'center' }}>
-          Harga Brem Kota Madiun: Rp43.500
+      <div style={{ ...kartuBoxStyle, background: '#fefce8', borderColor: '#fde047' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#854d0e', marginBottom: '8px', textAlign: 'center' }}>
+          Label Harga Brem Kota Madiun
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
+          <span style={{ fontWeight: 700, color: '#713f12', fontSize: '15px', marginRight: '2px' }}>Rp</span>
           {chars.map((c, idx) => (
             <div
               key={idx}
               style={{
-                minWidth: c === '.' ? '18px' : '38px',
-                padding: '8px 6px',
-                borderRadius: '8px',
+                minWidth: c === '.' ? '16px' : '34px',
+                padding: '7px 5px',
+                borderRadius: '7px',
                 textAlign: 'center',
-                fontWeight: 700,
-                fontSize: '18px',
-                background: idx === 0 ? '#fef08a' : '#ffffff',
-                border: idx === 0 ? '2px solid #eab308' : '1px solid #cbd5e1',
+                fontWeight: 800,
+                fontSize: '17px',
+                background: idx === 0 ? '#fde047' : '#ffffff',
+                border: idx === 0 ? '2px solid #ca8a04' : '1px solid #cbd5e1',
                 color: '#1e293b'
               }}
             >
@@ -1218,27 +1235,23 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
             </div>
           ))}
         </div>
-        <div style={{ fontSize: '11px', color: '#64748b', textAlign: 'center', marginTop: '6px' }}>
-          Perhatikan angka yang dilingkari/disorot kuning
-        </div>
       </div>
     )
   }
 
+  // 5. Dua potongan kertas dengan arsiran bagian terpisah (siswa menggabungkan sendiri)
   if (nomorAsli === 5) {
-    const renderPita = (judul: string, terarsir: number, total: number, warna: string) => (
+    const renderKertas = (judul: string, terarsir: number, total: number, warna: string) => (
       <div style={{ marginBottom: '8px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>
-          {judul} ({terarsir}/{total})
-        </div>
+        <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>{judul}</div>
         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${total}, 1fr)`, gap: '3px' }}>
           {Array.from({ length: total }, (_, idx) => (
             <div
               key={idx}
               style={{
-                height: '24px',
+                height: '22px',
                 borderRadius: '4px',
-                border: '1px solid #64748b',
+                border: '1px solid #475569',
                 background: idx < terarsir ? warna : '#ffffff'
               }}
             />
@@ -1247,87 +1260,111 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
       </div>
     )
     return (
-      <div style={kartuBoxStyle}>
-        {renderPita('Kertas Pertama', 2, 8, '#3b82f6')}
-        {renderPita('Kertas Kedua', 3, 8, '#10b981')}
+      <div style={{ ...kartuBoxStyle, background: '#fdf2f8', borderColor: '#f9a8d4' }}>
+        {renderKertas('Kertas I', 2, 8, '#ec4899')}
+        {renderKertas('Kertas II', 3, 8, '#f472b6')}
       </div>
     )
   }
 
+  // 6. Sketsa bangun persegi 7 cm (tanpa menuliskan hasil keliling)
   if (nomorAsli === 6) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '12px', flexWrap: 'wrap' }}>
+      <div style={{ ...kartuBoxStyle, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', background: '#f8fafc' }}>
         <div
           style={{
-            width: '104px',
-            height: '104px',
-            border: '3px solid #2563eb',
-            background: '#dbeafe',
-            borderRadius: '8px',
+            width: '108px',
+            height: '108px',
+            border: '2.5px solid #0284c7',
+            background: '#e0f2fe',
+            borderRadius: '6px',
+            position: 'relative',
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: 700,
-            color: '#1e3a8a'
+            color: '#0369a1',
+            fontSize: '13px'
           }}
         >
-          <span style={{ fontSize: '14px' }}>Persegi</span>
-          <span style={{ fontSize: '13px', marginTop: '4px' }}>sisi = 7 cm</span>
+          <span>Persegi</span>
+          <span style={{ position: 'absolute', top: '-18px', fontSize: '11px', color: '#0f172a' }}>7 cm</span>
+          <span style={{ position: 'absolute', left: '-34px', fontSize: '11px', color: '#0f172a' }}>7 cm</span>
         </div>
-        <div style={{ fontSize: '13px', color: '#334155', lineHeight: 1.5 }}>
-          <div><strong>Pendapat Budi:</strong> 7 + 7 = 14 cm</div>
-          <div style={{ color: '#64748b', fontSize: '12px', marginTop: '4px' }}>Berapa banyak sisi pada bangun persegi?</div>
+        <div style={{ fontSize: '12px', color: '#334155', maxWidth: '170px', lineHeight: 1.5 }}>
+          Cermati bentuk bangun persegi dan cara hitung yang disampaikan Budi.
         </div>
       </div>
     )
   }
 
+  // 7. Pasangan bilangan acak (tanpa tanda > atau < jawaban)
   if (nomorAsli === 7) {
-    const pasang = ['62.481  ?  62.418', '9.999  ?  10.000', '35.706  ?  35.760']
+    const pasangan = [
+      ['62.481', '62.418'],
+      ['9.999', '10.000'],
+      ['35.706', '35.760']
+    ]
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>Pasangan Bilangan:</div>
-        {pasang.map((p, i) => (
+      <div style={{ ...kartuBoxStyle, background: '#f5f3ff', borderColor: '#c4b5fd' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#5b21b6', marginBottom: '8px', textAlign: 'center' }}>
+          Pasangan Bilangan
+        </div>
+        {pasang.map(([kiri, kanan], i) => (
           <div
             key={i}
             style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr auto 1fr',
+              alignItems: 'center',
+              gap: '8px',
               background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '6px',
+              border: '1px solid #ddd6fe',
+              borderRadius: '8px',
               padding: '6px 10px',
               marginBottom: '6px',
-              fontWeight: 600,
-              fontSize: '14px',
+              fontWeight: 700,
+              fontSize: '13px',
               textAlign: 'center',
-              color: '#0f172a'
+              color: '#1e293b'
             }}
           >
-            {p}
+            <span>{kiri}</span>
+            <span style={{ color: '#7c3aed', fontSize: '12px' }}>vs</span>
+            <span>{kanan}</span>
           </div>
         ))}
       </div>
     )
   }
 
+  // 9. Kartu angka 63.482 dengan kotak kosong di bawahnya (siswa menelaah sendiri)
   if (nomorAsli === 9) {
-    const data = [
-      { tempat: 'Puluh Ribuan', angka: '6' },
-      { tempat: 'Ribuan', angka: '3' },
-      { tempat: 'Ratusan', angka: '4' },
-      { tempat: 'Puluhan', angka: '8' },
-      { tempat: 'Satuan', angka: '2' }
-    ]
+    const digits = ['6', '3', '.', '4', '8', '2']
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e3a8a', marginBottom: '8px', textAlign: 'center' }}>
-          Struktur Bilangan 63.482
+      <div style={{ ...kartuBoxStyle, background: '#ecfdf5', borderColor: '#6ee7b7' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#065f46', marginBottom: '8px', textAlign: 'center' }}>
+          Jumlah Koleksi Buku: 63.482
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px', textAlign: 'center' }}>
-          {data.map((d, i) => (
-            <div key={i} style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '6px 2px' }}>
-              <div style={{ fontSize: '10px', color: '#64748b' }}>{d.tempat}</div>
-              <div style={{ fontSize: '18px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>{d.angka}</div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
+          {digits.map((d, i) => (
+            <div
+              key={i}
+              style={{
+                width: d === '.' ? '16px' : '38px',
+                height: '38px',
+                borderRadius: '8px',
+                background: d === '.' ? 'transparent' : '#ffffff',
+                border: d === '.' ? 'none' : '1.5px solid #34d399',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 800,
+                fontSize: '18px',
+                color: '#064e3b'
+              }}
+            >
+              {d}
             </div>
           ))}
         </div>
@@ -1335,212 +1372,228 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
+  // 10. Ilustrasi keranjang/wadah buah untuk dibagi rata
   if (nomorAsli === 10) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-        <div style={{ background: '#ffedd5', border: '1px solid #fdba74', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>🍊</div>
-          <div style={{ fontWeight: 700, color: '#9a3412', fontSize: '15px' }}>36 Jeruk</div>
+      <div style={{ ...kartuBoxStyle, background: '#fff7ed', borderColor: '#fdba74' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', gap: '10px', textAlign: 'center' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #fed7aa', borderRadius: '10px', padding: '10px', flex: 1 }}>
+            <div style={{ fontSize: '22px' }}>🍊</div>
+            <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '15px', marginTop: '2px' }}>36 Jeruk</div>
+          </div>
+          <div style={{ fontSize: '18px', fontWeight: 700, color: '#ea580c' }}>+</div>
+          <div style={{ background: '#ffffff', border: '1px solid #fed7aa', borderRadius: '10px', padding: '10px', flex: 1 }}>
+            <div style={{ fontSize: '22px' }}>🍎</div>
+            <div style={{ fontWeight: 800, color: '#991b1b', fontSize: '15px', marginTop: '2px' }}>48 Apel</div>
+          </div>
         </div>
-        <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>🍎</div>
-          <div style={{ fontWeight: 700, color: '#991b1b', fontSize: '15px' }}>48 Apel</div>
+        <div style={{ fontSize: '11px', color: '#7c2d12', textAlign: 'center', marginTop: '8px' }}>
+          Dibagi rata ke beberapa kantong tanpa sisa
         </div>
       </div>
     )
   }
 
+  // 11. Sketsa 12 potongan kue bolu (3 biru, 2 hijau, 7 krem — tanpa tulisan jawaban pecahan)
   if (nomorAsli === 11) {
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#78350f', marginBottom: '8px', textAlign: 'center' }}>
-          Kue Bolu (12 Bagian Sama Besar)
+      <div style={{ ...kartuBoxStyle, background: '#fffbeb', borderColor: '#fcd34d' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400e', marginBottom: '8px', textAlign: 'center' }}>
+          Kue Bolu (12 Potongan)
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '4px' }}>
           {Array.from({ length: 12 }, (_, idx) => {
-            let bg = '#fef3c7'
-            let label = `${idx + 1}`
-            if (idx < 3) {
-              bg = '#93c5fd'
-              label = 'Ayah'
-            } else if (idx < 5) {
-              bg = '#86efac'
-              label = 'Dinda'
-            }
+            const bg = idx < 3 ? '#60a5fa' : idx < 5 ? '#4ade80' : '#fef3c7'
             return (
               <div
                 key={idx}
                 style={{
-                  padding: '8px 2px',
-                  borderRadius: '6px',
+                  height: '26px',
+                  borderRadius: '5px',
                   background: bg,
-                  border: '1px solid #94a3b8',
-                  textAlign: 'center',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  color: '#0f172a'
+                  border: '1px solid #94a3b8'
                 }}
-              >
-                {label}
-              </div>
+              />
             )
           })}
         </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '11px', color: '#475569', marginTop: '7px' }}>
+          <span>🟦 Ayah</span>
+          <span>🟩 Dinda</span>
+          <span>🟨 Sisa</span>
+        </div>
       </div>
     )
   }
 
+  // 14. Daftar kartu 5 bilangan cacah
   if (nomorAsli === 14) {
     const daftar = ['42.051', '28.471', '36.490', '13.027', '60.317']
     return (
-      <div style={{ ...kartuBoxStyle, display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
-        {daftar.map(b => (
-          <span
-            key={b}
-            style={{
-              background: '#ffffff',
-              border: '1px solid #93c5fd',
-              color: '#1e3a8a',
-              fontWeight: 700,
-              padding: '6px 10px',
-              borderRadius: '8px',
-              fontSize: '14px'
-            }}
-          >
-            {b}
-          </span>
-        ))}
+      <div style={{ ...kartuBoxStyle, background: '#f8fafc', borderColor: '#cbd5e1' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#334155', marginBottom: '8px', textAlign: 'center' }}>
+          Daftar Bilangan Diperiksa
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
+          {daftar.map(b => (
+            <span
+              key={b}
+              style={{
+                background: '#ffffff',
+                border: '1px solid #94a3b8',
+                color: '#0f172a',
+                fontWeight: 700,
+                padding: '5px 10px',
+                borderRadius: '999px',
+                fontSize: '13px'
+              }}
+            >
+              {b}
+            </span>
+          ))}
+        </div>
       </div>
     )
   }
 
+  // 15. Buah milik Abraham
   if (nomorAsli === 15) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-        <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px' }}>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#fef2f2', borderColor: '#fecaca' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px' }}>
           <div style={{ fontSize: '20px' }}>🍎</div>
-          <div style={{ fontWeight: 700, color: '#991b1b', fontSize: '15px' }}>15 Apel</div>
+          <div style={{ fontWeight: 800, color: '#991b1b', fontSize: '14px' }}>15 Apel</div>
         </div>
-        <div style={{ background: '#ffedd5', border: '1px solid #fdba74', borderRadius: '8px', padding: '10px' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #fdba74', borderRadius: '8px', padding: '10px' }}>
           <div style={{ fontSize: '20px' }}>🍊</div>
-          <div style={{ fontWeight: 700, color: '#9a3412', fontSize: '15px' }}>20 Jeruk</div>
+          <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '14px' }}>20 Jeruk</div>
         </div>
       </div>
     )
   }
 
+  // 16. Jadwal les piano Kanaya & Ulfa
   if (nomorAsli === 16) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-        <div style={{ background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#1e3a8a', fontSize: '13px' }}>🎹 Kanaya</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>Tiap 4 hari sekali</div>
+      <div style={{ ...kartuBoxStyle, background: '#eef2ff', borderColor: '#a5b4fc' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #c7d2fe', borderRadius: '8px', padding: '8px' }}>
+            <div style={{ fontWeight: 700, color: '#3730a3', fontSize: '13px' }}>Kanaya</div>
+            <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px' }}>tiap 4 hari</div>
+          </div>
+          <div style={{ background: '#ffffff', border: '1px solid #c7d2fe', borderRadius: '8px', padding: '8px' }}>
+            <div style={{ fontWeight: 700, color: '#3730a3', fontSize: '13px' }}>Ulfa</div>
+            <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px' }}>tiap 6 hari</div>
+          </div>
         </div>
-        <div style={{ background: '#dcfce7', border: '1px solid #86efac', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#166534', fontSize: '13px' }}>🎹 Ulfa</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>Tiap 6 hari sekali</div>
-        </div>
-        <div style={{ gridColumn: '1 / -1', background: '#fef9c3', borderRadius: '6px', padding: '6px', fontSize: '12px', fontWeight: 600, color: '#854d0e' }}>
-          Mulai les bersama: Hari Minggu
+        <div style={{ textAlign: 'center', fontSize: '12px', fontWeight: 600, color: '#1e1b4b', marginTop: '8px' }}>
+          Mulai les bersama: Minggu
         </div>
       </div>
     )
   }
 
+  // 18. Data kelereng Fauzan
   if (nomorAsli === 18) {
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '8px' }}>
-          Total Kelereng Fauzan: 96 Butir
+      <div style={{ ...kartuBoxStyle, background: '#f0fdf4', borderColor: '#86efac' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#166534', textAlign: 'center', marginBottom: '8px' }}>
+          Kelereng Fauzan (Total 96 Butir)
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', textAlign: 'center', fontSize: '12px', fontWeight: 600 }}>
-          <div style={{ background: '#dcfce7', border: '1px solid #86efac', borderRadius: '8px', padding: '8px 4px', color: '#166534' }}>
-            🟢 Hijau: 24
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', textAlign: 'center', fontSize: '12px', fontWeight: 700 }}>
+          <div style={{ background: '#ffffff', border: '1px solid #86efac', borderRadius: '8px', padding: '7px 4px', color: '#15803d' }}>
+            Hijau: 24
           </div>
-          <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '8px 4px', color: '#991b1b' }}>
-            🔴 Merah: 36
+          <div style={{ background: '#ffffff', border: '1px solid #fca5a5', borderRadius: '8px', padding: '7px 4px', color: '#b91c1c' }}>
+            Merah: 36
           </div>
-          <div style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '8px 4px', color: '#334155' }}>
-            ⚪ Putih: 36
+          <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '7px 4px', color: '#334155' }}>
+            Putih: ?
           </div>
         </div>
       </div>
     )
   }
 
+  // 20. Pasangan pecahan yang dijumlahkan
   if (nomorAsli === 20) {
     const operasi = ['2/8 + 3/8', '1/2 + 1/4', '3/5 + 1/10', '1/3 + 1/2', '3/4 + 1/8']
     return (
-      <div style={{ ...kartuBoxStyle, display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
-        {operasi.map((op, i) => (
-          <div
-            key={i}
-            style={{
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderRadius: '8px',
-              padding: '6px 10px',
-              fontWeight: 700,
-              fontSize: '13px',
-              color: '#1e293b'
-            }}
-          >
-            {i + 1}. {op}
-          </div>
-        ))}
+      <div style={{ ...kartuBoxStyle, background: '#f8fafc', borderColor: '#cbd5e1' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#334155', marginBottom: '6px', textAlign: 'center' }}>
+          Bentuk Operasi Pecahan
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
+          {operasi.map((op, i) => (
+            <span
+              key={i}
+              style={{
+                background: '#ffffff',
+                border: '1px solid #94a3b8',
+                borderRadius: '6px',
+                padding: '5px 9px',
+                fontWeight: 700,
+                fontSize: '12px',
+                color: '#1e293b'
+              }}
+            >
+              {op}
+            </span>
+          ))}
+        </div>
       </div>
     )
   }
 
+  // 21. Susunan awal 5x4 petak dengan 3 petak berpindah posisi
   if (nomorAsli === 21) {
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e3a8a', textAlign: 'center', marginBottom: '8px' }}>
-          Susunan Awal: 5 × 4 Petak Satuan (1 cm² / petak)
+      <div style={{ ...kartuBoxStyle, background: '#eff6ff', borderColor: '#93c5fd' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e3a8a', textAlign: 'center', marginBottom: '8px' }}>
+          Susunan Awal: 5 × 4 Petak Satuan
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 28px)', gap: '3px', justifyContent: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 26px)', gap: '3px', justifyContent: 'center' }}>
           {Array.from({ length: 20 }, (_, i) => (
             <div
               key={i}
               style={{
-                width: '28px',
-                height: '28px',
-                background: i >= 17 ? '#fde047' : '#bfdbfe',
-                border: '1px solid #3b82f6',
+                width: '26px',
+                height: '26px',
+                background: i >= 17 ? '#fde047' : '#93c5fd',
+                border: '1px solid #2563eb',
                 borderRadius: '4px'
               }}
             />
           ))}
         </div>
-        <div style={{ fontSize: '11px', color: '#64748b', textAlign: 'center', marginTop: '6px' }}>
-          3 petak dipindahkan ke sisi luar tanpa tumpang tindih
-        </div>
       </div>
     )
   }
 
+  // 22. Perbandingan ukuran petak Kartu A & Kartu B (tanpa menyimpulkan luas/pilihan)
   if (nomorAsli === 22) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center' }}>
-        <div style={{ background: '#eff6ff', border: '1px solid #93c5fd', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#1e3a8a', fontSize: '13px' }}>Kartu A</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>6 petak × 2 petak</div>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#f0fdfa', borderColor: '#5eead4' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #99f6e4', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontWeight: 700, color: '#0f766e', fontSize: '13px' }}>Kartu A</div>
+          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>6 × 2 petak</div>
         </div>
-        <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#166534', fontSize: '13px' }}>Kartu B</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>3 petak × 4 petak</div>
+        <div style={{ background: '#ffffff', border: '1px solid #99f6e4', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontWeight: 700, color: '#0f766e', fontSize: '13px' }}>Kartu B</div>
+          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>3 × 4 petak</div>
         </div>
       </div>
     )
   }
 
+  // 23. Denah ubin 8 baris x 5 kolom dengan area tengah tertutup karpet (tanpa hasil akhir)
   if (nomorAsli === 23) {
     return (
-      <div style={kartuBoxStyle}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e293b', textAlign: 'center', marginBottom: '8px' }}>
-          Lantai Ruangan (8 Baris × 5 Kolom, 1 Ubin = 1 m²)
+      <div style={{ ...kartuBoxStyle, background: '#fafaf9', borderColor: '#d6d3d1' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#292524', textAlign: 'center', marginBottom: '8px' }}>
+          Denah Ubin (8 Baris × 5 Kolom)
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 26px)', gap: '2px', justifyContent: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 25px)', gap: '2px', justifyContent: 'center' }}>
           {Array.from({ length: 40 }, (_, idx) => {
             const baris = Math.floor(idx / 5)
             const kolom = idx % 5
@@ -1549,23 +1602,21 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
               <div
                 key={idx}
                 style={{
-                  width: '26px',
-                  height: '20px',
-                  background: tertutupKarpet ? '#fca5a5' : '#e0f2fe',
-                  border: '1px solid #64748b',
+                  width: '25px',
+                  height: '19px',
+                  background: tertutupKarpet ? '#fca5a5' : '#e7e5e4',
+                  border: '1px solid #78716c',
                   borderRadius: '2px'
                 }}
               />
             )
           })}
         </div>
-        <div style={{ fontSize: '11px', color: '#991b1b', textAlign: 'center', marginTop: '6px', fontWeight: 600 }}>
-          Area merah: 12 ubin tertutup karpet
-        </div>
       </div>
     )
   }
 
+  // 25. Daftar belanjaan Ardian
   if (nomorAsli === 25) {
     const barang = [
       { nama: 'Gula', berat: '2 3/4 kg' },
@@ -1574,67 +1625,70 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
       { nama: 'Beras', berat: '5 2/4 kg' }
     ]
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', background: '#fffbeb', borderColor: '#fde68a' }}>
         {barang.map(b => (
-          <div key={b.nama} style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '8px', fontSize: '12px' }}>
+          <div key={b.nama} style={{ background: '#ffffff', border: '1px solid #fcd34d', borderRadius: '6px', padding: '7px', fontSize: '12px' }}>
             <div style={{ color: '#475569' }}>{b.nama}</div>
-            <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '14px' }}>{b.berat}</div>
+            <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '13px' }}>{b.berat}</div>
           </div>
         ))}
       </div>
     )
   }
 
+  // 26. Kartu bilangan Toni & Lisa
   if (nomorAsli === 26) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center' }}>
-        <div style={{ background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e3a8a' }}>Kartu Toni</div>
-          <div style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>48.201</div>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#fdf4ff', borderColor: '#f0abfc' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #e879f9', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '12px', fontWeight: 600, color: '#86198f' }}>Kartu Toni</div>
+          <div style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>48.201</div>
         </div>
-        <div style={{ background: '#fce7f3', border: '1px solid #f9a8d4', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: '#9d174d' }}>Kartu Lisa</div>
-          <div style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>22.930</div>
+        <div style={{ background: '#ffffff', border: '1px solid #e879f9', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontSize: '12px', fontWeight: 600, color: '#86198f' }}>Kartu Lisa</div>
+          <div style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>22.930</div>
         </div>
       </div>
     )
   }
 
+  // 27. Alat tulis Dodi
   if (nomorAsli === 27) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-        <div style={{ background: '#fef9c3', border: '1px solid #fde047', borderRadius: '8px', padding: '10px' }}>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f0f9ff', borderColor: '#bae6fd' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #7dd3fc', borderRadius: '8px', padding: '10px' }}>
           <div style={{ fontSize: '20px' }}>✏️</div>
-          <div style={{ fontWeight: 700, color: '#854d0e', fontSize: '15px' }}>4 Pensil</div>
+          <div style={{ fontWeight: 800, color: '#0369a1', fontSize: '14px' }}>4 Pensil</div>
         </div>
-        <div style={{ background: '#e0e7ff', border: '1px solid #a5b4fc', borderRadius: '8px', padding: '10px' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #7dd3fc', borderRadius: '8px', padding: '10px' }}>
           <div style={{ fontSize: '20px' }}>🧼</div>
-          <div style={{ fontWeight: 700, color: '#3730a3', fontSize: '15px' }}>20 Penghapus</div>
+          <div style={{ fontWeight: 800, color: '#0369a1', fontSize: '14px' }}>20 Penghapus</div>
         </div>
       </div>
     )
   }
 
+  // 28. Panen jeruk Pak Doni
   if (nomorAsli === 28) {
     return (
-      <div style={{ ...kartuBoxStyle, textAlign: 'center', background: '#fff7ed', borderColor: '#fdba74' }}>
-        <div style={{ fontSize: '14px', fontWeight: 700, color: '#9a3412' }}>🍊 4.500 Buah Jeruk</div>
-        <div style={{ fontSize: '13px', color: '#334155', marginTop: '4px' }}>Dibagi rata ke <strong>36 keranjang</strong></div>
-        <div style={{ fontSize: '12px', color: '#15803d', fontWeight: 600, marginTop: '4px' }}>Harga 1 keranjang = Rp150.000</div>
+      <div style={{ ...kartuBoxStyle, textAlign: 'center', background: '#fff7ed', borderColor: '#fed7aa' }}>
+        <div style={{ fontSize: '14px', fontWeight: 800, color: '#9a3412' }}>🍊 4.500 Buah Jeruk</div>
+        <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>36 keranjang • Rp150.000 / keranjang</div>
       </div>
     )
   }
 
+  // 29. Persegi & Persegi Panjang (tanpa menuliskan selisih keliling)
   if (nomorAsli === 29) {
     return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-        <div style={{ background: '#eff6ff', border: '1px solid #93c5fd', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#1e3a8a', fontSize: '13px' }}>Persegi</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>Luas = 36 cm²</div>
+      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f8fafc', borderColor: '#cbd5e1' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #94a3b8', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '13px' }}>Persegi</div>
+          <div style={{ fontSize: '12px', color: '#475569', marginTop: '4px' }}>Luas = 36 cm²</div>
         </div>
-        <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#166534', fontSize: '13px' }}>Persegi Panjang</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>p = 12 cm, l = 3 cm</div>
+        <div style={{ background: '#ffffff', border: '1px solid #94a3b8', borderRadius: '8px', padding: '10px' }}>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '13px' }}>Persegi Panjang</div>
+          <div style={{ fontSize: '12px', color: '#475569', marginTop: '4px' }}>12 cm × 3 cm</div>
         </div>
       </div>
     )
@@ -1642,7 +1696,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
 
   return null
 }
-
 function susunSoalBerdasarkanMapel(namaMapel: string): DataSoal[] {
   // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1 (TIDAK DIUBAH)
   if (namaMapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)') {
