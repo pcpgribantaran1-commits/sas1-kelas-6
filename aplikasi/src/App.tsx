@@ -28,11 +28,13 @@ interface DataSoal {
   placeholderIsian?: string
   kunciText: string
   kunciTeksReviu?: string
+  kunciKodePg?: string
+  kunciKodePgk?: string[]
+  kunciTabel?: string[]
+  kunciIsianList?: string[]
 }
 
-const daftarNomor = Array.from({ length: 30 }, (_, i) => i + 1)
-
-// BACAAN PER KELOMPOK SOAL
+// BACAAN PER KELOMPOK SOAL (BAHASA INDONESIA PAKET 1 - TIDAK DIUBAH)
 const BACAAN_5_6 = {
   judul: 'Penyelamat Buku di Pojok Kelas',
   teks: [
@@ -119,8 +121,10 @@ const BACAAN_26_30 = {
   ]
 }
 
-// BANK SOAL MASTER
-const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
+// ============================================================================
+// BANK SOAL 1: BAHASA INDONESIA - SD SEDERAJAT (PAKET 1) — TETAP UTUH
+// ============================================================================
+const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 1,
     tipe: 'pg',
@@ -560,7 +564,577 @@ const BANK_SOAL_MASTER: Omit<DataSoal, 'nomor'>[] = [
   }
 ]
 
-const MAPEL_AKTIF = 'Bahasa Indonesia - SD Sederajat (Paket 1)'
+// ============================================================================
+// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — 30 SOAL SESUAI PDF
+// ============================================================================
+const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
+  {
+    nomorAsli: 1,
+    tipe: 'pgk',
+    bacaanJudul: 'Bilangan Cacah dan Nilai Tempat',
+    bacaanTeks: [
+      'Perhatikan bilangan berikut: 57.631',
+      'Setiap angka pada bilangan cacah lima angka memiliki nilai tempat mulai dari puluh ribuan, ribuan, ratusan, puluhan, hingga satuan.'
+    ],
+    pertanyaan: 'Perhatikan bilangan berikut 57.631. Pernyataan di bawah ini yang benar adalah ... (Pilih dua jawaban atau lebih yang benar)!',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'Angka 5 menempati nilai tempat puluh ribuan (bernilai 50.000)' },
+      { kode: 'B', teks: 'Angka 7 menempati nilai tempat ratusan (bernilai 700)' },
+      { kode: 'C', teks: 'Angka 3 menempati nilai tempat puluhan (bernilai 30)' },
+      { kode: 'D', teks: 'Angka 1 menempati nilai tempat satuan (bernilai 1)' }
+    ],
+    kunciKodePgk: ['A', 'C', 'D'],
+    kunciText: 'Kunci jawaban: A, C, D.',
+    kunciTeksReviu: 'Angka 5 puluh ribuan (50.000), Angka 3 puluhan (30), Angka 1 satuan (1)'
+  },
+  {
+    nomorAsli: 2,
+    tipe: 'tabel',
+    bacaanJudul: 'Kue Jajan Pasar Ibu Citra',
+    bacaanTeks: [
+      'Ibu Citra membuat kue jajan pasar untuk acara arisan. Ia membuat 54 kue lumpur dan 72 kue sus.',
+      'Ibu Citra ingin menata kue-kue tersebut ke dalam beberapa piring secara merata. Setiap piring harus berisi kedua jenis kue dengan jumlah yang sama banyak. Sebelum ditata, ternyata ada 4 kue lumpur yang rusak sehingga tidak bisa disajikan.'
+    ],
+    pertanyaan: 'Berdasarkan cerita tersebut, tentukan apakah setiap pernyataan berikut Benar atau Salah!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Kue lumpur yang siap disajikan ada 50',
+      'Masing-masing piring berisi 25 kue lumpur dan 36 kue sus',
+      'Ibu Citra harus menyiapkan paling banyak 5 piring',
+      'Faktor prima dari 72 = 2³ × 3²'
+    ],
+    kunciTabel: ['Benar', 'Benar', 'Salah', 'Benar'],
+    kunciText: 'Kunci jawaban: Benar, Benar, Salah, Benar.',
+    kunciTeksReviu: 'Benar, Benar, Salah, Benar'
+  },
+  {
+    nomorAsli: 3,
+    tipe: 'pg',
+    bacaanJudul: 'Pengumuman Dinas Kabupaten Probolinggo',
+    bacaanTeks: [
+      'Dinas Kabupaten Probolinggo mengumumkan bahwa pada akhir tahun 2021, terdapat delapan belas ribu tujuh ratus empat puluh lima orang terkonfirmasi positif Covid-19.'
+    ],
+    pertanyaan: 'Banyak masyarakat Probolinggo yang terkonfirmasi positif Covid-19 pada akhir tahun 2021 yaitu ... orang.',
+    opsi: [
+      { kode: 'A', teks: '18.744' },
+      { kode: 'B', teks: '18.745' },
+      { kode: 'C', teks: '18.755' },
+      { kode: 'D', teks: '18.464' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'Kunci jawaban: 18.745.',
+    kunciTeksReviu: '18.745'
+  },
+  {
+    nomorAsli: 4,
+    tipe: 'isian',
+    bacaanJudul: 'Brem Khas Kota Madiun',
+    bacaanTeks: [
+      'Brem merupakan makanan khas Kota Madiun yang dijual dengan harga empat puluh tiga ribu lima ratus rupiah.'
+    ],
+    pertanyaan: 'Angka empat pada harga Brem menempati tempat ... dan nilainya ....',
+    placeholderIsian: 'Contoh: Puluh ribuan, 40.000',
+    kunciIsianList: ['puluh ribuan, 40.000', 'puluh ribuan dan 40.000', 'puluh ribuan, 40000', '40.000'],
+    kunciText: 'Kunci jawaban: Puluh ribuan, 40.000.',
+    kunciTeksReviu: 'Puluh ribuan, 40.000'
+  },
+  {
+    nomorAsli: 5,
+    tipe: 'pg',
+    bacaanJudul: 'Potongan Kertas Siti',
+    bacaanTeks: [
+      'Siti memiliki dua potong kertas berbentuk persegi panjang. Kertas pertama diwarnai 2/8 bagian dan kertas kedua diwarnai 3/8 bagian.'
+    ],
+    pertanyaan: 'Jika kedua bagian tersebut digabungkan, jumlah bagian kertas yang diwarnai adalah ....',
+    opsi: [
+      { kode: 'A', teks: '5/16' },
+      { kode: 'B', teks: '5/8' },
+      { kode: 'C', teks: '6/8' },
+      { kode: 'D', teks: '1/8' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'Kunci jawaban: 5/8.',
+    kunciTeksReviu: '5/8'
+  },
+  {
+    nomorAsli: 6,
+    tipe: 'isian',
+    bacaanJudul: 'Pendapat Budi tentang Keliling Persegi',
+    bacaanTeks: [
+      'Budi mengatakan bahwa untuk mengetahui keliling persegi dengan sisi 7 cm, cukup menghitung 7 + 7 = 14 cm karena persegi hanya memiliki satu ukuran sisi.',
+      'Pernyataan: Pendapat Budi adalah benar.'
+    ],
+    pertanyaan: 'Menurut kalian bagaimana pernyataan Budi? Benar atau salah?',
+    placeholderIsian: 'Tuliskan Benar atau Salah...',
+    kunciIsianList: ['salah', 's', 'pernyataan budi salah'],
+    kunciText: 'Kunci jawaban: Salah.',
+    kunciTeksReviu: 'Salah'
+  },
+  {
+    nomorAsli: 7,
+    tipe: 'tabel',
+    bacaanJudul: 'Perbandingan Bilangan Cacah',
+    bacaanTeks: [
+      'Bandingkan pasangan bilangan cacah berikut dengan memperhatikan nilai tempat dari kiri ke kanan (puluh ribuan, ribuan, ratusan, puluhan, satuan).'
+    ],
+    pertanyaan: 'Tentukan apakah perbandingan berikut Sesuai atau Tidak Sesuai!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      '62.481 > 62.418',
+      '9.999 > 10.000',
+      '35.706 < 35.760'
+    ],
+    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Sesuai'],
+    kunciText: 'Kunci jawaban: Sesuai, Tidak Sesuai, Sesuai.',
+    kunciTeksReviu: 'Sesuai, Tidak Sesuai, Sesuai'
+  },
+  {
+    nomorAsli: 8,
+    tipe: 'pg',
+    bacaanGambar: './mtk-soal-8.png',
+    bacaanTeks: [
+      'Perhatikan bangun gabungan berikut: persegi panjang berukuran panjang 8 cm dan lebar 5 cm ditempeli sebuah persegi berukuran sisi 3 cm × 3 cm pada salah satu sisinya.'
+    ],
+    pertanyaan: 'Luas bangun gabungan itu adalah ....',
+    opsi: [
+      { kode: 'A', teks: '13 cm²' },
+      { kode: 'B', teks: '43 cm²' },
+      { kode: 'C', teks: '49 cm²' },
+      { kode: 'D', teks: '120 cm²' }
+    ],
+    kunciKodePg: 'C',
+    kunciText: 'Kunci jawaban: 49 cm².',
+    kunciTeksReviu: '49 cm²'
+  },
+  {
+    nomorAsli: 9,
+    tipe: 'tabel',
+    bacaanJudul: 'Koleksi Buku Perpustakaan',
+    bacaanTeks: [
+      'Perpustakaan sekolah memiliki koleksi sebanyak 63.482 buku. Petugas perpustakaan mencatat jumlah tersebut berdasarkan nilai tempat agar mudah dibaca dan dipahami oleh para siswa.'
+    ],
+    pertanyaan: 'Berdasarkan cerita tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Angka 6 pada bilangan 63.482 menempati nilai tempat ribuan',
+      'Angka 4 menempati nilai tempat ratusan dan bernilai 400',
+      'Bilangan 63.482 dapat diuraikan menjadi 60.000 + 3.000 + 400 + 80 + 2'
+    ],
+    kunciTabel: ['Salah', 'Benar', 'Benar'],
+    kunciText: 'Kunci jawaban: Salah, Benar, Benar.',
+    kunciTeksReviu: 'Salah, Benar, Benar'
+  },
+  {
+    nomorAsli: 10,
+    tipe: 'uraian',
+    bacaanJudul: 'Membagi Buah ke dalam Kantong',
+    bacaanTeks: [
+      'Ibu memiliki 36 buah jeruk dan 48 buah apel. Buah-buahan tersebut akan dimasukkan ke dalam beberapa kantong untuk dibagikan kepada tetangga. Setiap kantong harus berisi jumlah jeruk yang sama dan jumlah apel yang sama. Tidak boleh ada buah yang tersisa, dan jumlah kantong yang dibuat harus sebanyak mungkin.'
+    ],
+    pertanyaan: 'Berapa jumlah kantong terbanyak yang dapat dibuat Ibu? Berapa buah jeruk dan apel yang terdapat dalam setiap kantong?',
+    placeholderIsian: 'Contoh: 12 kantong, 3 jeruk dan 4 apel per kantong',
+    kunciIsianList: ['12', '12 kantong', '3 jeruk', '4 apel'],
+    kunciText: 'Kunci jawaban: 12 kantong, jeruk per kantong ada 3 buah, apel per kantong ada 4 buah.',
+    kunciTeksReviu: '12 kantong, jeruk per kantong ada 3 buah, apel per kantong ada 4 buah'
+  },
+  {
+    nomorAsli: 11,
+    tipe: 'isian',
+    bacaanJudul: 'Kue Bolu Dinda',
+    bacaanTeks: [
+      'Pada hari Minggu, Dinda membantu Ibu membuat kue bolu. Kue tersebut dipotong menjadi 12 bagian sama besar. Ayah memakan 3 potong kue, sedangkan Dinda memakan 2 potong kue. Sisanya disimpan untuk dinikmati bersama pada sore hari.'
+    ],
+    pertanyaan: 'Berapa bagian kue yang dimakan Ayah dan Dinda jika dinyatakan dalam bentuk pecahan?',
+    placeholderIsian: 'Contoh: 5/12',
+    kunciIsianList: ['5/12', '5 per 12'],
+    kunciText: 'Kunci jawaban: 5/12 (5 per 12).',
+    kunciTeksReviu: '5/12 (5 per 12)'
+  },
+  {
+    nomorAsli: 12,
+    tipe: 'pg',
+    bacaanJudul: 'Data Jumlah Penduduk per Kecamatan',
+    bacaanTeks: [
+      'Data jumlah penduduk (jiwa):',
+      '• Kecamatan Tongas: 14.640 jiwa',
+      '• Kecamatan Sumberasih: 37.797 jiwa',
+      '• Kecamatan Wonomerto: 19.924 jiwa',
+      '• Kecamatan Bantaran: 38.145 jiwa',
+      'Perhatikan pernyataan-pernyataan berikut:',
+      '(1) Kecamatan Sumberasih memiliki jumlah penduduk paling banyak',
+      '(2) Kecamatan Tongas memiliki jumlah penduduk paling sedikit',
+      '(3) Kecamatan Tongas dan Wonomerto memiliki jumlah penduduk di bawah 20.000 jiwa',
+      '(4) Penduduk di Kecamatan Bantaran lebih sedikit dari Sumberasih'
+    ],
+    pertanyaan: 'Pernyataan yang benar ditunjukkan oleh nomor ....',
+    opsi: [
+      { kode: 'A', teks: '(1), (2), dan (3) benar' },
+      { kode: 'B', teks: '(1) dan (3) benar' },
+      { kode: 'C', teks: '(2) dan (3) benar' },
+      { kode: 'D', teks: 'Semuanya benar' }
+    ],
+    kunciKodePg: 'C',
+    kunciText: 'Kunci jawaban: (2) dan (3) benar.',
+    kunciTeksReviu: '(2) dan (3) benar'
+  },
+  {
+    nomorAsli: 13,
+    tipe: 'pg',
+    bacaanGambar: './mtk-soal-13.png',
+    bacaanTeks: [
+      'Perhatikan tabel nilai tempat berikut:',
+      '• Kolom Puluh Ribuan berisi 4 keping (1 keping = 1 puluh ribuan)',
+      '• Kolom Ribuan berisi 4 keping (1 keping = 1 ribuan)',
+      '• Kolom Ratusan berisi 5 keping (1 keping = 1 ratusan)',
+      '• Kolom Puluhan berisi 5 keping (1 keping = 1 puluhan)',
+      '• Kolom Satuan berisi 9 keping (1 keping = 1 satuan)'
+    ],
+    pertanyaan: 'Bilangan yang sesuai berdasarkan tabel tersebut adalah ....',
+    opsi: [
+      { kode: 'A', teks: '42.559' },
+      { kode: 'B', teks: '43.599' },
+      { kode: 'C', teks: '44.559' },
+      { kode: 'D', teks: '44.599' }
+    ],
+    kunciKodePg: 'C',
+    kunciText: 'Kunci jawaban: 44.559.',
+    kunciTeksReviu: '44.559'
+  },
+  {
+    nomorAsli: 14,
+    tipe: 'tabel',
+    bacaanJudul: 'Menentukan Nilai Tempat Bilangan',
+    bacaanTeks: [
+      'Cermati setiap angka penyusun bilangan cacah pada pernyataan berikut sesuai nilai tempatnya.'
+    ],
+    pertanyaan: 'Tentukan Sesuai atau Tidak Sesuai tentang pernyataan berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Nilai tempat ratusan dari bilangan 42.051 berangka 0',
+      'Nilai tempat puluhan dari bilangan 28.471 berangka 7',
+      'Nilai tempat puluh ribuan dari bilangan 36.490 berangka 6',
+      'Nilai tempat satuan dari bilangan 13.027 berangka 2',
+      'Nilai tempat puluhan dari bilangan 60.317 berangka 3'
+    ],
+    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Tidak Sesuai'],
+    kunciText: 'Kunci jawaban: Sesuai, Sesuai, Tidak Sesuai, Tidak Sesuai, Tidak Sesuai.',
+    kunciTeksReviu: 'Sesuai, Sesuai, Tidak Sesuai, Tidak Sesuai, Tidak Sesuai'
+  },
+  {
+    nomorAsli: 15,
+    tipe: 'pg',
+    bacaanJudul: 'Berbagi Buah Abraham',
+    bacaanTeks: [
+      'Abraham memiliki 15 apel dan 20 jeruk. Dia akan memberikan buahnya kepada beberapa teman-temannya. Setiap teman mendapatkan kedua jenis buah tersebut. Setiap jenis buah yang didapatkan setiap anak sama banyak.'
+    ],
+    pertanyaan: 'Banyak teman Abraham yang mendapatkan buah adalah ... anak.',
+    opsi: [
+      { kode: 'A', teks: '2' },
+      { kode: 'B', teks: '3' },
+      { kode: 'C', teks: '4' },
+      { kode: 'D', teks: '5' }
+    ],
+    kunciKodePg: 'D',
+    kunciText: 'Kunci jawaban: 5.',
+    kunciTeksReviu: '5'
+  },
+  {
+    nomorAsli: 16,
+    tipe: 'pg',
+    bacaanJudul: 'Jadwal Les Piano Kanaya dan Ulfa',
+    bacaanTeks: [
+      'Kanaya dan Ulfa menyukai piano, sehingga orang tuanya mendaftarkan ke tempat les piano untuk mengasah kemampuan mereka. Kanaya les piano setiap 4 hari sekali dan Ulfa les piano setiap 6 hari sekali.'
+    ],
+    pertanyaan: 'Jika pada hari Minggu mereka les piano bersama, maka mereka akan les piano bersama-sama lagi untuk yang kedua kalinya pada hari ....',
+    opsi: [
+      { kode: 'A', teks: 'Minggu' },
+      { kode: 'B', teks: 'Sabtu' },
+      { kode: 'C', teks: 'Senin' },
+      { kode: 'D', teks: 'Jumat' }
+    ],
+    kunciKodePg: 'D',
+    kunciText: 'Kunci jawaban: Jumat.',
+    kunciTeksReviu: 'Jumat'
+  },
+  {
+    nomorAsli: 17,
+    tipe: 'tabel',
+    bacaanJudul: 'Jadwal Menerbangkan Drone',
+    bacaanTeks: [
+      'Kak Adit dan Kak Anis masing-masing memiliki drone. Drone adalah pesawat tanpa awak yang terbang dengan kendali jarak jauh menggunakan remot. Mereka menggunakannya untuk merekam video pemandangan alam sekitar.',
+      'Kak Adit menggunakan drone setiap seminggu sekali (7 hari). Kak Anis menggunakan drone setiap 5 hari sekali. Pada 14 April ini, mereka menggunakan drone bersamaan.'
+    ],
+    pertanyaan: 'Tentukan Sesuai atau Tidak Sesuai tentang pernyataan berikut ini!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Mereka menggunakan drone setiap 115 hari sekali',
+      'Penggunaan drone bersama lagi paling cepat pada 18 Mei',
+      'Penggunaan drone bersama lagi paling cepat pada 19 Mei',
+      'Mereka akan menggunakan drone bersama lagi pada 23 Juni',
+      'Mereka akan menggunakan drone bersama lagi pada 28 Juli'
+    ],
+    kunciTabel: ['Tidak Sesuai', 'Tidak Sesuai', 'Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: 'Kunci jawaban: Tidak Sesuai, Tidak Sesuai, Sesuai, Sesuai, Tidak Sesuai.',
+    kunciTeksReviu: 'Tidak Sesuai, Tidak Sesuai, Sesuai, Sesuai, Tidak Sesuai'
+  },
+  {
+    nomorAsli: 18,
+    tipe: 'tabel',
+    bacaanJudul: 'Kelereng Warna-warni Fauzan',
+    bacaanTeks: [
+      'Fauzan memiliki kelereng 96 butir. Kelereng hijau ada 24 butir, merah 36 butir, selebihnya putih. Fauzan memasukkan kelerengnya ke dalam toples. Setiap toples berisi sama banyak dan kombinasi warnanya. Toples yang disediakan sebanyak-banyaknya.'
+    ],
+    pertanyaan: 'Berdasarkan ilustrasi tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Banyak toples yang dibutuhkan seluruhnya ada 12 buah',
+      'Banyak kelereng putih setiap toples ada 3 buah',
+      'Banyak kelereng dalam setiap toples ada 9 buah'
+    ],
+    kunciTabel: ['Benar', 'Benar', 'Salah'],
+    kunciText: 'Kunci jawaban: Benar, Benar, Salah.',
+    kunciTeksReviu: 'Benar, Benar, Salah'
+  },
+  {
+    nomorAsli: 19,
+    tipe: 'tabel',
+    bacaanJudul: 'Hasil Perahan Susu Sapi Pak Malik',
+    bacaanTeks: [
+      'Pak Malik memerah susu sapi perahnya setiap hari:',
+      '• Hari pertama: 12 1/8 liter',
+      '• Hari kedua: 12 3/8 liter',
+      '• Hari ketiga: 13 2/5 liter',
+      '• Hari keempat: 12 7/10 liter',
+      '• Hari kelima: 11 1/4 liter'
+    ],
+    pertanyaan: 'Tentukan Sesuai atau Tidak Sesuai tentang pernyataan berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Jumlah susu hari pertama dan kedua adalah 24 1/2',
+      'Jumlah susu hari kedua dan ketiga adalah 25 1/3',
+      'Jumlah susu hari ketiga dan keempat adalah 25 9/10',
+      'Jumlah susu hari keempat dan kelima adalah 23 19/20',
+      'Jumlah susu hari pertama dan kelima adalah 23 3/8'
+    ],
+    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Sesuai', 'Sesuai'],
+    kunciText: 'Kunci jawaban: Sesuai, Tidak Sesuai, Tidak Sesuai, Sesuai, Sesuai.',
+    kunciTeksReviu: 'Sesuai, Tidak Sesuai, Tidak Sesuai, Sesuai, Sesuai'
+  },
+  {
+    nomorAsli: 20,
+    tipe: 'tabel',
+    bacaanJudul: 'Operasi Penjumlahan Pecahan dalam Cerita',
+    bacaanTeks: [
+      'Bacalah setiap pernyataan cerita penjumlahan pecahan berikut dengan cermat, kemudian periksa kebenaran hasil hitungannya.'
+    ],
+    pertanyaan: 'Tentukan apakah pernyataan dan hasil penjumlahannya Benar atau Salah!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Ibu menggunakan 2/8 kg gula untuk membuat kue dan 3/8 kg gula untuk membuat roti. Total gula yang digunakan adalah 5/8 kg.',
+      'Pak Tani menggunakan dua bilah bambu masing-masing 1/2 meter dan 1/4 meter. Jika disambung lurus, panjang total sambungannya adalah 2/6 meter.',
+      'Cetakan pertama diisi agar-agar hijau 3/5 bagian dan cetakan kedua diisi agar-agar merah 1/10 bagian. Jika disatukan ke wadah yang sama, tingginya menjadi 4/5 bagian.',
+      'Lani meronce manik-manik biru sepanjang 1/3 bagian tali dan manik-manik kuning sepanjang 1/2 bagian tali. Total panjang tali yang terisi manik-manik adalah 5/6 bagian.',
+      'Gelas pertama berisi 3/4 liter air dan gelas kedua berisi 1/8 liter air. Jika dituangkan ke botol besar, total volume air menjadi 4/12 liter.'
+    ],
+    kunciTabel: ['Benar', 'Salah', 'Salah', 'Benar', 'Salah'],
+    kunciText: 'Kunci jawaban: Benar, Salah, Salah, Benar, Salah.',
+    kunciTeksReviu: 'Benar, Salah, Salah, Benar, Salah'
+  },
+  {
+    nomorAsli: 21,
+    tipe: 'pg',
+    bacaanJudul: 'Persegi Panjang Tersusun Petak Satuan',
+    bacaanTeks: [
+      'Sebuah persegi panjang tersusun dari 5 petak × 4 petak. Satu petak satuan memiliki luas 1 cm². Tiga petak dipindahkan dari bagian dalam bangun lalu ditempelkan di sisi luar bangun (tanpa tumpang tindih) sehingga membentuk bangun baru.'
+    ],
+    pertanyaan: 'Pernyataan yang tepat tentang luas bangun baru adalah ....',
+    opsi: [
+      { kode: 'A', teks: 'Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.' },
+      { kode: 'B', teks: 'Menjadi 17 cm² karena ada tiga petak yang dipindahkan.' },
+      { kode: 'C', teks: 'Menjadi 23 cm² karena ada tiga petak yang ditambahkan.' },
+      { kode: 'D', teks: 'Tidak dapat ditentukan karena bentuknya berubah.' }
+    ],
+    kunciKodePg: 'A',
+    kunciText: 'Kunci jawaban: Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.',
+    kunciTeksReviu: 'Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.'
+  },
+  {
+    nomorAsli: 22,
+    tipe: 'tabel',
+    bacaanJudul: 'Perbandingan Luas Kartu A dan Kartu B',
+    bacaanTeks: [
+      'Kartu A berbentuk persegi panjang dengan ukuran 6 petak × 2 petak. Kartu B berbentuk persegi panjang dengan ukuran 3 petak × 4 petak. Petak satuan kedua kartu sama besar.'
+    ],
+    pertanyaan: 'Tentukan apakah setiap pernyataan berikut Sesuai atau Tidak Sesuai dengan stimulus!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Luas kartu A sama dengan luas kartu B, yaitu 12 petak satuan.',
+      'Kartu B lebih luas karena bentuknya lebih mendekati persegi.',
+      'Jika setiap petak satuan memiliki luas 2 cm², luas kartu A adalah 24 cm².'
+    ],
+    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Sesuai'],
+    kunciText: 'Kunci jawaban: Sesuai, Tidak Sesuai, Sesuai.',
+    kunciTeksReviu: 'Sesuai, Tidak Sesuai, Sesuai'
+  },
+  {
+    nomorAsli: 23,
+    tipe: 'isian',
+    bacaanJudul: 'Ubin Lantai Ruangan',
+    bacaanTeks: [
+      'Lantai sebuah ruangan berbentuk persegi panjang ditutup ubin berukuran 1 m². Ubin tersusun 8 baris dan 5 kolom. Sebanyak 12 ubin bagian tengah ditutup karpet.'
+    ],
+    pertanyaan: 'Luas lantai yang tidak tertutup karpet adalah ... m².',
+    placeholderIsian: 'Tuliskan angkanya saja, contoh: 28',
+    kunciIsianList: ['28', '28 m2', '28 m²'],
+    kunciText: 'Kunci jawaban: 28.',
+    kunciTeksReviu: '28 m²'
+  },
+  {
+    nomorAsli: 24,
+    tipe: 'pg',
+    bacaanJudul: 'Belanjaan Ardian di Pasar Bantaran',
+    bacaanTeks: [
+      'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang Putih, Bawang Merah, dan Beras.',
+      'Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg, dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan keempat barang tersebut menjadi 2 bagian, di antaranya Bawang Putih dengan Bawang Merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
+    ],
+    pertanyaan: 'Kemungkinan yang akan terjadi dari cerita di atas adalah ....',
+    opsi: [
+      { kode: 'A', teks: 'Berat gula dan beras sama dengan berat bawang putih dan bawang merah.' },
+      { kode: 'B', teks: 'Berat gula dan beras lebih ringan daripada berat bawang putih dan bawang merah.' },
+      { kode: 'C', teks: 'Berat beras jika dijumlah dengan berat bawang merah adalah 8 3/6 kg.' },
+      { kode: 'D', teks: 'Berat bawang merah jika dijumlah dengan berat beras adalah 10 3/4 kg.' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'Kunci jawaban: Berat gula dan beras lebih ringan daripada berat bawang putih dan bawang merah.',
+    kunciTeksReviu: 'Berat gula dan beras lebih ringan daripada berat bawang putih dan bawang merah.'
+  },
+  {
+    nomorAsli: 25,
+    tipe: 'tabel',
+    bacaanJudul: 'Perbandingan Berat Belanjaan Ardian',
+    bacaanTeks: [
+      'Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg, dan Beras sebanyak 5 2/4 kg.'
+    ],
+    pertanyaan: 'Tentukan apakah setiap pernyataan di bawah ini Benar atau Salah!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Berat bawang merah dengan berat beras itu sama',
+      'Berat beras jika dijumlah dengan berat bawang merah adalah 9 1/2 kg',
+      'Berat bawang merah jika dijumlah dengan berat beras adalah 10 kg'
+    ],
+    kunciTabel: ['Benar', 'Salah', 'Salah'],
+    kunciText: 'Kunci jawaban: Benar, Salah, Salah.',
+    kunciTeksReviu: 'Benar, Salah, Salah'
+  },
+  {
+    nomorAsli: 26,
+    tipe: 'tabel',
+    bacaanJudul: 'Kartu Bilangan Toni dan Lisa',
+    bacaanTeks: [
+      'Toni dan Lisa membuat sebuah kartu bilangan. Kartu Toni bertuliskan bilangan 48.201. Kartu Lisa bertuliskan bilangan 22.930.'
+    ],
+    pertanyaan: 'Tentukan Benar atau Salah tentang dua bilangan dalam kartu tersebut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Jumlah bilangan dari kedua kartu adalah 71.131',
+      'Selisih dari kedua kartu adalah 25.271',
+      'Jumlah bilangan dari kedua kartu adalah 71.031',
+      'Dua kali lipat dari bilangan di kartu Toni adalah 96.402',
+      'Selisih dari kedua kartu adalah 26.271'
+    ],
+    kunciTabel: ['Benar', 'Benar', 'Salah', 'Benar', 'Salah'],
+    kunciText: 'Kunci jawaban: Benar, Benar, Salah, Benar, Salah.',
+    kunciTeksReviu: 'Benar, Benar, Salah, Benar, Salah'
+  },
+  {
+    nomorAsli: 27,
+    tipe: 'pg',
+    bacaanJudul: 'Alat Tulis Dodi',
+    bacaanTeks: [
+      'Dodi memiliki 4 pensil dan 20 penghapus. Ia akan membagikannya kepada teman-teman. Tiap teman mendapatkan kedua jenis barang itu. Jumlah tiap jenis barang yang didapatkan tiap temannya sama banyak.'
+    ],
+    pertanyaan: 'Teman terbanyak yang mendapatkan kedua barang itu adalah ....',
+    opsi: [
+      { kode: 'A', teks: '1' },
+      { kode: 'B', teks: '5' },
+      { kode: 'C', teks: '4' },
+      { kode: 'D', teks: '2' }
+    ],
+    kunciKodePg: 'C',
+    kunciText: 'Kunci jawaban: 4.',
+    kunciTeksReviu: '4'
+  },
+  {
+    nomorAsli: 28,
+    tipe: 'pg',
+    bacaanJudul: 'Panen Jeruk Pak Doni',
+    bacaanTeks: [
+      'Pak Doni memanen 4.500 buah jeruk dari kebunnya. Jeruk-jeruk tersebut dimasukkan ke dalam 36 keranjang dengan jumlah yang sama banyak. Seluruh jeruk dalam 1 keranjang dijual dengan harga Rp150.000.'
+    ],
+    pertanyaan: 'Setiap 1 keranjang berisi ... buah jeruk.',
+    opsi: [
+      { kode: 'A', teks: '115 buah' },
+      { kode: 'B', teks: '120 buah' },
+      { kode: 'C', teks: '125 buah' },
+      { kode: 'D', teks: '130 buah' }
+    ],
+    kunciKodePg: 'C',
+    kunciText: 'Kunci jawaban: 125 buah.',
+    kunciTeksReviu: '125 buah'
+  },
+  {
+    nomorAsli: 29,
+    tipe: 'isian',
+    bacaanJudul: 'Keliling Persegi dan Persegi Panjang',
+    bacaanTeks: [
+      'Sebuah persegi memiliki luas 36 cm². Persegi panjang memiliki panjang 12 cm dan lebar 3 cm.'
+    ],
+    pertanyaan: 'Kedua bangun memiliki luas yang sama, tetapi keliling persegi panjang lebih besar daripada keliling persegi sebanyak ... cm.',
+    placeholderIsian: 'Tuliskan angkanya saja, contoh: 6',
+    kunciIsianList: ['6', '6 cm'],
+    kunciText: 'Kunci jawaban: 6.',
+    kunciTeksReviu: '6 cm'
+  },
+  {
+    nomorAsli: 30,
+    tipe: 'pg',
+    bacaanJudul: 'Jumlah Buku Perpustakaan SDN Maju Sejahtera',
+    bacaanTeks: [
+      'Perpustakaan SDN Maju Sejahtera mencatat jumlah buku yang dimiliki oleh empat kelas sebagai berikut:',
+      '• Kelas IV A: 2.450 buku',
+      '• Kelas IV B: 2.405 buku',
+      '• Kelas IV C: 2.540 buku',
+      '• Kelas IV D: 2.504 buku'
+    ],
+    pertanyaan: 'Urutan jumlah buku dari yang terkecil ke terbesar adalah ....',
+    opsi: [
+      { kode: 'A', teks: '2.540, 2.504, 2.450, 2.405' },
+      { kode: 'B', teks: '2.405, 2.450, 2.504, 2.540' },
+      { kode: 'C', teks: '2.450, 2.405, 2.540, 2.504' },
+      { kode: 'D', teks: '2.405, 2.504, 2.450, 2.540' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'Kunci jawaban: 2.405, 2.450, 2.504, 2.540.',
+    kunciTeksReviu: '2.405, 2.450, 2.504, 2.540'
+  }
+]
+
+const MAPEL_TERSEDIA = [
+  'Bahasa Indonesia - SD Sederajat (Paket 1)',
+  'Matematika - SD Sederajat (Paket 1)'
+]
 
 const daftarMapel = [
   'Matematika - SD Sederajat (Paket 1)',
@@ -570,6 +1144,40 @@ const daftarMapel = [
   'Bahasa Inggris - SD Sederajat (Paket 1)',
   'Bahasa Inggris - SD Sederajat (Paket 2)'
 ]
+
+function susunSoalBerdasarkanMapel(namaMapel: string): DataSoal[] {
+  // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1 (TIDAK DIUBAH)
+  if (namaMapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)') {
+    const k1 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 1 && s.nomorAsli <= 4).sort(() => Math.random() - 0.5)
+    const k2 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 5 && s.nomorAsli <= 6).sort(() => Math.random() - 0.5)
+    const k3 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 7 && s.nomorAsli <= 8).sort(() => Math.random() - 0.5)
+    const k4 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 9 && s.nomorAsli <= 10).sort(() => Math.random() - 0.5)
+    const k5 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 11 && s.nomorAsli <= 12).sort(() => Math.random() - 0.5)
+    const k13 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 13)
+    const k14 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 14)
+    const k6 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 15 && s.nomorAsli <= 19).sort(() => Math.random() - 0.5)
+    const k20 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 20)
+    const k7 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 21 && s.nomorAsli <= 25).sort(() => Math.random() - 0.5)
+    const k8 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 26 && s.nomorAsli <= 30).sort(() => Math.random() - 0.5)
+
+    return [
+      ...k1, ...k2, ...k3, ...k4, ...k5, ...k13, ...k14, ...k6, ...k20, ...k7, ...k8
+    ].map((item, index) => ({
+      ...item,
+      nomor: index + 1
+    }))
+  }
+
+  // MATEMATIKA PAKET 1 (30 SOAL BERURUTAN SESUAI NASKAH)
+  if (namaMapel === 'Matematika - SD Sederajat (Paket 1)') {
+    return BANK_SOAL_MATEMATIKA_PAKET_1.map((item, index) => ({
+      ...item,
+      nomor: index + 1
+    }))
+  }
+
+  return []
+}
 
 function App() {
   const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
@@ -617,11 +1225,10 @@ function App() {
 
   const jenjangValid = jenjang === 'SD/MI/Sederajat'
   const jenisValid = jenjangValid && jenis === 'Mata Pelajaran Wajib'
-  const mapelValid = jenisValid && mapel === MAPEL_AKTIF
+  const mapelValid = jenisValid && MAPEL_TERSEDIA.includes(mapel)
 
   const identitasPeserta = `${username} - PESERTA SAS 1`
 
-  // RESET SELURUH DATA SAAT KELUAR KE HALAMAN AWAL
   const keluarKeHalamanAwal = () => {
     setJenjang('SD/MI/Sederajat')
     setJenis('Mata Pelajaran Wajib')
@@ -655,96 +1262,111 @@ function App() {
     setHalaman('awal')
   }
 
-  // FUNGSI HITUNG NILAI SKALA 100 & KIRIM KE GOOGLE SHEETS (ANTI GANDA)
+  // FUNGSI HITUNG NILAI SKALA 100 DENGAN PENILAIAN PARSIAL & KIRIM KE GOOGLE SHEETS
   const kirimNilaiKeGuru = async () => {
-    if (sedangMengirim) return;
-    setSedangMengirim(true);
+    if (sedangMengirim) return
+    setSedangMengirim(true)
 
-    let totalPoinMentah = 0;
-    const maxPoinTotal = 30; // Total 30 soal, dikonversi ke skala 100
+    let totalPoinMentah = 0
+    const maxPoinTotal = Math.max(bankSoalAktif.length, 1)
 
     bankSoalAktif.forEach(soal => {
-      const jawabSiswa = jawaban[soal.nomor];
-      if (!jawabSiswa) return;
+      const jawabSiswa = jawaban[soal.nomor]
+      if (!jawabSiswa) return
 
       // 1. PILIHAN GANDA (PG)
       if (soal.tipe === 'pg') {
-        const opsiPilih = soal.opsi?.find(o => o.kode === jawabSiswa);
-        if (
-          (opsiPilih && soal.kunciTeksReviu && opsiPilih.teks.toLowerCase().includes(soal.kunciTeksReviu.toLowerCase().substring(0, 15))) ||
-          jawabSiswa === soal.kunciTeksReviu
-        ) {
-          totalPoinMentah += 1;
+        if (soal.kunciKodePg) {
+          if (jawabSiswa === soal.kunciKodePg) totalPoinMentah += 1
+        } else {
+          const opsiPilih = soal.opsi?.find(o => o.kode === jawabSiswa)
+          if (
+            (opsiPilih && soal.kunciTeksReviu && opsiPilih.teks.toLowerCase().includes(soal.kunciTeksReviu.toLowerCase().substring(0, 15))) ||
+            jawabSiswa === soal.kunciTeksReviu
+          ) {
+            totalPoinMentah += 1
+          }
         }
-      } 
-      // 2. PILIHAN GANDA KOMPLEKS (PGK) - Penilaian Parsial (Benar sebagian tetap ada nilai)
-      else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
-        const opsiBenarList = soal.opsi?.filter(o => 
-          soal.kunciTeksReviu?.toLowerCase().includes(o.teks.toLowerCase().substring(0, 10))
-        ) || [];
-        const totalBenarSeharusnya = opsiBenarList.length > 0 ? opsiBenarList.length : 1;
-        
-        let benarDipilih = 0;
-        let salahDipilih = 0;
-        
-        jawabSiswa.forEach((kode: string) => {
-          const isBenar = opsiBenarList.some(o => o.kode === kode);
-          if (isBenar) benarDipilih += 1;
-          else salahDipilih += 1;
-        });
-
-        let skorParsial = Math.max(0, (benarDipilih - (salahDipilih * 0.5)) / totalBenarSeharusnya);
-        totalPoinMentah += skorParsial;
       }
-      // 3. TABEL & MENJODOHKAN (Dinilai proporsional per baris/pasangan)
-      else if ((soal.tipe === 'tabel' || soal.tipe === 'jodoh') && typeof jawabSiswa === 'object') {
-        const jumlahItem = soal.barisTabel?.length || soal.kolomKiri?.length || 1;
-        let itemBenar = 0;
-        
-        Object.keys(jawabSiswa).forEach(() => {
-          itemBenar += 1;
-        });
+      // 2. PILIHAN GANDA KOMPLEKS (PGK) - Penilaian Parsial (Salah 1 tetap ada nilai untuk pilihan benar lain)
+      else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
+        const kodeBenarList = soal.kunciKodePgk
+          ? soal.kunciKodePgk
+          : (soal.opsi
+              ?.filter(o => soal.kunciTeksReviu?.toLowerCase().includes(o.teks.toLowerCase().substring(0, 10)))
+              .map(o => o.kode) || [])
 
-        totalPoinMentah += (itemBenar / jumlahItem);
+        const totalBenarSeharusnya = kodeBenarList.length > 0 ? kodeBenarList.length : 1
+        let benarDipilih = 0
+        let salahDipilih = 0
+
+        jawabSiswa.forEach((kode: string) => {
+          if (kodeBenarList.includes(kode)) benarDipilih += 1
+          else salahDipilih += 1
+        })
+
+        const skorParsial = Math.max(0, (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya)
+        totalPoinMentah += skorParsial
+      }
+      // 3. TABEL (Benar/Salah & Sesuai/Tidak Sesuai) & MENJODOHKAN - Penilaian Parsial per Baris
+      else if ((soal.tipe === 'tabel' || soal.tipe === 'jodoh') && typeof jawabSiswa === 'object') {
+        const jumlahItem = soal.barisTabel?.length || soal.kolomKiri?.length || 1
+        if (soal.kunciTabel && Array.isArray(soal.kunciTabel)) {
+          let itemBenar = 0
+          soal.kunciTabel.forEach((kunciBaris, idx) => {
+            const pilihanBaris = jawabSiswa[idx + 1]
+            if (pilihanBaris && String(pilihanBaris).trim().toLowerCase() === String(kunciBaris).trim().toLowerCase()) {
+              itemBenar += 1
+            }
+          })
+          totalPoinMentah += itemBenar / jumlahItem
+        } else {
+          const itemTerisi = Object.keys(jawabSiswa).length
+          totalPoinMentah += itemTerisi / jumlahItem
+        }
       }
       // 4. ISIAN SINGKAT & URAIAN
       else if (soal.tipe === 'isian' || soal.tipe === 'uraian') {
         if (typeof jawabSiswa === 'string' && jawabSiswa.trim().length > 0) {
-          totalPoinMentah += 1;
+          if (soal.kunciIsianList && soal.kunciIsianList.length > 0) {
+            const bersih = jawabSiswa.trim().toLowerCase()
+            const cocok = soal.kunciIsianList.some(k => bersih.includes(k.toLowerCase()))
+            if (cocok) totalPoinMentah += 1
+          } else {
+            totalPoinMentah += 1
+          }
         }
       }
-    });
+    })
 
-    // Konversi total poin ke rentang Nilai Skala 100
-    const nilaiSkala100 = Math.round((totalPoinMentah / maxPoinTotal) * 100);
+    const nilaiSkala100 = Math.round((totalPoinMentah / maxPoinTotal) * 100)
 
     const payload = {
       namaPeserta: namaPeserta.trim(),
       username: username.trim(),
       namaLembaga: namaLembaga.trim(),
       mapel: mapel,
-      skor: nilaiSkala100, // Nilai akhir skala 0 - 100
+      skor: nilaiSkala100,
       jawaban: jawaban
-    };
+    }
 
-    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxRuxEKvnSRtweKC0TLYWqk12P1tfsCRVp6vTKX7yssZxc7VsUED2gMq7j1q88ffii1dA/exec";
+    const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxRuxEKvnSRtweKC0TLYWqk12P1tfsCRVp6vTKX7yssZxc7VsUED2gMq7j1q88ffii1dA/exec'
 
     try {
       await fetch(URL_APPS_SCRIPT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      });
+      })
     } catch (error) {
-      console.error("Gagal mengirim nilai:", error);
+      console.error('Gagal mengirim nilai:', error)
     } finally {
-      setSedangMengirim(false);
-      setHalaman('reviu');
+      setSedangMengirim(false)
+      setHalaman('reviu')
     }
-  };
+  }
 
-  // TIMER UJIAN
   useEffect(() => {
     if (halaman !== 'ujian') return
 
@@ -807,27 +1429,11 @@ function App() {
       return
     }
 
-    // PENGACAKAN KELOMPOK BACAAN
-    const k1 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 1 && s.nomorAsli <= 4).sort(() => Math.random() - 0.5)
-    const k2 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 5 && s.nomorAsli <= 6).sort(() => Math.random() - 0.5)
-    const k3 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 7 && s.nomorAsli <= 8).sort(() => Math.random() - 0.5)
-    const k4 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 9 && s.nomorAsli <= 10).sort(() => Math.random() - 0.5)
-    const k5 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 11 && s.nomorAsli <= 12).sort(() => Math.random() - 0.5)
-    const k13 = BANK_SOAL_MASTER.filter(s => s.nomorAsli === 13)
-    const k14 = BANK_SOAL_MASTER.filter(s => s.nomorAsli === 14)
-    const k6 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 15 && s.nomorAsli <= 19).sort(() => Math.random() - 0.5)
-    const k20 = BANK_SOAL_MASTER.filter(s => s.nomorAsli === 20)
-    const k7 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 21 && s.nomorAsli <= 25).sort(() => Math.random() - 0.5)
-    const k8 = BANK_SOAL_MASTER.filter(s => s.nomorAsli >= 26 && s.nomorAsli <= 30).sort(() => Math.random() - 0.5)
-
-    const gabunganAcak = [
-      ...k1, ...k2, ...k3, ...k4, ...k5, ...k13, ...k14, ...k6, ...k20, ...k7, ...k8
-    ]
-
-    const bankSoalFinal: DataSoal[] = gabunganAcak.map((item, index) => ({
-      ...item,
-      nomor: index + 1
-    }))
+    const bankSoalFinal = susunSoalBerdasarkanMapel(mapel)
+    if (bankSoalFinal.length === 0) {
+      alert('Soal belum tersedia untuk mata pelajaran ini.')
+      return
+    }
 
     setBankSoalAktif(bankSoalFinal)
     setHalaman('konfirmasiTes')
@@ -1331,6 +1937,8 @@ function App() {
 
   // 6. REVIU HASIL SIMULASI
   if (halaman === 'reviu') {
+    const jumlahSoalReviu = bankSoalAktif.length
+
     return (
       <div className="login-page" style={{ background: '#2563eb', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Header peserta reviu />
@@ -1374,7 +1982,6 @@ function App() {
               </div>
             </div>
 
-            {/* TABEL HEADER */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: '80px 1fr 1fr',
@@ -1390,7 +1997,6 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>🔑 Kunci Jawaban</div>
             </div>
 
-            {/* DAFTAR 30 SOAL */}
             <div style={{ border: '1px solid #e2e8f0', borderTop: 'none', borderRadius: '0 0 8px 8px', marginBottom: '30px' }}>
               {bankSoalAktif.map(soal => {
                 const jawabSiswa = jawaban[soal.nomor]
@@ -1425,7 +2031,9 @@ function App() {
                     alignItems: 'center',
                     background: soal.nomor % 2 === 0 ? '#fafafa' : '#ffffff'
                   }}>
-                    <div style={{ fontWeight: 600, color: '#334155' }}>No. {soal.nomor} <span style={{ fontSize: '11px', color: '#64748b' }}>(Asli: {soal.nomorAsli})</span></div>
+                    <div style={{ fontWeight: 600, color: '#334155' }}>
+                      No. {soal.nomor} <span style={{ fontSize: '11px', color: '#64748b' }}>(Asli: {soal.nomorAsli})</span>
+                    </div>
                     <div style={{ color: '#0f172a', paddingRight: '12px' }}>
                       <span style={{ borderLeft: '3px solid #3b82f6', paddingLeft: '8px', display: 'block' }}>
                         {teksJawabanSiswa}
@@ -1441,7 +2049,6 @@ function App() {
               })}
             </div>
 
-            {/* FOOTER REVIU */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -1467,7 +2074,7 @@ function App() {
                 </div>
                 <div>
                   <strong style={{ display: 'block', fontSize: '16px', color: '#1e293b' }}>Total Soal</strong>
-                  <span style={{ fontSize: '13px', color: '#64748b' }}>{daftarNomor.length} Pertanyaan</span>
+                  <span style={{ fontSize: '13px', color: '#64748b' }}>{jumlahSoalReviu} Pertanyaan</span>
                 </div>
               </div>
 
@@ -1497,8 +2104,12 @@ function App() {
   }
 
   // 7. HALAMAN UJIAN
+  const daftarNomorAktif = Array.from({ length: bankSoalAktif.length || 1 }, (_, i) => i + 1)
   const soalAktif = bankSoalAktif[nomorAktif - 1] || bankSoalAktif[0]
-  const isTargetGambarBesar = soalAktif ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : false
+  const isBindo = mapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)'
+  const isTargetGambarBesar = soalAktif
+    ? (isBindo ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : false)
+    : false
 
   return (
     <div className="login-page">
@@ -1544,7 +2155,7 @@ function App() {
             </div>
 
             <div className="daftar-soal-grid">
-              {daftarNomor.map(n => (
+              {daftarNomorAktif.map(n => (
                 <button
                   key={n}
                   className={`
@@ -1585,7 +2196,7 @@ function App() {
                 alignItems: soalAktif.bacaanGambar && !soalAktif.bacaanTeks ? 'center' : 'stretch'
               }}
             >
-              {soalAktif.bacaanJudul && ![1, 2, 3, 4].includes(soalAktif.nomorAsli) && (
+              {soalAktif.bacaanJudul && !(isBindo && [1, 2, 3, 4].includes(soalAktif.nomorAsli)) && (
                 <h3 style={{ marginTop: 0, marginBottom: '12px', textAlign: 'center', color: '#1e293b', width: '100%' }}>
                   {soalAktif.bacaanJudul}
                 </h3>
@@ -1594,7 +2205,7 @@ function App() {
               {soalAktif.bacaanTeks && (
                 <div style={{ textAlign: 'left', lineHeight: 1.7, marginBottom: '16px' }}>
                   {soalAktif.bacaanTeks.map((paragraf, idx) => (
-                    <p key={idx} style={{ marginBottom: '10px', textIndent: '2em' }}>
+                    <p key={idx} style={{ marginBottom: '10px', textIndent: isBindo ? '2em' : '0' }}>
                       {paragraf}
                     </p>
                   ))}
@@ -1605,9 +2216,12 @@ function App() {
                 <img
                   src={soalAktif.bacaanGambar}
                   alt="Ilustrasi Soal"
+                  onError={e => {
+                    ;(e.currentTarget as HTMLImageElement).style.display = 'none'
+                  }}
                   style={{
                     width: '100%',
-                    maxHeight: isTargetGambarBesar ? '415px' : '310px',
+                    maxHeight: isTargetGambarBesar ? '415px' : '260px',
                     borderRadius: '8px',
                     objectFit: 'contain'
                   }}
@@ -1826,7 +2440,7 @@ function App() {
             □ {ragu.includes(nomorAktif) ? 'Hapus Ragu-ragu' : 'Ragu-ragu'}
           </button>
 
-          {nomorAktif < daftarNomor.length ? (
+          {nomorAktif < daftarNomorAktif.length ? (
             <button
               className="tombol-berikutnya"
               onClick={() => setNomorAktif(n => n + 1)}
