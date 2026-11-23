@@ -1137,7 +1137,7 @@ const daftarMapel = [
   'Bahasa Inggris - SD Sederajat (Paket 2)'
 ]
 
-// KOMPONEN VISUAL OTOMATIS UNTUK SOAL MATEMATIKA PAKET 1 (TANPA FILE EKSTERNAL)
+// KOMPONEN VISUAL OTOMATIS NETRAL UNTUK SOAL MATEMATIKA PAKET 1 (TANPA FILE EKSTERNAL)
 function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
   const kartuBoxStyle = {
     background: '#f8fafc',
@@ -1147,7 +1147,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     marginTop: '6px'
   }
 
-  // 1. Kartu digit polos dengan tanda tanya (tidak membocorkan nilai tempat/hasil)
   if (nomorAsli === 1) {
     const item = ['5', '7', '.', '6', '3', '1']
     return (
@@ -1191,7 +1190,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 3. Pengumuman data angka tanpa menuliskan ejaan jawaban
   if (nomorAsli === 3) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#f0f9ff', borderColor: '#7dd3fc', textAlign: 'center' }}>
@@ -1206,7 +1204,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 4. Label harga Brem dengan penanda posisi digit 4 (netral, tanpa menuliskan nilai/nama tempat)
   if (nomorAsli === 4) {
     const chars = ['4', '3', '.', '5', '0', '0']
     return (
@@ -1239,7 +1236,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 5. Dua potongan kertas dengan arsiran bagian terpisah (siswa menggabungkan sendiri)
   if (nomorAsli === 5) {
     const renderKertas = (judul: string, terarsir: number, total: number, warna: string) => (
       <div style={{ marginBottom: '8px' }}>
@@ -1267,7 +1263,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 6. Sketsa bangun persegi 7 cm (tanpa menuliskan hasil keliling)
   if (nomorAsli === 6) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', background: '#f8fafc' }}>
@@ -1298,9 +1293,8 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 7. Pasangan bilangan acak (tanpa tanda > atau < jawaban)
   if (nomorAsli === 7) {
-    const pasangan = [
+    const pasangan: [string, string][] = [
       ['62.481', '62.418'],
       ['9.999', '10.000'],
       ['35.706', '35.760']
@@ -1310,7 +1304,7 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
         <div style={{ fontSize: '12px', fontWeight: 700, color: '#5b21b6', marginBottom: '8px', textAlign: 'center' }}>
           Pasangan Bilangan
         </div>
-        {pasang.map(([kiri, kanan], i) => (
+        {pasangan.map(([kiri, kanan], i) => (
           <div
             key={i}
             style={{
@@ -1338,7 +1332,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 9. Kartu angka 63.482 dengan kotak kosong di bawahnya (siswa menelaah sendiri)
   if (nomorAsli === 9) {
     const digits = ['6', '3', '.', '4', '8', '2']
     return (
@@ -1372,7 +1365,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 10. Ilustrasi keranjang/wadah buah untuk dibagi rata
   if (nomorAsli === 10) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#fff7ed', borderColor: '#fdba74' }}>
@@ -1394,7 +1386,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 11. Sketsa 12 potongan kue bolu (3 biru, 2 hijau, 7 krem — tanpa tulisan jawaban pecahan)
   if (nomorAsli === 11) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#fffbeb', borderColor: '#fcd34d' }}>
@@ -1426,7 +1417,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 14. Daftar kartu 5 bilangan cacah
   if (nomorAsli === 14) {
     const daftar = ['42.051', '28.471', '36.490', '13.027', '60.317']
     return (
@@ -1456,7 +1446,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 15. Buah milik Abraham
   if (nomorAsli === 15) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#fef2f2', borderColor: '#fecaca' }}>
@@ -1472,7 +1461,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 16. Jadwal les piano Kanaya & Ulfa
   if (nomorAsli === 16) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#eef2ff', borderColor: '#a5b4fc' }}>
@@ -1493,7 +1481,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 18. Data kelereng Fauzan
   if (nomorAsli === 18) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#f0fdf4', borderColor: '#86efac' }}>
@@ -1515,7 +1502,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 20. Pasangan pecahan yang dijumlahkan
   if (nomorAsli === 20) {
     const operasi = ['2/8 + 3/8', '1/2 + 1/4', '3/5 + 1/10', '1/3 + 1/2', '3/4 + 1/8']
     return (
@@ -1545,7 +1531,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 21. Susunan awal 5x4 petak dengan 3 petak berpindah posisi
   if (nomorAsli === 21) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#eff6ff', borderColor: '#93c5fd' }}>
@@ -1570,7 +1555,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 22. Perbandingan ukuran petak Kartu A & Kartu B (tanpa menyimpulkan luas/pilihan)
   if (nomorAsli === 22) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#f0fdfa', borderColor: '#5eead4' }}>
@@ -1586,7 +1570,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 23. Denah ubin 8 baris x 5 kolom dengan area tengah tertutup karpet (tanpa hasil akhir)
   if (nomorAsli === 23) {
     return (
       <div style={{ ...kartuBoxStyle, background: '#fafaf9', borderColor: '#d6d3d1' }}>
@@ -1616,7 +1599,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 25. Daftar belanjaan Ardian
   if (nomorAsli === 25) {
     const barang = [
       { nama: 'Gula', berat: '2 3/4 kg' },
@@ -1636,7 +1618,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 26. Kartu bilangan Toni & Lisa
   if (nomorAsli === 26) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#fdf4ff', borderColor: '#f0abfc' }}>
@@ -1652,7 +1633,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 27. Alat tulis Dodi
   if (nomorAsli === 27) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f0f9ff', borderColor: '#bae6fd' }}>
@@ -1668,7 +1648,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 28. Panen jeruk Pak Doni
   if (nomorAsli === 28) {
     return (
       <div style={{ ...kartuBoxStyle, textAlign: 'center', background: '#fff7ed', borderColor: '#fed7aa' }}>
@@ -1678,7 +1657,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  // 29. Persegi & Persegi Panjang (tanpa menuliskan selisih keliling)
   if (nomorAsli === 29) {
     return (
       <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f8fafc', borderColor: '#cbd5e1' }}>
@@ -1696,6 +1674,7 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
 
   return null
 }
+
 function susunSoalBerdasarkanMapel(namaMapel: string): DataSoal[] {
   // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1 (TIDAK DIUBAH)
   if (namaMapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)') {
@@ -1839,7 +1818,7 @@ function App() {
           }
         }
       }
-      // 2. PILIHAN GANDA KOMPLEKS (PGK) - Penilaian Parsial (Salah 1 tetap ada nilai untuk pilihan benar lain)
+      // 2. PILIHAN GANDA KOMPLEKS (PGK) - Penilaian Parsial
       else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
         const kodeBenarList = soal.kunciKodePgk
           ? soal.kunciKodePgk
@@ -1859,7 +1838,7 @@ function App() {
         const skorParsial = Math.max(0, (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya)
         totalPoinMentah += skorParsial
       }
-      // 3. TABEL (Benar/Salah & Sesuai/Tidak Sesuai) & MENJODOHKAN - Penilaian Parsial per Baris
+      // 3. TABEL & MENJODOHKAN - Penilaian Parsial per Baris
       else if ((soal.tipe === 'tabel' || soal.tipe === 'jodoh') && typeof jawabSiswa === 'object') {
         const jumlahItem = soal.barisTabel?.length || soal.kolomKiri?.length || 1
         if (soal.kunciTabel && Array.isArray(soal.kunciTabel)) {
