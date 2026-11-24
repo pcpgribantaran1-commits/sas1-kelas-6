@@ -2196,7 +2196,7 @@ function App() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: isBindoGambar1to4 ? 'center' : 'flex-start',
-                alignItems: 'stretch'
+                alignItems: 'center'
               }}
             >
               {soalAktif.bacaanJudul && !(isBindo && [1, 2, 3, 4].includes(soalAktif.nomorAsli)) && (
@@ -2206,7 +2206,7 @@ function App() {
               )}
 
               {soalAktif.bacaanTeks && (
-                <div style={{ textAlign: 'left', lineHeight: 1.7, marginBottom: '12px' }}>
+                <div style={{ textAlign: 'left', lineHeight: 1.7, marginBottom: '12px', width: '100%' }}>
                   {soalAktif.bacaanTeks.map((paragraf, idx) => (
                     <p key={idx} style={{ marginBottom: '10px', textIndent: isBindo ? '2em' : '0' }}>
                       {paragraf}
@@ -2235,9 +2235,10 @@ function App() {
                       : isTargetGambarBesar
                         ? '320px'
                         : '240px',
-                    borderRadius: isBindoGambar1to4 ? '0' : '8px',
-                    objectFit: isBindoGambar1to4 ? 'cover' : 'contain',
-                    transform: isBindoGambar1to4 ? 'scale(1.08)' : 'none',
+                    borderRadius: isBindoGambar1to4 ? '4px' : '8px',
+                    objectFit: 'contain',
+                    transform: isBindoGambar1to4 ? 'scale(1.16)' : 'none',
+                    transformOrigin: 'center center',
                     flexShrink: 0
                   }}
                 />
@@ -2245,7 +2246,7 @@ function App() {
 
               {/* ILUSTRASI OTOMATIS SOAL 5: DUA POTONG KERTAS PECAHAN */}
               {!isBindo && soalAktif.nomorAsli === 5 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
                     Ilustrasi Potongan Kertas Siti
                   </div>
@@ -2286,7 +2287,7 @@ function App() {
 
               {/* ILUSTRASI OTOMATIS SOAL 20: PENJUMLAHAN PECAHAN DALAM CERITA */}
               {!isBindo && soalAktif.nomorAsli === 20 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
                     Visualisasi Bagian Pecahan (No. 1 – 5)
                   </div>
@@ -2318,7 +2319,7 @@ function App() {
 
               {/* ILUSTRASI OTOMATIS SOAL 23: DENAH UBIN LANTAI & KARPET */}
               {!isBindo && soalAktif.nomorAsli === 23 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
                   <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
                     Denah Ubin Lantai (8 Baris × 5 Kolom)
                   </div>
