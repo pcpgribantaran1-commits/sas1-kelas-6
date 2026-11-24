@@ -1588,9 +1588,10 @@ function App() {
         <header className="awal-header">
           <div className="awal-brand">
             <LogoTutWuri />
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.35 }}>
               <strong>PUSMENDIK</strong>
               <small>APLIKASI Sumatif Akhir Semester 1 (SAS 1)</small>
+              <small style={{ fontWeight: 600, color: '#e2e8f0', marginTop: '2px' }}>Kelas V (Lima)</small>
             </div>
           </div>
         </header>
@@ -1598,7 +1599,7 @@ function App() {
         <main className="awal-main">
           <div className="awal-card">
             <div className="awal-icon">🎓</div>
-            <h1>Sumatif Akhir Semester 1 (SAS 1)</h1>
+            <h1 style={{ color: '#0f172a', fontWeight: 800 }}>Sumatif Akhir Semester 1 (SAS 1)</h1>
             <p className="awal-subtitle">Pilih jenjang dan mata pelajaran untuk memulai simulasi</p>
 
             <div className="awal-group">
@@ -2251,9 +2252,6 @@ function App() {
                   loading="eager"
                   decoding="async"
                   fetchPriority={soalAktif.nomor === nomorAktif ? 'high' : 'auto'}
-                  onLoad={e => {
-                    ;(e.currentTarget as HTMLImageElement).style.display = 'block'
-                  }}
                   onError={e => {
                     const el = e.currentTarget as HTMLImageElement
                     const cleanName = soalAktif.bacaanGambar!.replace(/^\.?\//, '')
