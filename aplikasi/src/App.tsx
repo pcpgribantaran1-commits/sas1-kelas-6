@@ -2190,8 +2190,8 @@ function App() {
                 fontSize: `${ukuranFont}px`,
                 height: '440px',
                 maxHeight: '440px',
-                overflowY: 'auto',
-                padding: isBindoGambar1to4 ? '4px' : '0 12px 0 0',
+                overflow: 'hidden',
+                padding: isBindoGambar1to4 ? '0' : '0 12px 0 0',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2231,12 +2231,13 @@ function App() {
                     width: '100%',
                     height: isBindoGambar1to4 ? '100%' : 'auto',
                     maxHeight: isBindoGambar1to4
-                      ? '428px'
+                      ? '440px'
                       : isTargetGambarBesar
                         ? '320px'
                         : '240px',
-                    borderRadius: '8px',
-                    objectFit: 'contain',
+                    borderRadius: isBindoGambar1to4 ? '0' : '8px',
+                    objectFit: isBindoGambar1to4 ? 'cover' : 'contain',
+                    transform: isBindoGambar1to4 ? 'scale(1.08)' : 'none',
                     flexShrink: 0
                   }}
                 />
