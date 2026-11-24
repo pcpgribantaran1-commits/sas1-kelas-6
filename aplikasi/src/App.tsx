@@ -565,17 +565,14 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
 ]
 
 // ============================================================================
-// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — 30 SOAL SESUAI PDF
+// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — TERHUBUNG GAMBAR PUBLIC
 // ============================================================================
 const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 1,
     tipe: 'pgk',
+    bacaanGambar: './mtk-soal-1.png',
     bacaanJudul: 'Bilangan Cacah dan Nilai Tempat',
-    bacaanTeks: [
-      'Perhatikan bilangan berikut: 57.631',
-      'Setiap angka pada bilangan cacah lima angka memiliki nilai tempat mulai dari puluh ribuan, ribuan, ratusan, puluhan, hingga satuan.'
-    ],
     pertanyaan: 'Perhatikan bilangan berikut 57.631. Pernyataan di bawah ini yang benar adalah ... (Pilih dua jawaban atau lebih yang benar)!',
     petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
     opsi: [
@@ -591,11 +588,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 2,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-2.png',
     bacaanJudul: 'Kue Jajan Pasar Ibu Citra',
-    bacaanTeks: [
-      'Ibu Citra membuat kue jajan pasar untuk acara arisan. Ia membuat 54 kue lumpur dan 72 kue sus.',
-      'Ibu Citra ingin menata kue-kue tersebut ke dalam beberapa piring secara merata. Setiap piring harus berisi kedua jenis kue dengan jumlah yang sama banyak. Sebelum ditata, ternyata ada 4 kue lumpur yang rusak sehingga tidak bisa disajikan.'
-    ],
     pertanyaan: 'Berdasarkan cerita tersebut, tentukan apakah setiap pernyataan berikut Benar atau Salah!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -612,10 +606,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 3,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-3.png',
     bacaanJudul: 'Pengumuman Dinas Kabupaten Probolinggo',
-    bacaanTeks: [
-      'Dinas Kabupaten Probolinggo mengumumkan bahwa pada akhir tahun 2021, terdapat delapan belas ribu tujuh ratus empat puluh lima orang terkonfirmasi positif Covid-19.'
-    ],
     pertanyaan: 'Banyak masyarakat Probolinggo yang terkonfirmasi positif Covid-19 pada akhir tahun 2021 yaitu ... orang.',
     opsi: [
       { kode: 'A', teks: '18.744' },
@@ -630,10 +622,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 4,
     tipe: 'isian',
+    bacaanGambar: './mtk-soal-4.png',
     bacaanJudul: 'Brem Khas Kota Madiun',
-    bacaanTeks: [
-      'Brem merupakan makanan khas Kota Madiun yang dijual dengan harga empat puluh tiga ribu lima ratus rupiah.'
-    ],
     pertanyaan: 'Angka empat pada harga Brem menempati tempat ... dan nilainya ....',
     placeholderIsian: 'Contoh: Puluh ribuan, 40.000',
     kunciIsianList: ['puluh ribuan, 40.000', 'puluh ribuan dan 40.000', 'puluh ribuan, 40000', '40.000'],
@@ -661,11 +651,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 6,
     tipe: 'isian',
+    bacaanGambar: './mtk-soal-6.png',
     bacaanJudul: 'Pendapat Budi tentang Keliling Persegi',
-    bacaanTeks: [
-      'Budi mengatakan bahwa untuk mengetahui keliling persegi dengan sisi 7 cm, cukup menghitung 7 + 7 = 14 cm karena persegi hanya memiliki satu ukuran sisi.',
-      'Pernyataan: Pendapat Budi adalah benar.'
-    ],
     pertanyaan: 'Menurut kalian bagaimana pernyataan Budi? Benar atau salah?',
     placeholderIsian: 'Tuliskan Benar atau Salah...',
     kunciIsianList: ['salah', 's', 'pernyataan budi salah'],
@@ -675,10 +662,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 7,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-7.png',
     bacaanJudul: 'Perbandingan Bilangan Cacah',
-    bacaanTeks: [
-      'Bandingkan pasangan bilangan cacah berikut dengan memperhatikan nilai tempat dari kiri ke kanan (puluh ribuan, ribuan, ratusan, puluhan, satuan).'
-    ],
     pertanyaan: 'Tentukan apakah perbandingan berikut Sesuai atau Tidak Sesuai!',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -712,10 +697,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 9,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-9.png',
     bacaanJudul: 'Koleksi Buku Perpustakaan',
-    bacaanTeks: [
-      'Perpustakaan sekolah memiliki koleksi sebanyak 63.482 buku. Petugas perpustakaan mencatat jumlah tersebut berdasarkan nilai tempat agar mudah dibaca dan dipahami oleh para siswa.'
-    ],
     pertanyaan: 'Berdasarkan cerita tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -731,10 +714,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 10,
     tipe: 'uraian',
+    bacaanGambar: './mtk-soal-10.png',
     bacaanJudul: 'Membagi Buah ke dalam Kantong',
-    bacaanTeks: [
-      'Ibu memiliki 36 buah jeruk dan 48 buah apel. Buah-buahan tersebut akan dimasukkan ke dalam beberapa kantong untuk dibagikan kepada tetangga. Setiap kantong harus berisi jumlah jeruk yang sama dan jumlah apel yang sama. Tidak boleh ada buah yang tersisa, dan jumlah kantong yang dibuat harus sebanyak mungkin.'
-    ],
     pertanyaan: 'Berapa jumlah kantong terbanyak yang dapat dibuat Ibu? Berapa buah jeruk dan apel yang terdapat dalam setiap kantong?',
     placeholderIsian: 'Contoh: 12 kantong, 3 jeruk dan 4 apel per kantong',
     kunciIsianList: ['12', '12 kantong', '3 jeruk', '4 apel'],
@@ -744,10 +725,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 11,
     tipe: 'isian',
+    bacaanGambar: './mtk-soal-11.png',
     bacaanJudul: 'Kue Bolu Dinda',
-    bacaanTeks: [
-      'Pada hari Minggu, Dinda membantu Ibu membuat kue bolu. Kue tersebut dipotong menjadi 12 bagian sama besar. Ayah memakan 3 potong kue, sedangkan Dinda memakan 2 potong kue. Sisanya disimpan untuk dinikmati bersama pada sore hari.'
-    ],
     pertanyaan: 'Berapa bagian kue yang dimakan Ayah dan Dinda jika dinyatakan dalam bentuk pecahan?',
     placeholderIsian: 'Contoh: 5/12',
     kunciIsianList: ['5/12', '5 per 12'],
@@ -820,10 +799,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 15,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-15.png',
     bacaanJudul: 'Berbagi Buah Abraham',
-    bacaanTeks: [
-      'Abraham memiliki 15 apel dan 20 jeruk. Dia akan memberikan buahnya kepada beberapa teman-temannya. Setiap teman mendapatkan kedua jenis buah tersebut. Setiap jenis buah yang didapatkan setiap anak sama banyak.'
-    ],
     pertanyaan: 'Banyak teman Abraham yang mendapatkan buah adalah ... anak.',
     opsi: [
       { kode: 'A', teks: '2' },
@@ -838,10 +815,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 16,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-16.png',
     bacaanJudul: 'Jadwal Les Piano Kanaya dan Ulfa',
-    bacaanTeks: [
-      'Kanaya dan Ulfa menyukai piano, sehingga orang tuanya mendaftarkan ke tempat les piano untuk mengasah kemampuan mereka. Kanaya les piano setiap 4 hari sekali dan Ulfa les piano setiap 6 hari sekali.'
-    ],
     pertanyaan: 'Jika pada hari Minggu mereka les piano bersama, maka mereka akan les piano bersama-sama lagi untuk yang kedua kalinya pada hari ....',
     opsi: [
       { kode: 'A', teks: 'Minggu' },
@@ -878,10 +853,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 18,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-18.png',
     bacaanJudul: 'Kelereng Warna-warni Fauzan',
-    bacaanTeks: [
-      'Fauzan memiliki kelereng 96 butir. Kelereng hijau ada 24 butir, merah 36 butir, selebihnya putih. Fauzan memasukkan kelerengnya ke dalam toples. Setiap toples berisi sama banyak dan kombinasi warnanya. Toples yang disediakan sebanyak-banyaknya.'
-    ],
     pertanyaan: 'Berdasarkan ilustrasi tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -897,15 +870,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 19,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-19.png',
     bacaanJudul: 'Hasil Perahan Susu Sapi Pak Malik',
-    bacaanTeks: [
-      'Pak Malik memerah susu sapi perahnya setiap hari:',
-      '• Hari pertama: 12 1/8 liter',
-      '• Hari kedua: 12 3/8 liter',
-      '• Hari ketiga: 13 2/5 liter',
-      '• Hari keempat: 12 7/10 liter',
-      '• Hari kelima: 11 1/4 liter'
-    ],
     pertanyaan: 'Tentukan Sesuai atau Tidak Sesuai tentang pernyataan berikut!',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -944,10 +910,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 21,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-21.png',
     bacaanJudul: 'Persegi Panjang Tersusun Petak Satuan',
-    bacaanTeks: [
-      'Sebuah persegi panjang tersusun dari 5 petak × 4 petak. Satu petak satuan memiliki luas 1 cm². Tiga petak dipindahkan dari bagian dalam bangun lalu ditempelkan di sisi luar bangun (tanpa tumpang tindih) sehingga membentuk bangun baru.'
-    ],
     pertanyaan: 'Pernyataan yang tepat tentang luas bangun baru adalah ....',
     opsi: [
       { kode: 'A', teks: 'Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.' },
@@ -962,10 +926,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 22,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-22.png',
     bacaanJudul: 'Perbandingan Luas Kartu A dan Kartu B',
-    bacaanTeks: [
-      'Kartu A berbentuk persegi panjang dengan ukuran 6 petak × 2 petak. Kartu B berbentuk persegi panjang dengan ukuran 3 petak × 4 petak. Petak satuan kedua kartu sama besar.'
-    ],
     pertanyaan: 'Tentukan apakah setiap pernyataan berikut Sesuai atau Tidak Sesuai dengan stimulus!',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -994,11 +956,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 24,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-24.png',
     bacaanJudul: 'Belanjaan Ardian di Pasar Bantaran',
-    bacaanTeks: [
-      'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang Putih, Bawang Merah, dan Beras.',
-      'Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg, dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan keempat barang tersebut menjadi 2 bagian, di antaranya Bawang Putih dengan Bawang Merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
-    ],
     pertanyaan: 'Kemungkinan yang akan terjadi dari cerita di atas adalah ....',
     opsi: [
       { kode: 'A', teks: 'Berat gula dan beras sama dengan berat bawang putih dan bawang merah.' },
@@ -1032,10 +991,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 26,
     tipe: 'tabel',
+    bacaanGambar: './mtk-soal-26.png',
     bacaanJudul: 'Kartu Bilangan Toni dan Lisa',
-    bacaanTeks: [
-      'Toni dan Lisa membuat sebuah kartu bilangan. Kartu Toni bertuliskan bilangan 48.201. Kartu Lisa bertuliskan bilangan 22.930.'
-    ],
     pertanyaan: 'Tentukan Benar atau Salah tentang dua bilangan dalam kartu tersebut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -1053,10 +1010,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 27,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-27.png',
     bacaanJudul: 'Alat Tulis Dodi',
-    bacaanTeks: [
-      'Dodi memiliki 4 pensil dan 20 penghapus. Ia akan membagikannya kepada teman-teman. Tiap teman mendapatkan kedua jenis barang itu. Jumlah tiap jenis barang yang didapatkan tiap temannya sama banyak.'
-    ],
     pertanyaan: 'Teman terbanyak yang mendapatkan kedua barang itu adalah ....',
     opsi: [
       { kode: 'A', teks: '1' },
@@ -1071,10 +1026,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 28,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-28.png',
     bacaanJudul: 'Panen Jeruk Pak Doni',
-    bacaanTeks: [
-      'Pak Doni memanen 4.500 buah jeruk dari kebunnya. Jeruk-jeruk tersebut dimasukkan ke dalam 36 keranjang dengan jumlah yang sama banyak. Seluruh jeruk dalam 1 keranjang dijual dengan harga Rp150.000.'
-    ],
     pertanyaan: 'Setiap 1 keranjang berisi ... buah jeruk.',
     opsi: [
       { kode: 'A', teks: '115 buah' },
@@ -1089,10 +1042,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 29,
     tipe: 'isian',
+    bacaanGambar: './mtk-soal-29.png',
     bacaanJudul: 'Keliling Persegi dan Persegi Panjang',
-    bacaanTeks: [
-      'Sebuah persegi memiliki luas 36 cm². Persegi panjang memiliki panjang 12 cm dan lebar 3 cm.'
-    ],
     pertanyaan: 'Kedua bangun memiliki luas yang sama, tetapi keliling persegi panjang lebih besar daripada keliling persegi sebanyak ... cm.',
     placeholderIsian: 'Tuliskan angkanya saja, contoh: 6',
     kunciIsianList: ['6', '6 cm'],
@@ -1102,14 +1053,8 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
     nomorAsli: 30,
     tipe: 'pg',
+    bacaanGambar: './mtk-soal-30.png',
     bacaanJudul: 'Jumlah Buku Perpustakaan SDN Maju Sejahtera',
-    bacaanTeks: [
-      'Perpustakaan SDN Maju Sejahtera mencatat jumlah buku yang dimiliki oleh empat kelas sebagai berikut:',
-      '• Kelas IV A: 2.450 buku',
-      '• Kelas IV B: 2.405 buku',
-      '• Kelas IV C: 2.540 buku',
-      '• Kelas IV D: 2.504 buku'
-    ],
     pertanyaan: 'Urutan jumlah buku dari yang terkecil ke terbesar adalah ....',
     opsi: [
       { kode: 'A', teks: '2.540, 2.504, 2.450, 2.405' },
@@ -1137,7 +1082,7 @@ const daftarMapel = [
   'Bahasa Inggris - SD Sederajat (Paket 2)'
 ]
 
-// KOMPONEN VISUAL OTOMATIS NETRAL UNTUK SOAL MATEMATIKA PAKET 1 (TANPA FILE EKSTERNAL)
+// KOMPONEN VISUAL OTOMATIS PENDUKUNG UNTUK NOMOR MATEMATIKA YANG BELUM ADA GAMBAR PUBLIC
 function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
   const kartuBoxStyle = {
     background: '#f8fafc',
@@ -1145,95 +1090,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     borderRadius: '12px',
     padding: '12px',
     marginTop: '6px'
-  }
-
-  if (nomorAsli === 1) {
-    const item = ['5', '7', '.', '6', '3', '1']
-    return (
-      <div style={{ ...kartuBoxStyle, background: 'linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%)', borderColor: '#93c5fd' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e40af', marginBottom: '8px', textAlign: 'center' }}>
-          Kartu Bilangan: 57.631
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '6px', textAlign: 'center' }}>
-          {item.map((ch, idx) => (
-            <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <div
-                style={{
-                  background: ch === '.' ? '#e2e8f0' : '#ffffff',
-                  border: '1.5px solid #60a5fa',
-                  borderRadius: '8px',
-                  padding: '8px 4px',
-                  fontSize: '19px',
-                  fontWeight: 800,
-                  color: '#0f172a'
-                }}
-              >
-                {ch}
-              </div>
-              <div
-                style={{
-                  background: '#f1f5f9',
-                  border: '1px dashed #94a3b8',
-                  borderRadius: '6px',
-                  padding: '3px 2px',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: '#64748b'
-                }}
-              >
-                {ch === '.' ? '•' : '?'}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 3) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#f0f9ff', borderColor: '#7dd3fc', textAlign: 'center' }}>
-        <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', color: '#0369a1', textTransform: 'uppercase' }}>
-          Catatan Laporan Akhir Tahun 2021
-        </div>
-        <div style={{ marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #bae6fd' }}>
-          <span style={{ fontSize: '13px', color: '#475569' }}>Jumlah Terkonfirmasi: </span>
-          <strong style={{ fontSize: '16px', color: '#0f172a' }}>[ ... orang ]</strong>
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 4) {
-    const chars = ['4', '3', '.', '5', '0', '0']
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#fefce8', borderColor: '#fde047' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#854d0e', marginBottom: '8px', textAlign: 'center' }}>
-          Label Harga Brem Kota Madiun
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', flexWrap: 'wrap' }}>
-          <span style={{ fontWeight: 700, color: '#713f12', fontSize: '15px', marginRight: '2px' }}>Rp</span>
-          {chars.map((c, idx) => (
-            <div
-              key={idx}
-              style={{
-                minWidth: c === '.' ? '16px' : '34px',
-                padding: '7px 5px',
-                borderRadius: '7px',
-                textAlign: 'center',
-                fontWeight: 800,
-                fontSize: '17px',
-                background: idx === 0 ? '#fde047' : '#ffffff',
-                border: idx === 0 ? '2px solid #ca8a04' : '1px solid #cbd5e1',
-                color: '#1e293b'
-              }}
-            >
-              {c}
-            </div>
-          ))}
-        </div>
-      </div>
-    )
   }
 
   if (nomorAsli === 5) {
@@ -1263,245 +1119,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
     )
   }
 
-  if (nomorAsli === 6) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', background: '#f8fafc' }}>
-        <div
-          style={{
-            width: '108px',
-            height: '108px',
-            border: '2.5px solid #0284c7',
-            background: '#e0f2fe',
-            borderRadius: '6px',
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 700,
-            color: '#0369a1',
-            fontSize: '13px'
-          }}
-        >
-          <span>Persegi</span>
-          <span style={{ position: 'absolute', top: '-18px', fontSize: '11px', color: '#0f172a' }}>7 cm</span>
-          <span style={{ position: 'absolute', left: '-34px', fontSize: '11px', color: '#0f172a' }}>7 cm</span>
-        </div>
-        <div style={{ fontSize: '12px', color: '#334155', maxWidth: '170px', lineHeight: 1.5 }}>
-          Cermati bentuk bangun persegi dan cara hitung yang disampaikan Budi.
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 7) {
-    const pasangan: [string, string][] = [
-      ['62.481', '62.418'],
-      ['9.999', '10.000'],
-      ['35.706', '35.760']
-    ]
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#f5f3ff', borderColor: '#c4b5fd' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#5b21b6', marginBottom: '8px', textAlign: 'center' }}>
-          Pasangan Bilangan
-        </div>
-        {pasangan.map(([kiri, kanan], i) => (
-          <div
-            key={i}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto 1fr',
-              alignItems: 'center',
-              gap: '8px',
-              background: '#ffffff',
-              border: '1px solid #ddd6fe',
-              borderRadius: '8px',
-              padding: '6px 10px',
-              marginBottom: '6px',
-              fontWeight: 700,
-              fontSize: '13px',
-              textAlign: 'center',
-              color: '#1e293b'
-            }}
-          >
-            <span>{kiri}</span>
-            <span style={{ color: '#7c3aed', fontSize: '12px' }}>vs</span>
-            <span>{kanan}</span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (nomorAsli === 9) {
-    const digits = ['6', '3', '.', '4', '8', '2']
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#ecfdf5', borderColor: '#6ee7b7' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#065f46', marginBottom: '8px', textAlign: 'center' }}>
-          Jumlah Koleksi Buku: 63.482
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
-          {digits.map((d, i) => (
-            <div
-              key={i}
-              style={{
-                width: d === '.' ? '16px' : '38px',
-                height: '38px',
-                borderRadius: '8px',
-                background: d === '.' ? 'transparent' : '#ffffff',
-                border: d === '.' ? 'none' : '1.5px solid #34d399',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: '18px',
-                color: '#064e3b'
-              }}
-            >
-              {d}
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 10) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#fff7ed', borderColor: '#fdba74' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', gap: '10px', textAlign: 'center' }}>
-          <div style={{ background: '#ffffff', border: '1px solid #fed7aa', borderRadius: '10px', padding: '10px', flex: 1 }}>
-            <div style={{ fontSize: '22px' }}>🍊</div>
-            <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '15px', marginTop: '2px' }}>36 Jeruk</div>
-          </div>
-          <div style={{ fontSize: '18px', fontWeight: 700, color: '#ea580c' }}>+</div>
-          <div style={{ background: '#ffffff', border: '1px solid #fed7aa', borderRadius: '10px', padding: '10px', flex: 1 }}>
-            <div style={{ fontSize: '22px' }}>🍎</div>
-            <div style={{ fontWeight: 800, color: '#991b1b', fontSize: '15px', marginTop: '2px' }}>48 Apel</div>
-          </div>
-        </div>
-        <div style={{ fontSize: '11px', color: '#7c2d12', textAlign: 'center', marginTop: '8px' }}>
-          Dibagi rata ke beberapa kantong tanpa sisa
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 11) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#fffbeb', borderColor: '#fcd34d' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400e', marginBottom: '8px', textAlign: 'center' }}>
-          Kue Bolu (12 Potongan)
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '4px' }}>
-          {Array.from({ length: 12 }, (_, idx) => {
-            const bg = idx < 3 ? '#60a5fa' : idx < 5 ? '#4ade80' : '#fef3c7'
-            return (
-              <div
-                key={idx}
-                style={{
-                  height: '26px',
-                  borderRadius: '5px',
-                  background: bg,
-                  border: '1px solid #94a3b8'
-                }}
-              />
-            )
-          })}
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '11px', color: '#475569', marginTop: '7px' }}>
-          <span>🟦 Ayah</span>
-          <span>🟩 Dinda</span>
-          <span>🟨 Sisa</span>
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 14) {
-    const daftar = ['42.051', '28.471', '36.490', '13.027', '60.317']
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#f8fafc', borderColor: '#cbd5e1' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#334155', marginBottom: '8px', textAlign: 'center' }}>
-          Daftar Bilangan Diperiksa
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
-          {daftar.map(b => (
-            <span
-              key={b}
-              style={{
-                background: '#ffffff',
-                border: '1px solid #94a3b8',
-                color: '#0f172a',
-                fontWeight: 700,
-                padding: '5px 10px',
-                borderRadius: '999px',
-                fontSize: '13px'
-              }}
-            >
-              {b}
-            </span>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 15) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#fef2f2', borderColor: '#fecaca' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>🍎</div>
-          <div style={{ fontWeight: 800, color: '#991b1b', fontSize: '14px' }}>15 Apel</div>
-        </div>
-        <div style={{ background: '#ffffff', border: '1px solid #fdba74', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>🍊</div>
-          <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '14px' }}>20 Jeruk</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 16) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#eef2ff', borderColor: '#a5b4fc' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
-          <div style={{ background: '#ffffff', border: '1px solid #c7d2fe', borderRadius: '8px', padding: '8px' }}>
-            <div style={{ fontWeight: 700, color: '#3730a3', fontSize: '13px' }}>Kanaya</div>
-            <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px' }}>tiap 4 hari</div>
-          </div>
-          <div style={{ background: '#ffffff', border: '1px solid #c7d2fe', borderRadius: '8px', padding: '8px' }}>
-            <div style={{ fontWeight: 700, color: '#3730a3', fontSize: '13px' }}>Ulfa</div>
-            <div style={{ fontSize: '12px', color: '#475569', marginTop: '2px' }}>tiap 6 hari</div>
-          </div>
-        </div>
-        <div style={{ textAlign: 'center', fontSize: '12px', fontWeight: 600, color: '#1e1b4b', marginTop: '8px' }}>
-          Mulai les bersama: Minggu
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 18) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#f0fdf4', borderColor: '#86efac' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#166534', textAlign: 'center', marginBottom: '8px' }}>
-          Kelereng Fauzan (Total 96 Butir)
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', textAlign: 'center', fontSize: '12px', fontWeight: 700 }}>
-          <div style={{ background: '#ffffff', border: '1px solid #86efac', borderRadius: '8px', padding: '7px 4px', color: '#15803d' }}>
-            Hijau: 24
-          </div>
-          <div style={{ background: '#ffffff', border: '1px solid #fca5a5', borderRadius: '8px', padding: '7px 4px', color: '#b91c1c' }}>
-            Merah: 36
-          </div>
-          <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '7px 4px', color: '#334155' }}>
-            Putih: ?
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   if (nomorAsli === 20) {
     const operasi = ['2/8 + 3/8', '1/2 + 1/4', '3/5 + 1/10', '1/3 + 1/2', '3/4 + 1/8']
     return (
@@ -1526,45 +1143,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
               {op}
             </span>
           ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 21) {
-    return (
-      <div style={{ ...kartuBoxStyle, background: '#eff6ff', borderColor: '#93c5fd' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e3a8a', textAlign: 'center', marginBottom: '8px' }}>
-          Susunan Awal: 5 × 4 Petak Satuan
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 26px)', gap: '3px', justifyContent: 'center' }}>
-          {Array.from({ length: 20 }, (_, i) => (
-            <div
-              key={i}
-              style={{
-                width: '26px',
-                height: '26px',
-                background: i >= 17 ? '#fde047' : '#93c5fd',
-                border: '1px solid #2563eb',
-                borderRadius: '4px'
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 22) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#f0fdfa', borderColor: '#5eead4' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #99f6e4', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#0f766e', fontSize: '13px' }}>Kartu A</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>6 × 2 petak</div>
-        </div>
-        <div style={{ background: '#ffffff', border: '1px solid #99f6e4', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#0f766e', fontSize: '13px' }}>Kartu B</div>
-          <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>3 × 4 petak</div>
         </div>
       </div>
     )
@@ -1614,60 +1192,6 @@ function IlustrasiMatematikaOtomatis({ nomorAsli }: { nomorAsli: number }) {
             <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '13px' }}>{b.berat}</div>
           </div>
         ))}
-      </div>
-    )
-  }
-
-  if (nomorAsli === 26) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', textAlign: 'center', background: '#fdf4ff', borderColor: '#f0abfc' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #e879f9', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: '#86198f' }}>Kartu Toni</div>
-          <div style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>48.201</div>
-        </div>
-        <div style={{ background: '#ffffff', border: '1px solid #e879f9', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: '#86198f' }}>Kartu Lisa</div>
-          <div style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>22.930</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 27) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f0f9ff', borderColor: '#bae6fd' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #7dd3fc', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>✏️</div>
-          <div style={{ fontWeight: 800, color: '#0369a1', fontSize: '14px' }}>4 Pensil</div>
-        </div>
-        <div style={{ background: '#ffffff', border: '1px solid #7dd3fc', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontSize: '20px' }}>🧼</div>
-          <div style={{ fontWeight: 800, color: '#0369a1', fontSize: '14px' }}>20 Penghapus</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 28) {
-    return (
-      <div style={{ ...kartuBoxStyle, textAlign: 'center', background: '#fff7ed', borderColor: '#fed7aa' }}>
-        <div style={{ fontSize: '14px', fontWeight: 800, color: '#9a3412' }}>🍊 4.500 Buah Jeruk</div>
-        <div style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>36 keranjang • Rp150.000 / keranjang</div>
-      </div>
-    )
-  }
-
-  if (nomorAsli === 29) {
-    return (
-      <div style={{ ...kartuBoxStyle, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center', background: '#f8fafc', borderColor: '#cbd5e1' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #94a3b8', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '13px' }}>Persegi</div>
-          <div style={{ fontSize: '12px', color: '#475569', marginTop: '4px' }}>Luas = 36 cm²</div>
-        </div>
-        <div style={{ background: '#ffffff', border: '1px solid #94a3b8', borderRadius: '8px', padding: '10px' }}>
-          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '13px' }}>Persegi Panjang</div>
-          <div style={{ fontSize: '12px', color: '#475569', marginTop: '4px' }}>12 cm × 3 cm</div>
-        </div>
       </div>
     )
   }
@@ -2639,7 +2163,7 @@ function App() {
   const isBindo = mapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)'
   const isMtk = mapel === 'Matematika - SD Sederajat (Paket 1)'
   const isTargetGambarBesar = soalAktif
-    ? (isBindo ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : soalAktif.nomorAsli === 13)
+    ? (isBindo ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : Boolean(soalAktif.bacaanGambar))
     : false
 
   return (
@@ -2743,7 +2267,7 @@ function App() {
                 </div>
               )}
 
-              {isMtk && <IlustrasiMatematikaOtomatis nomorAsli={soalAktif.nomorAsli} />}
+              {isMtk && !soalAktif.bacaanGambar && <IlustrasiMatematikaOtomatis nomorAsli={soalAktif.nomorAsli} />}
 
               {soalAktif.bacaanGambar && (
                 <img
@@ -2754,10 +2278,9 @@ function App() {
                   }}
                   style={{
                     width: '100%',
-                    maxHeight: isTargetGambarBesar ? '415px' : '260px',
+                    maxHeight: isTargetGambarBesar ? '380px' : '260px',
                     borderRadius: '8px',
-                    objectFit: 'contain',
-                    marginTop: isMtk && soalAktif.nomorAsli !== 13 ? '8px' : '0'
+                    objectFit: 'contain'
                   }}
                 />
               )}
