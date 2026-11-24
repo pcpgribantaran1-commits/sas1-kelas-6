@@ -201,7 +201,7 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanJudul: BACAAN_5_6.judul,
     bacaanTeks: BACAAN_5_6.teks,
     pertanyaan: 'Ciri fisik Bayu yang dimanfaatkan secara positif untuk membantu pekerjaan merapikan perpustakaan adalah tubuhnya yang ....',
-    placeholderIsian: 'Lengkapi titik-titik di atas...',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciText: 'Kunci jawaban: Paling tinggi di antara teman sekelasnya.',
     kunciTeksReviu: 'Paling tinggi'
   },
@@ -226,7 +226,7 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanJudul: BACAAN_7_8.judul,
     bacaanTeks: BACAAN_7_8.teks,
     pertanyaan: 'Alat/sarana yang digunakan R.A. Kartini sebagai "senjata" untuk memperluas wawasan adalah ... dan ....',
-    placeholderIsian: 'Contoh: membaca dan menulis',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciText: 'Kunci jawaban: Membaca dan menulis.',
     kunciTeksReviu: 'Membaca dan menulis'
   },
@@ -397,7 +397,7 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanJudul: BACAAN_15_19.judul,
     bacaanTeks: BACAAN_15_19.teks,
     pertanyaan: 'Jelaskan tiga keunikan Nabila beserta buktinya!',
-    placeholderIsian: 'Tuliskan 3 keunikan Nabila...',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciText: 'Kunci jawaban: Kreatif membuat kerajinan, gemar membaca, ramah.',
     kunciTeksReviu: 'Kreatif membuat kerajinan, gemar membaca, ramah'
   },
@@ -639,7 +639,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-4.png',
     pertanyaan: 'Angka empat pada harga Brem menempati tempat ... dan nilainya ....',
-    placeholderIsian: 'Contoh: Puluh ribuan, 40.000',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['puluh ribuan, 40.000', 'puluh ribuan dan 40.000', 'puluh ribuan, 40000', '40.000'],
     kunciText: 'Kunci jawaban: Puluh ribuan, 40.000.',
     kunciTeksReviu: 'Puluh ribuan, 40.000'
@@ -659,9 +659,9 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
       { kode: 'C', teks: '6/8' },
       { kode: 'D', teks: '1/8' }
     ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
+    kunciKodePg: 'B',
+    kunciText: 'Kunci jawaban: B.',
+    kunciTeksReviu: 'B'
   },
   {
     nomorAsli: 6,
@@ -672,7 +672,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-6.png',
     pertanyaan: 'Menurut kalian bagaimana pernyataan Budi? Benar atau salah?',
-    placeholderIsian: 'Tuliskan Benar atau Salah...',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['b', 'benar', 'salah'],
     kunciText: 'Kunci jawaban: B.',
     kunciTeksReviu: 'B'
@@ -745,7 +745,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-10.png',
     pertanyaan: 'Berapa jumlah kantong terbanyak yang dapat dibuat Ibu? Berapa buah jeruk dan apel yang terdapat dalam setiap kantong?',
-    placeholderIsian: 'Tuliskan jawaban Anda...',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['12', '3', '4'],
     kunciText: 'Kunci jawaban: 12 kantong, jeruk perkantong ada 3 buah, apel perkantong ada 4 buah.',
     kunciTeksReviu: '12 kantong, jeruk perkantong ada 3 buah, apel perkantong ada 4 buah'
@@ -759,7 +759,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-11.png',
     pertanyaan: 'Berapa bagian kue yang dimakan Ayah dan Dinda jika dinyatakan dalam bentuk pecahan?',
-    placeholderIsian: 'Contoh: 5/12',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['5/12', '5 per 12'],
     kunciText: 'Kunci jawaban: 5/12 (5 per 12).',
     kunciTeksReviu: '5/12 (5 per 12)'
@@ -997,7 +997,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-23.png',
     pertanyaan: 'Luas lantai yang tidak tertutup karpet adalah ... m².',
-    placeholderIsian: 'Tuliskan angkanya saja, contoh: 28',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['28', '28 m2', '28 m²'],
     kunciText: 'Kunci jawaban: 28.',
     kunciTeksReviu: '28'
@@ -1110,7 +1110,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     ],
     bacaanGambar: 'mtk-soal-29.png',
     pertanyaan: 'Kedua bangun memiliki luas yang sama, tetapi keliling persegi panjang lebih besar daripada keliling persegi sebanyak ... cm.',
-    placeholderIsian: 'Tuliskan angkanya saja, contoh: 6',
+    placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['6', '6 cm'],
     kunciText: 'Kunci jawaban: 6.',
     kunciTeksReviu: '6'
@@ -2238,6 +2238,169 @@ function App() {
                   }}
                 />
               )}
+
+              {/* ILUSTRASI BAWAAN SOAL 5: POTONGAN KERTAS SITI */}
+              {!isBindo && soalAktif.nomorAsli === 5 && (
+                <div
+                  style={{
+                    marginTop: '8px',
+                    padding: '14px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    background: '#f8fafc',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                    flexShrink: 0
+                  }}
+                >
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
+                    Ilustrasi Dua Potong Kertas Siti
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', fontWeight: 500 }}>
+                      Kertas pertama (2/8 bagian diwarnai)
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
+                      {Array.from({ length: 8 }, (_, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            borderRadius: '4px',
+                            border: '1px solid #94a3b8',
+                            background: idx < 2 ? '#3b82f6' : '#ffffff'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', fontWeight: 500 }}>
+                      Kertas kedua (3/8 bagian diwarnai)
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
+                      {Array.from({ length: 8 }, (_, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            borderRadius: '4px',
+                            border: '1px solid #94a3b8',
+                            background: idx < 3 ? '#10b981' : '#ffffff'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ILUSTRASI BAWAAN SOAL 20: OPERASI PENJUMLAHAN PECAHAN */}
+              {!isBindo && soalAktif.nomorAsli === 20 && (
+                <div
+                  style={{
+                    marginTop: '8px',
+                    padding: '14px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    background: '#f8fafc',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    flexShrink: 0
+                  }}
+                >
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
+                    Ilustrasi Bagian Pecahan (Cerita 1–5)
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '3px', height: '18px' }}>
+                    {Array.from({ length: 8 }, (_, idx) => (
+                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 5 ? '#3b82f6' : '#ffffff' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#475569' }}>1. Gula: 2/8 + 3/8</div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3px', height: '18px' }}>
+                    {Array.from({ length: 4 }, (_, idx) => (
+                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 3 ? '#10b981' : '#ffffff' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#475569' }}>2. Bambu: 1/2 (2/4) + 1/4</div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: '2px', height: '18px' }}>
+                    {Array.from({ length: 10 }, (_, idx) => (
+                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 7 ? '#f59e0b' : '#ffffff' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#475569' }}>3. Agar-agar: 3/5 (6/10) + 1/10</div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '3px', height: '18px' }}>
+                    {Array.from({ length: 6 }, (_, idx) => (
+                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 5 ? '#8b5cf6' : '#ffffff' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#475569' }}>4. Tali manik: 1/3 (2/6) + 1/2 (3/6)</div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '3px', height: '18px' }}>
+                    {Array.from({ length: 8 }, (_, idx) => (
+                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 7 ? '#06b6d4' : '#ffffff' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#475569' }}>5. Air: 3/4 (6/8) + 1/8</div>
+                </div>
+              )}
+
+              {/* ILUSTRASI BAWAAN SOAL 23: UBIN LANTAI 8 BARIS x 5 KOLOM & KARPET 12 UBIN */}
+              {!isBindo && soalAktif.nomorAsli === 23 && (
+                <div
+                  style={{
+                    marginTop: '8px',
+                    padding: '14px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    background: '#f8fafc',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    flexShrink: 0
+                  }}
+                >
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
+                    Denah Ubin Lantai (8 Baris × 5 Kolom = 40 Ubin)
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(5, 1fr)',
+                      gap: '4px',
+                      maxWidth: '240px',
+                      margin: '0 auto',
+                      width: '100%'
+                    }}
+                  >
+                    {Array.from({ length: 40 }, (_, idx) => {
+                      const baris = Math.floor(idx / 5)
+                      const kolom = idx % 5
+                      const kenaKarpet = baris >= 2 && baris <= 5 && kolom >= 1 && kolom <= 3
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            height: '22px',
+                            borderRadius: '3px',
+                            border: '1px solid #94a3b8',
+                            background: kenaKarpet ? '#f59e0b' : '#e0f2fe'
+                          }}
+                        />
+                      )
+                    })}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', fontSize: '11px', color: '#475569' }}>
+                    <span>🟦 Ubin terbuka</span>
+                    <span>🟧 Bagian karpet (12 ubin)</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* KOLOM KANAN */}
@@ -2413,7 +2576,7 @@ function App() {
                 <input
                   className="isian-jawaban"
                   type="text"
-                  placeholder={soalAktif.placeholderIsian || 'Tuliskan jawaban Anda...'}
+                  placeholder="Ketik jawaban di sini..."
                   value={jawaban[soalAktif.nomor] || ''}
                   onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
                 />
@@ -2425,7 +2588,7 @@ function App() {
                   className="isian-jawaban"
                   rows={5}
                   style={{ width: '100%', resize: 'vertical', padding: '12px' }}
-                  placeholder={soalAktif.placeholderIsian || 'Tuliskan uraian jawaban Anda...'}
+                  placeholder="Ketik jawaban di sini..."
                   value={jawaban[soalAktif.nomor] || ''}
                   onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
                 />
