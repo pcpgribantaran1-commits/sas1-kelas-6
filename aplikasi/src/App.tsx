@@ -651,7 +651,6 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Siti memiliki dua potong kertas berbentuk persegi panjang. Kertas pertama diwarnai 2/8 bagian dan kertas kedua diwarnai 3/8 bagian.'
     ],
-    bacaanGambar: 'mtk-soal-5.png',
     pertanyaan: 'Jika kedua bagian tersebut digabungkan, jumlah bagian kertas yang diwarnai adalah ....',
     opsi: [
       { kode: 'A', teks: '5/16' },
@@ -934,7 +933,6 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Bacalah setiap cerita penjumlahan pecahan dengan cermat dan periksa ketepatan hasilnya.'
     ],
-    bacaanGambar: 'mtk-soal-20.png',
     pertanyaan: 'Bacalah setiap cerita dengan cermat, kemudian tentukan apakah pernyataan dan hasil penjumlahannya benar atau salah dengan memberi tanda centang.',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -995,7 +993,6 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Lantai sebuah ruangan berbentuk persegi panjang ditutup ubin berukuran 1 m². Ubin tersusun 8 baris dan 5 kolom. Sebanyak 12 ubin bagian tengah ditutup karpet.'
     ],
-    bacaanGambar: 'mtk-soal-23.png',
     pertanyaan: 'Luas lantai yang tidak tertutup karpet adalah ... m².',
     placeholderIsian: 'Ketik jawaban di sini...',
     kunciIsianList: ['28', '28 m2', '28 m²'],
@@ -2185,7 +2182,7 @@ function App() {
         {/* KOTAK PUTIH UTAMA */}
         {soalAktif && (
           <div className="area-soal">
-            {/* KOLOM KIRI: JUDUL DESKRIPSI -> TEKS DESKRIPSI -> GAMBAR ILUSTRASI */}
+            {/* KOLOM KIRI: JUDUL DESKRIPSI -> TEKS DESKRIPSI -> GAMBAR / ILUSTRASI */}
             <div
               className="bacaan-soal"
               style={{
@@ -2239,165 +2236,114 @@ function App() {
                 />
               )}
 
-              {/* ILUSTRASI BAWAAN SOAL 5: POTONGAN KERTAS SITI */}
+              {/* ILUSTRASI OTOMATIS SOAL 5: DUA POTONG KERTAS PECAHAN */}
               {!isBindo && soalAktif.nomorAsli === 5 && (
-                <div
-                  style={{
-                    marginTop: '8px',
-                    padding: '14px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '10px',
-                    background: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                    flexShrink: 0
-                  }}
-                >
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
-                    Ilustrasi Dua Potong Kertas Siti
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
+                    Ilustrasi Potongan Kertas Siti
                   </div>
-                  <div>
-                    <div style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', fontWeight: 500 }}>
-                      Kertas pertama (2/8 bagian diwarnai)
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
-                      {Array.from({ length: 8 }, (_, idx) => (
-                        <div
-                          key={idx}
-                          style={{
-                            borderRadius: '4px',
-                            border: '1px solid #94a3b8',
-                            background: idx < 2 ? '#3b82f6' : '#ffffff'
-                          }}
-                        />
-                      ))}
-                    </div>
+
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>
+                    Kertas Pertama (2/8 bagian diwarnai)
                   </div>
-                  <div>
-                    <div style={{ fontSize: '12px', color: '#475569', marginBottom: '4px', fontWeight: 500 }}>
-                      Kertas kedua (3/8 bagian diwarnai)
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
-                      {Array.from({ length: 8 }, (_, idx) => (
-                        <div
-                          key={idx}
-                          style={{
-                            borderRadius: '4px',
-                            border: '1px solid #94a3b8',
-                            background: idx < 3 ? '#10b981' : '#ffffff'
-                          }}
-                        />
-                      ))}
-                    </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px', marginBottom: '12px' }}>
+                    {Array.from({ length: 8 }, (_, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          border: '1.5px solid #475569',
+                          borderRadius: '4px',
+                          background: idx < 2 ? '#2563eb' : '#ffffff'
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>
+                    Kertas Kedua (3/8 bagian diwarnai)
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
+                    {Array.from({ length: 8 }, (_, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          border: '1.5px solid #475569',
+                          borderRadius: '4px',
+                          background: idx < 3 ? '#16a34a' : '#ffffff'
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
               )}
 
-              {/* ILUSTRASI BAWAAN SOAL 20: OPERASI PENJUMLAHAN PECAHAN */}
+              {/* ILUSTRASI OTOMATIS SOAL 20: PENJUMLAHAN PECAHAN DALAM CERITA */}
               {!isBindo && soalAktif.nomorAsli === 20 && (
-                <div
-                  style={{
-                    marginTop: '8px',
-                    padding: '14px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '10px',
-                    background: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                    flexShrink: 0
-                  }}
-                >
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
-                    Ilustrasi Bagian Pecahan (Cerita 1–5)
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
+                    Visualisasi Bagian Pecahan (No. 1 – 5)
                   </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '3px', height: '18px' }}>
-                    {Array.from({ length: 8 }, (_, idx) => (
-                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 5 ? '#3b82f6' : '#ffffff' }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#475569' }}>1. Gula: 2/8 + 3/8</div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3px', height: '18px' }}>
-                    {Array.from({ length: 4 }, (_, idx) => (
-                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 3 ? '#10b981' : '#ffffff' }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#475569' }}>2. Bambu: 1/2 (2/4) + 1/4</div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: '2px', height: '18px' }}>
-                    {Array.from({ length: 10 }, (_, idx) => (
-                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 7 ? '#f59e0b' : '#ffffff' }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#475569' }}>3. Agar-agar: 3/5 (6/10) + 1/10</div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '3px', height: '18px' }}>
-                    {Array.from({ length: 6 }, (_, idx) => (
-                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 5 ? '#8b5cf6' : '#ffffff' }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#475569' }}>4. Tali manik: 1/3 (2/6) + 1/2 (3/6)</div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '3px', height: '18px' }}>
-                    {Array.from({ length: 8 }, (_, idx) => (
-                      <div key={idx} style={{ borderRadius: '3px', border: '1px solid #94a3b8', background: idx < 7 ? '#06b6d4' : '#ffffff' }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#475569' }}>5. Air: 3/4 (6/8) + 1/8</div>
+                  {[
+                    { judul: '1. Gula Ibu (2/8 kg + 3/8 kg)', total: 8, terisi: 5, warna: '#2563eb' },
+                    { judul: '2. Bambu Pak Tani (1/2 m + 1/4 m)', total: 4, terisi: 3, warna: '#16a34a' },
+                    { judul: '3. Agar-agar Siti (3/5 + 1/10 bagian)', total: 10, terisi: 7, warna: '#d97706' },
+                    { judul: '4. Tali Manik Lani (1/3 + 1/2 bagian)', total: 6, terisi: 5, warna: '#7c3aed' },
+                    { judul: '5. Gelas Air Beni (3/4 L + 1/8 L)', total: 8, terisi: 7, warna: '#0284c7' }
+                  ].map((item, i) => (
+                    <div key={i} style={{ marginBottom: i === 4 ? 0 : '8px' }}>
+                      <div style={{ fontSize: '11.5px', fontWeight: 600, color: '#334155', marginBottom: '3px' }}>{item.judul}</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${item.total}, 1fr)`, gap: '3px', height: '16px' }}>
+                        {Array.from({ length: item.total }, (_, idx) => (
+                          <div
+                            key={idx}
+                            style={{
+                              border: '1px solid #64748b',
+                              borderRadius: '3px',
+                              background: idx < item.terisi ? item.warna : '#ffffff'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
 
-              {/* ILUSTRASI BAWAAN SOAL 23: UBIN LANTAI 8 BARIS x 5 KOLOM & KARPET 12 UBIN */}
+              {/* ILUSTRASI OTOMATIS SOAL 23: DENAH UBIN LANTAI & KARPET */}
               {!isBindo && soalAktif.nomorAsli === 23 && (
-                <div
-                  style={{
-                    marginTop: '8px',
-                    padding: '14px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '10px',
-                    background: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                    flexShrink: 0
-                  }}
-                >
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155', textAlign: 'center' }}>
-                    Denah Ubin Lantai (8 Baris × 5 Kolom = 40 Ubin)
+                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0 }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
+                    Denah Ubin Lantai (8 Baris × 5 Kolom)
                   </div>
                   <div
                     style={{
                       display: 'grid',
                       gridTemplateColumns: 'repeat(5, 1fr)',
                       gap: '4px',
-                      maxWidth: '240px',
-                      margin: '0 auto',
-                      width: '100%'
+                      maxWidth: '230px',
+                      margin: '0 auto'
                     }}
                   >
                     {Array.from({ length: 40 }, (_, idx) => {
                       const baris = Math.floor(idx / 5)
                       const kolom = idx % 5
-                      const kenaKarpet = baris >= 2 && baris <= 5 && kolom >= 1 && kolom <= 3
+                      const tertutupKarpet = baris >= 2 && baris <= 5 && kolom >= 1 && kolom <= 3
                       return (
                         <div
                           key={idx}
                           style={{
-                            height: '22px',
+                            height: '20px',
+                            border: '1.5px solid #475569',
                             borderRadius: '3px',
-                            border: '1px solid #94a3b8',
-                            background: kenaKarpet ? '#f59e0b' : '#e0f2fe'
+                            background: tertutupKarpet ? '#f59e0b' : '#bae6fd'
                           }}
                         />
                       )
                     })}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', fontSize: '11px', color: '#475569' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '10px', fontSize: '12px', color: '#334155', fontWeight: 500 }}>
                     <span>🟦 Ubin terbuka</span>
-                    <span>🟧 Bagian karpet (12 ubin)</span>
+                    <span>🟧 Tertutup karpet (12 ubin)</span>
                   </div>
                 </div>
               )}
