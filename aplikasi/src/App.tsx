@@ -577,7 +577,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perhatikan bilangan cacah 57.631. Setiap angka pada bilangan tersebut memiliki nilai tempat dan nilai angka yang berbeda sesuai posisinya.'
     ],
-    bacaanGambar: './mtk-soal-1.png',
+    bacaanGambar: 'mtk-soal-1.png',
     pertanyaan: 'Perhatikan bilangan berikut 57.631. Pernyataan dibawah ini yang benar adalah (Pilih dua jawaban atau lebih yang benar)!',
     petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
     opsi: [
@@ -597,7 +597,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Ibu Citra membuat kue jajan pasar untuk acara arisan. Ia membuat 54 kue lumpur dan 72 kue sus. Ibu Citra ingin menata kue-kue tersebut ke dalam beberapa piring secara merata. Setiap piring harus berisi kedua jenis kue dengan jumlah yang sama banyak. Sebelum ditata, ternyata ada 4 kue lumpur yang rusak sehingga tidak bisa disajikan.'
     ],
-    bacaanGambar: './mtk-soal-2.png',
+    bacaanGambar: 'mtk-soal-2.png',
     pertanyaan: 'Berdasarkan cerita tersebut, tentukan apakah setiap pernyataan berikut Benar atau Salah!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -618,7 +618,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Dinas Kabupaten Probolinggo mengumumkan bahwa pada akhir tahun 2021, terdapat delapan belas ribu tujuh ratus empat puluh lima orang terkonfirmasi positif Covid-19.'
     ],
-    bacaanGambar: './mtk-soal-3.png',
+    bacaanGambar: 'mtk-soal-3.png',
     pertanyaan: 'Banyak masyarakat Probolinggo yang terkonfirmasi positif Covid-19 pada akhir tahun 2021 yaitu ... orang.',
     opsi: [
       { kode: 'A', teks: '18.744' },
@@ -637,7 +637,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Brem merupakan makanan khas Kota Madiun yang dijual dengan harga empat puluh tiga ribu lima ratus rupiah.'
     ],
-    bacaanGambar: './mtk-soal-4.png',
+    bacaanGambar: 'mtk-soal-4.png',
     pertanyaan: 'Angka empat pada harga Brem menempati tempat ... dan nilainya ....',
     placeholderIsian: 'Contoh: Puluh ribuan, 40.000',
     kunciIsianList: ['puluh ribuan, 40.000', 'puluh ribuan dan 40.000', 'puluh ribuan, 40000', '40.000'],
@@ -651,7 +651,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Siti memiliki dua potong kertas berbentuk persegi panjang. Kertas pertama diwarnai 2/8 bagian dan kertas kedua diwarnai 3/8 bagian.'
     ],
-    bacaanGambar: './mtk-soal-5.png',
+    bacaanGambar: 'mtk-soal-5.png',
     pertanyaan: 'Jika kedua bagian tersebut digabungkan, jumlah bagian kertas yang diwarnai adalah ....',
     opsi: [
       { kode: 'A', teks: '5/16' },
@@ -670,7 +670,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Budi mengatakan bahwa untuk mengetahui keliling persegi, cukup menghitung 7 + 7 = 14 cm karena persegi hanya memiliki satu ukuran sisi. Pernyataan: Pendapat Budi adalah benar.'
     ],
-    bacaanGambar: './mtk-soal-6.png',
+    bacaanGambar: 'mtk-soal-6.png',
     pertanyaan: 'Menurut kalian bagaimana pernyataan Budi? Benar atau salah?',
     placeholderIsian: 'Tuliskan Benar atau Salah...',
     kunciIsianList: ['b', 'benar', 'salah'],
@@ -684,7 +684,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perhatikan pasangan bilangan cacah berikut untuk menentukan kesesuaian tanda perbandingannya.'
     ],
-    bacaanGambar: './mtk-soal-7.png',
+    bacaanGambar: 'mtk-soal-7.png',
     pertanyaan: 'Tentukan apakah perbandingan berikut sesuai atau tidak sesuai! Beri tanda centang pada kolom yang tepat.',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -704,7 +704,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Bangun tersebut terbentuk dari persegi panjang berukuran 8 cm × 5 cm dan persegi dengan panjang sisi 3 cm yang menempel pada salah satu sisi persegi panjang.'
     ],
-    bacaanGambar: './mtk-soal-8.png',
+    bacaanGambar: 'mtk-soal-8.png',
     pertanyaan: 'Luas bangun gabungan itu adalah ....',
     opsi: [
       { kode: 'A', teks: '13 cm²' },
@@ -723,7 +723,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perpustakaan sekolah memiliki koleksi sebanyak 63.482 buku. Petugas perpustakaan mencatat jumlah tersebut berdasarkan nilai tempat agar mudah dibaca dan dipahami oleh para siswa.'
     ],
-    bacaanGambar: './mtk-soal-9.png',
+    bacaanGambar: 'mtk-soal-9.png',
     pertanyaan: 'Berdasarkan cerita tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -743,7 +743,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Ibu memiliki 36 buah jeruk dan 48 buah apel. Buah-buahan tersebut akan dimasukkan ke dalam beberapa kantong untuk dibagikan kepada tetangga. Setiap kantong harus berisi jumlah jeruk yang sama dan jumlah apel yang sama. Tidak boleh ada buah yang tersisa, dan jumlah kantong yang dibuat harus sebanyak mungkin.'
     ],
-    bacaanGambar: './mtk-soal-10.png',
+    bacaanGambar: 'mtk-soal-10.png',
     pertanyaan: 'Berapa jumlah kantong terbanyak yang dapat dibuat Ibu? Berapa buah jeruk dan apel yang terdapat dalam setiap kantong?',
     placeholderIsian: 'Tuliskan jawaban Anda...',
     kunciIsianList: ['12', '3', '4'],
@@ -757,7 +757,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Pada hari Minggu, Dinda membantu Ibu membuat kue bolu. Kue tersebut dipotong menjadi 12 bagian sama besar. Ayah memakan 3 potong kue, sedangkan Dinda memakan 2 potong kue. Sisanya disimpan untuk dinikmati bersama pada sore hari.'
     ],
-    bacaanGambar: './mtk-soal-11.png',
+    bacaanGambar: 'mtk-soal-11.png',
     pertanyaan: 'Berapa bagian kue yang dimakan Ayah dan Dinda jika dinyatakan dalam bentuk pecahan?',
     placeholderIsian: 'Contoh: 5/12',
     kunciIsianList: ['5/12', '5 per 12'],
@@ -772,7 +772,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
       'Data jumlah penduduk (jiwa): Tongas = 14.640; Sumberasih = 37.797; Wonomerto = 19.924; Bantaran = 38.145.',
       'Pernyataan: (1) Kecamatan Sumberasih memiliki jumlah penduduk paling banyak; (2) Kecamatan Tongas memiliki jumlah penduduk paling sedikit; (3) Kecamatan Tongas dan Wonomerto memiliki jumlah penduduk di bawah 20.000 jiwa; (4) Penduduk di Kecamatan Bantaran lebih sedikit dari Sumberasih.'
     ],
-    bacaanGambar: './mtk-soal-12.png',
+    bacaanGambar: 'mtk-soal-12.png',
     pertanyaan: 'Pernyataan yang benar ditunjukkan oleh nomor ....',
     opsi: [
       { kode: 'A', teks: '(1), (2), dan (3) benar' },
@@ -791,7 +791,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perhatikan tabel nilai tempat (Puluh Ribuan, Ribuan, Ratusan, Puluhan, Satuan) beserta keterangan simbolnya pada ilustrasi berikut.'
     ],
-    bacaanGambar: './mtk-soal-13.png',
+    bacaanGambar: 'mtk-soal-13.png',
     pertanyaan: 'Bilangan yang sesuai berdasarkan tabel di atas adalah ....',
     opsi: [
       { kode: 'A', teks: '42.559' },
@@ -810,7 +810,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perhatikan tabel pernyataan mengenai nilai tempat angka pada beberapa bilangan cacah.'
     ],
-    bacaanGambar: './mtk-soal-14.png',
+    bacaanGambar: 'mtk-soal-14.png',
     pertanyaan: 'Tentukan sesuai atau tidak sesuai tentang pernyataan berikut dengan memberi tanda centang. Kalian dapat memilih lebih dari satu jawaban.',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -832,7 +832,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Abraham memiliki 15 apel dan 20 jeruk. Dia akan memberikan buahnya kepada beberapa teman-temannya. Setiap teman mendapatkan kedua jenis buah tersebut. Setiap jenis buah yang didapatkan setiap anak sama banyak.'
     ],
-    bacaanGambar: './mtk-soal-15.png',
+    bacaanGambar: 'mtk-soal-15.png',
     pertanyaan: 'Banyak teman Abraham yang mendapatkan buah adalah ... anak.',
     opsi: [
       { kode: 'A', teks: '2' },
@@ -851,7 +851,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Kanaya dan Ulfa menyukai piano, sehingga orang tuanya mendaftarkan ke tempat les piano untuk mengasah kemampuan mereka. Kanaya les piano setiap 4 hari sekali dan Ulfa les piano setiap 6 hari sekali. Jika pada hari Minggu mereka les piano bersama.'
     ],
-    bacaanGambar: './mtk-soal-16.png',
+    bacaanGambar: 'mtk-soal-16.png',
     pertanyaan: 'Maka mereka akan les piano bersama-sama lagi untuk yang kedua kalinya pada hari ....',
     opsi: [
       { kode: 'A', teks: 'Minggu' },
@@ -870,7 +870,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Kak Adit dan Kak Anis masing-masing memiliki drone. Drone adalah pesawat tanpa awak yang terbang dengan kendali jarak jauh menggunakan remot. Mereka menggunakannya untuk merekam video pemandangan alam sekitar. Kak Adit menggunakan drone setiap seminggu sekali. Kak Anis menggunakan drone setiap 5 hari sekali. Pada 14 April ini, mereka menggunakan drone bersamaan.'
     ],
-    bacaanGambar: './mtk-soal-17.png',
+    bacaanGambar: 'mtk-soal-17.png',
     pertanyaan: 'Tentukan sesuai tidak sesuai tentang pernyataan berikut ini.',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -892,7 +892,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Fauzan memiliki kelereng 96 butir. Kelereng hijau ada 24 butir, merah 36 butir, selebihnya putih. Fauzan memasukkan kelerengnya dalam toples. Setiap toples berisi sama banyak dan kombinasi warnanya. Toples yang disediakan sebanyak-banyaknya.'
     ],
-    bacaanGambar: './mtk-soal-18.png',
+    bacaanGambar: 'mtk-soal-18.png',
     pertanyaan: 'Berdasarkan ilustrasi tersebut, tentukan benar atau salah untuk setiap pernyataan berikut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -912,7 +912,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Pak Malik memerah susu sapi perahnya setiap hari. Pada hari pertama, diperoleh sebanyak 12 1/8 liter. Pada hari kedua, diperoleh sebanyak 12 3/8 liter. Pada hari ketiga, diperoleh sebanyak 13 2/5 liter. Pada hari keempat, diperoleh sebanyak 12 7/10 liter. Pada hari kelima, diperoleh sebanyak 11 1/4 liter.'
     ],
-    bacaanGambar: './mtk-soal-19.png',
+    bacaanGambar: 'mtk-soal-19.png',
     pertanyaan: 'Tentukan sesuai atau tidak sesuai tentang pernyataan berikut!',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -934,7 +934,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Bacalah setiap cerita penjumlahan pecahan dengan cermat dan periksa ketepatan hasilnya.'
     ],
-    bacaanGambar: './mtk-soal-20.png',
+    bacaanGambar: 'mtk-soal-20.png',
     pertanyaan: 'Bacalah setiap cerita dengan cermat, kemudian tentukan apakah pernyataan dan hasil penjumlahannya benar atau salah dengan memberi tanda centang.',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -956,7 +956,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Sebuah persegi panjang tersusun dari 5 petak × 4 petak. Satu petak satuan memiliki luas 1 cm². Tiga petak dipindahkan dari bagian dalam bangun lalu ditempelkan di sisi luar bangun (tanpa tumpang tindih) sehingga membentuk bangun baru.'
     ],
-    bacaanGambar: './mtk-soal-21.png',
+    bacaanGambar: 'mtk-soal-21.png',
     pertanyaan: 'Pernyataan yang tepat tentang luas bangun baru adalah ....',
     opsi: [
       { kode: 'A', teks: 'Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.' },
@@ -975,7 +975,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Kartu A berbentuk persegi panjang dengan ukuran 6 petak × 2 petak. Kartu B berbentuk persegi dengan ukuran 3 petak × 4 petak. Petak satuan kedua kartu sama besar.'
     ],
-    bacaanGambar: './mtk-soal-22.png',
+    bacaanGambar: 'mtk-soal-22.png',
     pertanyaan: 'Tentukan apakah setiap pernyataan berikut SESUAI atau TIDAK SESUAI dengan stimulus! (Beri tanda centang pada kolom yang tepat)',
     petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
     kolomTabel: ['Sesuai', 'Tidak Sesuai'],
@@ -995,7 +995,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Lantai sebuah ruangan berbentuk persegi panjang ditutup ubin berukuran 1 m². Ubin tersusun 8 baris dan 5 kolom. Sebanyak 12 ubin bagian tengah ditutup karpet.'
     ],
-    bacaanGambar: './mtk-soal-23.png',
+    bacaanGambar: 'mtk-soal-23.png',
     pertanyaan: 'Luas lantai yang tidak tertutup karpet adalah ... m².',
     placeholderIsian: 'Tuliskan angkanya saja, contoh: 28',
     kunciIsianList: ['28', '28 m2', '28 m²'],
@@ -1009,7 +1009,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang putih, Bawang Merah, dan Beras. Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan ke empat barang tersebut menjadi 2 bagian di antaranya Bawang Putih dengan bawang merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
     ],
-    bacaanGambar: './mtk-soal-24.png',
+    bacaanGambar: 'mtk-soal-24.png',
     pertanyaan: 'Kemungkinan yang akan terjadi dari cerita di atas adalah ....',
     opsi: [
       { kode: 'A', teks: 'Berat gula dan beras sama dengan berat bawang putih dan bawang merah.' },
@@ -1028,7 +1028,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang putih, Bawang Merah, dan Beras. Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg, dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan ke empat barang tersebut menjadi 2 bagian di antaranya Bawang Putih dengan bawang merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
     ],
-    bacaanGambar: './mtk-soal-25.png',
+    bacaanGambar: 'mtk-soal-25.png',
     pertanyaan: 'Pernyataan di bawah ini yang sesuai adalah ....',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -1048,7 +1048,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Toni dan Lisa membuat sebuah kartu bilangan. Kartu Toni bertuliskan bilangan 48.201. Kartu Lisa bertuliskan bilangan 22.930.'
     ],
-    bacaanGambar: './mtk-soal-26.png',
+    bacaanGambar: 'mtk-soal-26.png',
     pertanyaan: 'Tentukan Benar atau Salah tentang dua bilangan dalam kartu tersebut!',
     petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
     kolomTabel: ['Benar', 'Salah'],
@@ -1070,7 +1070,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Dodi memiliki 4 pensil dan 20 penghapus. Ia akan membagikannya kepada teman-teman. Tiap teman mendapatkan kedua jenis barang itu. Jumlah tiap jenis barang yang didapatkan tiap temannya sama banyak.'
     ],
-    bacaanGambar: './mtk-soal-27.png',
+    bacaanGambar: 'mtk-soal-27.png',
     pertanyaan: 'Teman terbanyak yang mendapatkan kedua barang itu adalah ....',
     opsi: [
       { kode: 'A', teks: '1' },
@@ -1089,7 +1089,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Pak Doni memanen 4.500 buah jeruk dari kebunnya. Jeruk-jeruk tersebut dimasukkan ke dalam 36 keranjang dengan jumlah yang sama banyak. Jika seluruh jeruk dalam 1 keranjang dijual dengan harga Rp150.000, berapa rupiah total uang yang diperoleh Pak Doni jika 1 keranjang berisi berapa buah jeruk?'
     ],
-    bacaanGambar: './mtk-soal-28.png',
+    bacaanGambar: 'mtk-soal-28.png',
     pertanyaan: 'Satu keranjang berisi ... buah jeruk.',
     opsi: [
       { kode: 'A', teks: '115 buah' },
@@ -1108,7 +1108,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Sebuah persegi memiliki luas 36 cm². Persegi panjang memiliki panjang 12 cm dan lebar 3 cm.'
     ],
-    bacaanGambar: './mtk-soal-29.png',
+    bacaanGambar: 'mtk-soal-29.png',
     pertanyaan: 'Kedua bangun memiliki luas yang sama, tetapi keliling persegi panjang lebih besar daripada keliling persegi sebanyak ... cm.',
     placeholderIsian: 'Tuliskan angkanya saja, contoh: 6',
     kunciIsianList: ['6', '6 cm'],
@@ -1122,7 +1122,7 @@ const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
     bacaanTeks: [
       'Perpustakaan SDN Maju Sejahtera mencatat jumlah buku yang dimiliki oleh empat kelas sebagai berikut: Kelas IV A: 2.450 buku; Kelas IV B: 2.405 buku; Kelas IV C: 2.540 buku; Kelas IV D: 2.504 buku.'
     ],
-    bacaanGambar: './mtk-soal-30.png',
+    bacaanGambar: 'mtk-soal-30.png',
     pertanyaan: 'Urutan jumlah buku dari yang terkecil ke terbesar adalah ....',
     opsi: [
       { kode: 'A', teks: '2.540, 2.504, 2.450, 2.405' },
@@ -2219,14 +2219,14 @@ function App() {
 
               {soalAktif.bacaanGambar && (
                 <img
-                  src={soalAktif.bacaanGambar}
+                  src={soalAktif.bacaanGambar.replace(/^\.\//, '')}
                   alt="Ilustrasi Soal"
                   onError={e => {
                     ;(e.currentTarget as HTMLImageElement).style.display = 'none'
                   }}
                   style={{
                     width: '100%',
-                    maxHeight: isTargetGambarBesar ? '360px' : '260px',
+                    maxHeight: isTargetGambarBesar ? '340px' : '260px',
                     borderRadius: '8px',
                     objectFit: 'contain'
                   }}
