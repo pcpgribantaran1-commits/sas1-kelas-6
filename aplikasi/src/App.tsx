@@ -35,7 +35,7 @@ interface DataSoal {
 }
 
 // ============================================================================
-// BACAAN PER KELOMPOK SOAL (BAHASA INDONESIA PAKET 1 - TIDAK DIUBAH)
+// BACAAN PER KELOMPOK SOAL (BAHASA INDONESIA PAKET 1)
 // ============================================================================
 const BACAAN_5_6 = {
   judul: 'Penyelamat Buku di Pojok Kelas',
@@ -124,7 +124,7 @@ const BACAAN_26_30 = {
 }
 
 // ============================================================================
-// BANK SOAL 1: BAHASA INDONESIA - SD SEDERAJAT (PAKET 1) — TETAP UTUH
+// BANK SOAL 1: BAHASA INDONESIA - SD SEDERAJAT (PAKET 1)
 // ============================================================================
 const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
@@ -567,7 +567,7 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
 ]
 
 // ============================================================================
-// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — SESUAI PDF
+// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — SESUAI PDF (TIDAK DIUBAH)
 // ============================================================================
 const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
   {
@@ -1148,7 +1148,7 @@ const daftarMapel = [
 ]
 
 function susunSoalBerdasarkanMapel(namaMapel: string): DataSoal[] {
-  // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1 (TIDAK DIUBAH)
+  // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1
   if (namaMapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)') {
     const k1 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 1 && s.nomorAsli <= 4).sort(() => Math.random() - 0.5)
     const k2 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 5 && s.nomorAsli <= 6).sort(() => Math.random() - 0.5)
@@ -2109,6 +2109,7 @@ function App() {
   const daftarNomorAktif = Array.from({ length: bankSoalAktif.length || 1 }, (_, i) => i + 1)
   const soalAktif = bankSoalAktif[nomorAktif - 1] || bankSoalAktif[0]
   const isBindo = mapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)'
+  const isBindoGambar1to4 = Boolean(isBindo && soalAktif && [1, 2, 3, 4].includes(soalAktif.nomorAsli))
   const isTargetGambarBesar = soalAktif
     ? (isBindo ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : Boolean(soalAktif.bacaanGambar))
     : false
@@ -2190,11 +2191,11 @@ function App() {
                 height: '440px',
                 maxHeight: '440px',
                 overflowY: 'auto',
-                paddingRight: '12px',
+                padding: isBindoGambar1to4 ? '4px' : '0 12px 0 0',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
+                justifyContent: isBindoGambar1to4 ? 'center' : 'flex-start',
                 alignItems: 'stretch'
               }}
             >
@@ -2228,7 +2229,12 @@ function App() {
                   }}
                   style={{
                     width: '100%',
-                    maxHeight: isTargetGambarBesar ? '320px' : '240px',
+                    height: isBindoGambar1to4 ? '100%' : 'auto',
+                    maxHeight: isBindoGambar1to4
+                      ? '428px'
+                      : isTargetGambarBesar
+                        ? '320px'
+                        : '240px',
                     borderRadius: '8px',
                     objectFit: 'contain',
                     flexShrink: 0
