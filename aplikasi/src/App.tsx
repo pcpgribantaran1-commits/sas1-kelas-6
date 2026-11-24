@@ -1489,7 +1489,7 @@ function App() {
     <div className="pus-logo">
       {!logoError ? (
         <img
-          src="logo-tutwuri.png"
+          src={`${import.meta.env.BASE_URL}logo-tutwuri.png`}
           alt="Logo Tut Wuri Handayani"
           onError={() => setLogoError(true)}
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -2219,16 +2219,22 @@ function App() {
 
               {soalAktif.bacaanGambar && (
                 <img
-                  src={soalAktif.bacaanGambar.replace(/^\.\//, '')}
-                  alt="Ilustrasi Soal"
+                  key={`img-${mapel}-${soalAktif.nomor}-${soalAktif.bacaanGambar}`}
+                  src={`${import.meta.env.BASE_URL}${soalAktif.bacaanGambar.replace(/^\.?\//, '')}`}
+                  alt={`Ilustrasi Soal ${soalAktif.nomor}`}
+                  loading="eager"
+                  onLoad={e => {
+                    ;(e.currentTarget as HTMLImageElement).style.display = 'block'
+                  }}
                   onError={e => {
                     ;(e.currentTarget as HTMLImageElement).style.display = 'none'
                   }}
                   style={{
                     width: '100%',
-                    maxHeight: isTargetGambarBesar ? '340px' : '260px',
+                    maxHeight: isTargetGambarBesar ? '320px' : '240px',
                     borderRadius: '8px',
-                    objectFit: 'contain'
+                    objectFit: 'contain',
+                    flexShrink: 0
                   }}
                 />
               )}
