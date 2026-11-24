@@ -5,6 +5,15 @@ function buatToken() {
   return Math.random().toString(36).substring(2, 8).toUpperCase()
 }
 
+function resolveAssetUrl(rawPath?: string): string {
+  if (!rawPath) return ''
+  if (/^https?:\/\//i.test(rawPath)) return rawPath
+  const clean = rawPath.replace(/^\.?\//, '')
+  const base = import.meta.env.BASE_URL || '/'
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`
+  return `${normalizedBase}${clean}`
+}
+
 type Jawaban = {
   [key: number]: any
 }
@@ -1386,6 +1395,24 @@ function App() {
     return () => window.clearInterval(interval)
   }, [halaman])
 
+  // PRELOAD SEMUA GAMBAR SOAL SAAT MASUK HALAMAN UJIAN AGAR CEPAT MUNCUL
+  useEffect(() => {
+    if (halaman !== 'ujian' || bankSoalAktif.length === 0) return
+
+    const preloaded: HTMLImageElement[] = []
+    bankSoalAktif.forEach(soal => {
+      if (!soal.bacaanGambar) return
+      const img = new Image()
+      img.decoding = 'async'
+      img.src = resolveAssetUrl(soal.bacaanGambar)
+      preloaded.push(img)
+    })
+
+    return () => {
+      preloaded.length = 0
+    }
+  }, [halaman, bankSoalAktif])
+
   const formatWaktu = (detik: number) => {
     const menit = Math.floor(detik / 60)
     const sisaDetik = detik % 60
@@ -2190,7 +2217,8 @@ function App() {
                 fontSize: `${ukuranFont}px`,
                 height: '440px',
                 maxHeight: '440px',
-                overflow: 'hidden',
+                overflowY: isBindoGambar1to4 ? 'hidden' : 'auto',
+                overflowX: 'hidden',
                 padding: isBindoGambar1to4 ? '4px 8px' : '0 12px 0 0',
                 boxSizing: 'border-box',
                 display: 'flex',
@@ -2218,14 +2246,23 @@ function App() {
               {soalAktif.bacaanGambar && (
                 <img
                   key={`img-${mapel}-${soalAktif.nomor}-${soalAktif.bacaanGambar}`}
-                  src={`${import.meta.env.BASE_URL}${soalAktif.bacaanGambar.replace(/^\.?\//, '')}`}
+                  src={resolveAssetUrl(soalAktif.bacaanGambar)}
                   alt={`Ilustrasi Soal ${soalAktif.nomor}`}
                   loading="eager"
+                  decoding="async"
+                  fetchPriority={soalAktif.nomor === nomorAktif ? 'high' : 'auto'}
                   onLoad={e => {
                     ;(e.currentTarget as HTMLImageElement).style.display = 'block'
                   }}
                   onError={e => {
-                    ;(e.currentTarget as HTMLImageElement).style.display = 'none'
+                    const el = e.currentTarget as HTMLImageElement
+                    const cleanName = soalAktif.bacaanGambar!.replace(/^\.?\//, '')
+                    if (!el.dataset.triedFallback) {
+                      el.dataset.triedFallback = '1'
+                      el.src = `./${cleanName}`
+                    } else {
+                      el.style.display = 'none'
+                    }
                   }}
                   style={{
                     width: '100%',
