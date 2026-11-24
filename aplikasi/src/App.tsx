@@ -2191,7 +2191,7 @@ function App() {
                 height: '440px',
                 maxHeight: '440px',
                 overflow: 'hidden',
-                padding: isBindoGambar1to4 ? '0' : '0 12px 0 0',
+                padding: isBindoGambar1to4 ? '4px 8px' : '0 12px 0 0',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2231,14 +2231,13 @@ function App() {
                     width: '100%',
                     height: isBindoGambar1to4 ? '100%' : 'auto',
                     maxHeight: isBindoGambar1to4
-                      ? '440px'
+                      ? '432px'
                       : isTargetGambarBesar
                         ? '320px'
                         : '240px',
-                    borderRadius: isBindoGambar1to4 ? '4px' : '8px',
+                    borderRadius: isBindoGambar1to4 ? '6px' : '8px',
                     objectFit: 'contain',
-                    transform: isBindoGambar1to4 ? 'scale(1.16)' : 'none',
-                    transformOrigin: 'center center',
+                    transform: 'none',
                     flexShrink: 0
                   }}
                 />
