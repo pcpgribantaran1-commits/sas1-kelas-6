@@ -1,2624 +1,2362 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-function buatToken() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
+// ==========================================
+// 1. TIPE DATA SOAL & STRUKTUR UJIAN
+// ==========================================
+type TipeSoal = 'pg' | 'pgk' | 'tabel' | 'jodoh' | 'isian' | 'uraian'
+
+interface OpsiPG {
+  kode: string
+  teks: string
 }
 
-function resolveAssetUrl(rawPath?: string): string {
-  if (!rawPath) return ''
-  if (/^https?:\/\//i.test(rawPath)) return rawPath
-  const clean = rawPath.replace(/^\.?\//, '')
+interface ItemJodohKiri {
+  nomor: number
+  teks: string
+}
+
+interface ItemJodohKanan {
+  kode: string
+  teks: string
+}
+
+interface DataSoal {
+  nomor: number
+  nomorAsli?: number
+  tipe: TipeSoal
+  bacaanGambar?: string
+  bacaanJudul?: string
+  bacaanTeks?: string[]
+  pertanyaan: string
+  petunjuk?: string
+  opsi?: OpsiPG[]
+  kolomTabel?: string[]
+  barisTabel?: string[]
+  kolomKiri?: ItemJodohKiri[]
+  kolomKanan?: ItemJodohKanan[]
+  kunciKodePg?: string
+  kunciKodePgk?: string[]
+  kunciTabel?: string[]
+  kunciIsianList?: string[]
+  kunciText?: string
+  kunciTeksReviu?: string
+}
+
+interface RiwayatUjian {
+  id: string
+  waktu: string
+  namaPeserta: string
+  username: string
+  namaLembaga: string
+  mapel: string
+  skor: number
+  jawaban: Record<number, any>
+  kirimStatus?: string
+}
+
+// ==========================================
+// 2. BANK SOAL 1: BAHASA INDONESIA - SD SEDERAJAT (PAKET 1)
+// ==========================================
+const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
+  // 1
+  {
+    nomorAsli: 1,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-1.png',
+    bacaanTeks: [
+      'Reno menemukan sebuah dompet berisi uang tunai yang cukup banyak di lapangan sekolah. Meskipun Reno sangat membutuhkan uang untuk memperbaiki sepedanya yang rusak, ia segera menyerahkan dompet tersebut kepada guru piket agar diumumkan pemiliknya.'
+    ],
+    pertanyaan: 'Nilai moral utama yang ditunjukkan oleh sikap tokoh Reno adalah...',
+    opsi: [
+      { kode: 'A', teks: 'A. Kreativitas dalam menyelesaikan masalah tanpa bantuan orang lain' },
+      { kode: 'B', teks: 'B. Kejujuran untuk mengembalikan barang yang bukan haknya' },
+      { kode: 'C', teks: 'C. Ketekunan dalam merawat barang milik pribadi' },
+      { kode: 'D', teks: 'D. Kedermawanan dalam membagikan rezeki kepada orang lain' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'B. Kejujuran untuk mengembalikan barang yang bukan haknya',
+    kunciTeksReviu: 'B. Kejujuran untuk mengembalikan barang yang bukan haknya'
+  },
+
+  // 2
+  {
+    nomorAsli: 2,
+    tipe: 'pgk',
+    bacaanGambar: 'bindo6-soal-2.png',
+    bacaanTeks: [
+      'Hutan sedang mengalami musim kemarau panjang. Burung Jalak sengaja membawa gayung kecil berisi air dari tempat jauh untuk membasahi tenggorokan Kura-kura yang kelelahan. Kura-kura sangat berterima kasih atas bantuan tulus Burung Jalak.'
+    ],
+    pertanyaan: 'Berdasarkan cerita di atas, tentukan pernyataan yang sesuai dengan nilai sosial dan moral cerita!',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'Burung Jalak menunjukkan sikap kepedulian sosial kepada sesama makhluk.' },
+      { kode: 'B', teks: 'Kura-kura meminta imbalan sebelum menerima bantuan dari Burung Jalak.' },
+      { kode: 'C', teks: 'Kebaikan tidak dinilai dari besarnya bantuan, melainkan dari ketulusan hati.' },
+      { kode: 'D', teks: 'Tolong-menolong sebaiknya dilakukan jika menguntungkan diri sendiri.' }
+    ],
+    kunciKodePgk: ['A', 'C'],
+    kunciText: 'Burung Jalak menunjukkan sikap kepedulian sosial kepada sesama makhluk; Kebaikan tidak dinilai dari besarnya bantuan, melainkan dari ketulusan hati',
+    kunciTeksReviu: 'Burung Jalak menunjukkan sikap kepedulian sosial kepada sesama makhluk; Kebaikan tidak dinilai dari besarnya bantuan, melainkan dari ketulusan hati'
+  },
+
+  // 3
+  {
+    nomorAsli: 3,
+    tipe: 'jodoh',
+    pertanyaan: 'Jodohkan istilah nilai dalam cerita pada Kolom A dengan deskripsi penerapan yang tepat pada Kolom B!',
+    petunjuk: 'Pilih huruf pasangan yang tepat di Kolom B untuk setiap nomor di Kolom A.',
+    kolomKiri: [
+      { nomor: 1, teks: 'Nilai Moral' },
+      { nomor: 2, teks: 'Nilai Sosial' },
+      { nomor: 3, teks: 'Nilai Budaya' }
+    ],
+    kolomKanan: [
+      { kode: 'A', teks: 'Tindakan mengembalikan barang milik orang lain yang ditemukan di jalan' },
+      { kode: 'B', teks: 'Kerja sama warga desa membersihkan saluran air secara gotong-royong' },
+      { kode: 'C', teks: 'Tradisi meminang dan penggunaan pakaian adat saat upacara perkawinan' },
+      { kode: 'D', teks: 'Membiarkan sampah menumpuk di depan rumah tanpa dibersihkan' }
+    ],
+    kunciTabel: ['A', 'B', 'C'],
+    kunciText: '1 -> A, 2 -> B, 3 -> C',
+    kunciTeksReviu: '1 -> A, 2 -> B, 3 -> C'
+  },
+
+  // 4
+  {
+    nomorAsli: 4,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-4.png',
+    bacaanTeks: [
+      'Pak Doni berjanji mendampingi Nisa belajar matematika malam ini. Namun, karena tergiur menonton bola di TV bersama teman-temannya, Pak Doni mengingkari janji hingga Nisa menangis kebingungan.'
+    ],
+    pertanyaan: 'Tentukan kebenaran dari pernyataan berikut berdasarkan cerita di atas!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan.',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Kesalahan Pak Doni memberikan pelajaran pentingnya komitmen dan menepati janji.',
+      'Tindakan Pak Doni merupakan contoh penerapan nilai tanggung jawab orang tua.',
+      'Nisa merasa kecewa karena janji pendampingan belajar tidak dipenuhi.'
+    ],
+    kunciTabel: ['Benar', 'Salah', 'Benar'],
+    kunciText: '1: Benar, 2: Salah, 3: Benar',
+    kunciTeksReviu: '1: Benar, 2: Salah, 3: Benar'
+  },
+
+  // 5
+  {
+    nomorAsli: 5,
+    tipe: 'tabel',
+    bacaanJudul: 'Hewan Pemakan Daun, Apa itu?',
+    bacaanTeks: [
+      'Hewan bisa dibagi menjadi tiga kelompok berdasarkan makanan mereka. Karnivora, hewan pemakan daging. Contoh hewan karnivora adalah singa. Selanjutnya herbivora, yaitu hewan pemakan tumbuhan. Sapi adalah contoh hewan herbivora. Terakhir, hewan omnivora, yaitu hewan pemakan daging dan tumbuhan, seperti beruang.',
+      'Dari kelompok herbivora, ada hewan yang hanya makan daun saja. Mereka disebut folivora. Hewan folivora hanya makan daun untuk hidup. Namun, daun itu susah untuk dicerna, apalagi kalau sudah tua. Kadang-kadang daun juga mengandung zat yang bisa berbahaya.',
+      'Agar bisa mencerna daun, tubuh hewan folivora punya cara khusus. Mereka punya usus yang panjang agar makanan bisa diproses lebih lama. Tubuh hewan folivora bekerja lebih lambat, jadi tidak terlalu banyak bergerak. Di dalam perut hewan folivora juga ada bakteri baik yang membantu mencerna daun. Beberapa hewan folivora lebih suka daun muda karena lebih lembut dan mudah dimakan.',
+      'Ada beberapa contoh hewan folivora yang hidup di alam. Misalnya, panda yang makan daun bambu. Ada juga koala yang makan daun eukaliptus. Mereka tinggal di hutan dan sangat bergantung pada daun untuk makan. Karena itu, hutan tempat mereka tinggal harus dijaga supaya mereka bisa terus hidup.'
+    ],
+    pertanyaan: 'Berdasarkan teks di atas, hewan folivora memiliki beberapa ciri khusus. Tentukan sesuai atau tidak sesuai untuk setiap pernyataan ciri-ciri berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Folivora merupakan hewan yang geraknya sangat aktif',
+      'Folivora memiliki usus yang panjang',
+      'Folivora hanya memakan daging'
+    ],
+    kunciTabel: ['Tidak Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: '1: Tidak Sesuai, 2: Sesuai, 3: Tidak Sesuai',
+    kunciTeksReviu: '1: Tidak Sesuai, 2: Sesuai, 3: Tidak Sesuai'
+  },
+
+  // 6
+  {
+    nomorAsli: 6,
+    tipe: 'tabel',
+    bacaanJudul: 'Kepala Desa yang Sombong Menjadi Dermawan',
+    bacaanTeks: [
+      'Seorang pengemis datang ke rumah kepala desa untuk meminta makan dan sedikit uang. Bukannya memberi makan, sang kepala desa justru mengusir pengemis itu. Keesokan harinya, saat bangun tidur, kepala desa yang kikir itu merasakan tangannya lumpuh dan tidak dapat digerakkan. Ia pun membuat sayembara. Siapa pun yang dapat menyembuhkannya, akan diberi setengah dari kekayaannya. Pengemis yang kemarin diusirnya datang, "Hai, orang kaya! Ini adalah akibat dari sifat sombong dan kikirmu! Hanya ada tiga hal yang dapat menyembuhkanmu! Pertama, kau harus mengubah sifat sombong dan kikirmu. Kedua, bertapalah di sebuah batu cekung di Gunung Karang selama tujuh hari tujuh malam. Ketiga, jika kau sembuh, penuhilah janjimu. Bagikan setengah harta kekayaanmu kepada orang-orang tidak mampu!"',
+      'Kepala desa yang kaya itu pun melakukan hal-hal yang disebutkan oleh pengemis. Ia pergi ke Gunung Karang dan melewati perjalanan yang melelahkan. Ia bertapa dan berdoa selama tujuh hari tujuh malam melewati berbagai cobaan. Pada hari ketujuh, tiba-tiba batu cekung itu menyemburkan sumber mata air panas. Sang kepala desa itu segera mandi. Secara ajaib, ia pun sembuh dari kelumpuhannya.',
+      'Ia kembali ke desa dan memenuhi janjinya, mendermakan hartanya kepada orang-orang tidak mampu. Akhirnya, kepala desa yang kaya raya itu dikenal sebagai orang yang dermawan. Warga pun sangat menyayanginya.'
+    ],
+    pertanyaan: 'Apa nilai moral positif yang terkandung di dalam teks tersebut? Tentukan sesuai atau tidak sesuai untuk setiap pernyataan mengenai nilai moral berikut ini.',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Memberi lebih baik daripada menerima',
+      'Memberikan sebagian dari harta kita, akan membawa kebahagiaan bagi orang yang memerlukannya',
+      'Memberikan semua harta kekayaan, tidak akan menjadikan seseorang kesulitan keuangan'
+    ],
+    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai'
+  },
+
+  // 7
+  {
+    nomorAsli: 7,
+    tipe: 'pgk',
+    bacaanJudul: 'Kepala Desa yang Sombong Menjadi Dermawan',
+    bacaanTeks: [
+      'Seorang pengemis datang ke rumah kepala desa untuk meminta makan dan sedikit uang. Bukannya memberi makan, sang kepala desa justru mengusir pengemis itu. Keesokan harinya, saat bangun tidur, kepala desa yang kikir itu merasakan tangannya lumpuh dan tidak dapat digerakkan. Ia pun membuat sayembara. Siapa pun yang dapat menyembuhkannya, akan diberi setengah dari kekayaannya. Pengemis yang kemarin diusirnya datang, "Hai, orang kaya! Ini adalah akibat dari sifat sombong dan kikirmu! Hanya ada tiga hal yang dapat menyembuhkanmu! Pertama, kau harus mengubah sifat sombong dan kikirmu. Kedua, bertapalah di sebuah batu cekung di Gunung Karang selama tujuh hari tujuh malam. Ketiga, jika kau sembuh, penuhilah janjimu. Bagikan setengah harta kekayaanmu kepada orang-orang tidak mampu!"',
+      'Kepala desa yang kaya itu pun melakukan hal-hal yang disebutkan oleh pengemis. Ia pergi ke Gunung Karang dan melewati perjalanan yang melelahkan. Ia bertapa dan berdoa selama tujuh hari tujuh malam melewati berbagai cobaan. Pada hari ketujuh, tiba-tiba batu cekung itu menyemburkan sumber mata air panas. Sang kepala desa itu segera mandi. Secara ajaib, ia pun sembuh dari kelumpuhannya.',
+      'Ia kembali ke desa dan memenuhi janjinya, mendermakan hartanya kepada orang-orang tidak mampu. Akhirnya, kepala desa yang kaya raya itu dikenal sebagai orang yang dermawan. Warga pun sangat menyayanginya.'
+    ],
+    pertanyaan: 'Apa makna kata "kikir" dalam teks tersebut?',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'Suka memberi dan murah hati' },
+      { kode: 'B', teks: 'Sangat pelit' },
+      { kode: 'C', teks: 'Tidak mau memberi atau mengeluarkan hartanya' }
+    ],
+    kunciKodePgk: ['B', 'C'],
+    kunciText: 'Sangat pelit; Tidak mau memberi atau mengeluarkan hartanya',
+    kunciTeksReviu: 'Sangat pelit; Tidak mau memberi atau mengeluarkan hartanya'
+  },
+
+  // 8
+  {
+    nomorAsli: 8,
+    tipe: 'tabel',
+    bacaanJudul: 'Kepala Desa yang Sombong Menjadi Dermawan',
+    bacaanTeks: [
+      'Seorang pengemis datang ke rumah kepala desa untuk meminta makan dan sedikit uang. Bukannya memberi makan, sang kepala desa justru mengusir pengemis itu. Keesokan harinya, saat bangun tidur, kepala desa yang kikir itu merasakan tangannya lumpuh dan tidak dapat digerakkan. Ia pun membuat sayembara. Siapa pun yang dapat menyembuhkannya, akan diberi setengah dari kekayaannya. Pengemis yang kemarin diusirnya datang, "Hai, orang kaya! Ini adalah akibat dari sifat sombong dan kikirmu! Hanya ada tiga hal yang dapat menyembuhkanmu! Pertama, kau harus mengubah sifat sombong dan kikirmu. Kedua, bertapalah di sebuah batu cekung di Gunung Karang selama tujuh hari tujuh malam. Ketiga, jika kau sembuh, penuhilah janjimu. Bagikan setengah harta kekayaanmu kepada orang-orang tidak mampu!"',
+      'Kepala desa yang kaya itu pun melakukan hal-hal yang disebutkan oleh pengemis. Ia pergi ke Gunung Karang dan melewati perjalanan yang melelahkan. Ia bertapa dan berdoa selama tujuh hari tujuh malam melewati berbagai cobaan. Pada hari ketujuh, tiba-tiba batu cekung itu menyemburkan sumber mata air panas. Sang kepala desa itu segera mandi. Secara ajaib, ia pun sembuh dari kelumpuhannya.',
+      'Ia kembali ke desa dan memenuhi janjinya, mendermakan hartanya kepada orang-orang tidak mampu. Akhirnya, kepala desa yang kaya raya itu dikenal sebagai orang yang dermawan. Warga pun sangat menyayanginya.'
+    ],
+    pertanyaan: 'Berdasarkan teks, apa tujuan kepala desa pergi ke Gunung Karang? Tentukan sesuai atau tidak sesuai untuk setiap pernyataan mengenai tujuan kepala desa berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Menyembuhkan tangannya yang lumpuh',
+      'Melaksanakan hal-hal yang diberikan oleh pengemis',
+      'Berendam air panas untuk menyegarkan badannya'
+    ],
+    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai'
+  },
+
+  // 9
+  {
+    nomorAsli: 9,
+    tipe: 'tabel',
+    bacaanJudul: 'Kepala Desa yang Sombong Menjadi Dermawan',
+    bacaanTeks: [
+      'Seorang pengemis datang ke rumah kepala desa untuk meminta makan dan sedikit uang. Bukannya memberi makan, sang kepala desa justru mengusir pengemis itu. Keesokan harinya, saat bangun tidur, kepala desa yang kikir itu merasakan tangannya lumpuh dan tidak dapat digerakkan. Ia pun membuat sayembara. Siapa pun yang dapat menyembuhkannya, akan diberi setengah dari kekayaannya. Pengemis yang kemarin diusirnya datang, "Hai, orang kaya! Ini adalah akibat dari sifat sombong dan kikirmu! Hanya ada tiga hal yang dapat menyembuhkanmu! Pertama, kau harus mengubah sifat sombong dan kikirmu. Kedua, bertapalah di sebuah batu cekung di Gunung Karang selama tujuh hari tujuh malam. Ketiga, jika kau sembuh, penuhilah janjimu. Bagikan setengah harta kekayaanmu kepada orang-orang tidak mampu!"',
+      'Kepala desa yang kaya itu pun melakukan hal-hal yang disebutkan oleh pengemis. Ia pergi ke Gunung Karang dan melewati perjalanan yang melelahkan. Ia bertapa dan berdoa selama tujuh hari tujuh malam melewati berbagai cobaan. Pada hari ketujuh, tiba-tiba batu cekung itu menyemburkan sumber mata air panas. Sang kepala desa itu segera mandi. Secara ajaib, ia pun sembuh dari kelumpuhannya.',
+      'Ia kembali ke desa dan memenuhi janjinya, mendermakan hartanya kepada orang-orang tidak mampu. Akhirnya, kepala desa yang kaya raya itu dikenal sebagai orang yang dermawan. Warga pun sangat menyayanginya.'
+    ],
+    pertanyaan: 'Apa perubahan karakter yang terjadi pada tokoh kepala desa? Tentukan sesuai atau tidak sesuai untuk setiap pernyataan perubahan karakter kepala desa berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Sombong menjadi dermawan',
+      'Kikir menjadi rendah hati',
+      'Peduli sesama menjadi tidak peduli kepada orang miskin'
+    ],
+    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai'
+  },
+
+  // 10
+  {
+    nomorAsli: 10,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-10.png',
+    bacaanJudul: 'Surat Undangan — SD Harapan Bangsa',
+    bacaanTeks: [
+      'Nomor: 015/SD-HB/IX/2026 | Hal: Undangan Kegiatan Literasi',
+      'Yth. Orang Tua/Wali Murid Kelas VI SD Harapan Bangsa. Dalam rangka meningkatkan minat baca siswa, SD Harapan Bangsa akan mengadakan Kegiatan Pekan Literasi pada hari Sabtu, 10 Oktober 2026, pukul 08.00-11.00 WIB di Aula SD Harapan Bangsa.',
+      'Kepala SD Harapan Bangsa: Rina Wulandari, S.Pd.'
+    ],
+    pertanyaan: 'Tujuan utama surat tersebut adalah...',
+    opsi: [
+      { kode: 'A', teks: 'A. memberitahukan hasil kegiatan literasi' },
+      { kode: 'B', teks: 'B. mengundang orang tua menghadiri kegiatan literasi' },
+      { kode: 'C', teks: 'C. meminta orang tua mengisi formulir' },
+      { kode: 'D', teks: 'D. menawarkan buku kepada orang tua' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'B. mengundang orang tua menghadiri kegiatan literasi',
+    kunciTeksReviu: 'B. mengundang orang tua menghadiri kegiatan literasi'
+  },
+
+  // 11
+  {
+    nomorAsli: 11,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-10.png',
+    bacaanJudul: 'Surat Undangan — SD Harapan Bangsa',
+    bacaanTeks: [
+      'Nomor: 015/SD-HB/IX/2026 | Hal: Undangan Kegiatan Literasi',
+      'Yth. Orang Tua/Wali Murid Kelas VI SD Harapan Bangsa. Dalam rangka meningkatkan minat baca siswa, SD Harapan Bangsa akan mengadakan Kegiatan Pekan Literasi pada hari Sabtu, 10 Oktober 2026, pukul 08.00-11.00 WIB di Aula SD Harapan Bangsa.',
+      'Kepala SD Harapan Bangsa: Rina Wulandari, S.Pd.'
+    ],
+    pertanyaan: 'Berdasarkan teks tersebut, tentukan sesuai atau tidak sesuai untuk setiap pernyataan berikut!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Surat ditujukan kepada orang tua/wali murid kelas VI.',
+      'Kegiatan dilaksanakan pada pukul 09.00-12.00 WIB.',
+      'Surat menggunakan bahasa yang santun.',
+      'Tujuan kegiatan adalah meningkatkan minat baca siswa.',
+      'Kegiatan dilaksanakan di perpustakaan sekolah.',
+      'Surat mencantumkan waktu dan tempat kegiatan.'
+    ],
+    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Sesuai', 'Sesuai', 'Tidak Sesuai', 'Sesuai'],
+    kunciText: '1: Sesuai, 2: Tidak Sesuai, 3: Sesuai, 4: Sesuai, 5: Tidak Sesuai, 6: Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Tidak Sesuai, 3: Sesuai, 4: Sesuai, 5: Tidak Sesuai, 6: Sesuai'
+  },
+
+  // 12
+  {
+    nomorAsli: 12,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-12.png',
+    bacaanJudul: 'Formulir Pendaftaran Klub Jurnalistik',
+    bacaanTeks: [
+      'Nama lengkap: Dimas Pratama',
+      'Tempat, tanggal lahir: Sidoarjo, 15 Mei 2014',
+      'Kelas: VI B',
+      'Alamat: Jl. Anggrek No. 15, Sidoarjo',
+      'Nomor telepon orang tua: 0812-3456-7890',
+      'Hobi: Membaca dan menulis',
+      'Alasan mengikuti klub: Ingin belajar menulis berita dan membuat laporan kegiatan sekolah.'
+    ],
+    pertanyaan: 'Nama peserta yang mengisi formulir adalah ....',
+    kunciIsianList: ['dimas pratama', 'dimas'],
+    kunciText: 'Dimas Pratama',
+    kunciTeksReviu: 'Dimas Pratama'
+  },
+
+  // 13
+  {
+    nomorAsli: 13,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-12.png',
+    bacaanJudul: 'Formulir Pendaftaran Klub Jurnalistik',
+    bacaanTeks: [
+      'Nama lengkap: Dimas Pratama',
+      'Tempat, tanggal lahir: Sidoarjo, 15 Mei 2014',
+      'Kelas: VI B',
+      'Alamat: Jl. Anggrek No. 15, Sidoarjo',
+      'Nomor telepon orang tua: 0812-3456-7890',
+      'Hobi: Membaca dan menulis',
+      'Alasan mengikuti klub: Ingin belajar menulis berita dan membuat laporan kegiatan sekolah.'
+    ],
+    pertanyaan: 'Berdasarkan formulir pendaftaran klub jurnalistik tersebut, tentukan benar atau salah untuk setiap pernyataan berikut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan.',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Formulir digunakan untuk mengumpulkan informasi tertentu dari seseorang.',
+      'Dimas berada di kelas VIA.',
+      'Dimas memiliki hobi membaca dan menulis.',
+      'Dimas mengikuti klub jurnalistik karena ingin belajar memasak.',
+      'Formulir harus diisi berdasarkan informasi yang benar.',
+      'Nomor telepon dapat menjadi informasi untuk menghubungi peserta.'
+    ],
+    kunciTabel: ['Benar', 'Salah', 'Benar', 'Salah', 'Benar', 'Benar'],
+    kunciText: '1: Benar, 2: Salah, 3: Benar, 4: Salah, 5: Benar, 6: Benar',
+    kunciTeksReviu: '1: Benar, 2: Salah, 3: Benar, 4: Salah, 5: Benar, 6: Benar'
+  },
+
+  // 14
+  {
+    nomorAsli: 14,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-14.png',
+    bacaanTeks: [
+      'Kalimat A: "Bapak/Ibu wajib hadir dalam kegiatan tersebut. Kalau tidak datang, kegiatan akan terganggu."',
+      'Kalimat B: "Kami mengharapkan kehadiran Bapak/Ibu untuk mendukung keberhasilan kegiatan tersebut."'
+    ],
+    pertanyaan: 'Kalimat manakah yang lebih tepat digunakan dalam surat resmi?',
+    kunciIsianList: ['kalimat b', 'b'],
+    kunciText: 'Kalimat B',
+    kunciTeksReviu: 'Kalimat B'
+  },
+
+  // 15
+  {
+    nomorAsli: 15,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-15.png',
+    bacaanTeks: [
+      'Dalam sebuah cerita visual, Sinta mengikuti latihan tari tradisional di balai desa. Ia melihat beberapa temannya lebih tertarik memainkan telepon genggam daripada mempelajari tarian daerah. Sinta mengajak teman-temannya berlatih bersama dan menjelaskan bahwa tarian tradisional merupakan warisan budaya yang harus dijaga. Akhirnya, mereka sepakat mengikuti latihan untuk tampil dalam acara perayaan desa.'
+    ],
+    pertanyaan: 'Nilai budaya yang terdapat dalam cerita tersebut adalah...',
+    opsi: [
+      { kode: 'A', teks: 'A. Melestarikan kesenian tradisional.' },
+      { kode: 'B', teks: 'B. Mengutamakan permainan modern.' },
+      { kode: 'C', teks: 'C. Menghindari kegiatan masyarakat.' },
+      { kode: 'D', teks: 'D. Mengabaikan tradisi daerah.' }
+    ],
+    kunciKodePg: 'A',
+    kunciText: 'A. Melestarikan kesenian tradisional.',
+    kunciTeksReviu: 'A. Melestarikan kesenian tradisional.'
+  },
+
+  // 16
+  {
+    nomorAsli: 16,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-16.png',
+    bacaanTeks: [
+      'Dalam sebuah gambar animasi, warga kampung melaksanakan kerja bakti pada hari Minggu. Mereka membersihkan selokan, menyapu jalan, dan mengumpulkan sampah. Meskipun pekerjaan cukup berat, mereka tetap bersemangat karena dilakukan bersama-sama. Lingkungan kampung menjadi bersih dan nyaman.'
+    ],
+    pertanyaan: 'Kegiatan kerja bakti dalam cerita mencerminkan sikap peduli terhadap...',
+    kunciIsianList: ['lingkungan', 'kebersihan lingkungan', 'lingkungan sekitar', 'lingkungan kampung'],
+    kunciText: 'Lingkungan / kebersihan lingkungan',
+    kunciTeksReviu: 'Lingkungan / kebersihan lingkungan'
+  },
+
+  // 17
+  {
+    nomorAsli: 17,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-16.png',
+    bacaanTeks: [
+      'Dalam sebuah komik, Roni melihat Rohman terjatuh saat berjalan menuju kelas. Buku-buku Rohman berserakan di lantai. Roni segera membantu Rohman berdiri dan mengumpulkan buku-bukunya. Rohman berterima kasih kepada Roni karena telah membantunya.'
+    ],
+    pertanyaan: 'Berdasarkan bacaan tersebut, tentukan benar atau salah untuk setiap pernyataan berikut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan.',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Rina menunjukkan sikap peduli dengan membantu Siti.',
+      'Nilai moral dalam cerita tersebut adalah sikap tidak peduli terhadap teman.',
+      'Pesan cerita tersebut adalah kita sebaiknya membantu orang yang mengalami kesulitan.',
+      'Rohman berterima kasih kepada Roni.'
+    ],
+    kunciTabel: ['Salah', 'Salah', 'Benar', 'Benar'],
+    kunciText: '1: Salah, 2: Salah, 3: Benar, 4: Benar',
+    kunciTeksReviu: '1: Salah, 2: Salah, 3: Benar, 4: Benar'
+  },
+
+  // 18
+  {
+    nomorAsli: 18,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-18.png',
+    bacaanTeks: [
+      'Dalam sebuah komik, siswa kelas VI mendapat tugas membuat poster tentang persatuan. Kelompok mereka terdiri atas siswa dengan latar belakang budaya dan kemampuan yang berbeda. Ketika berdiskusi, beberapa siswa selalu memutuskan sendiri tanpa mendengarkan pendapat anggota lain. Mereka juga mengabaikan usulan seorang teman yang mengalami kesulitan berbicara. Ketua kelompok kemudian mengajak semua anggota menyampaikan pendapat secara bergiliran dan membagi tugas sesuai kemampuan masing-masing. Akhirnya, mereka menghasilkan poster yang baik.'
+    ],
+    pertanyaan: 'Berdasarkan keseluruhan cerita, kesimpulan yang paling tepat tentang nilai persatuan adalah...',
+    opsi: [
+      { kode: 'A', teks: 'A. persatuan berarti semua anggota harus memiliki pendapat yang sama' },
+      { kode: 'B', teks: 'B. persatuan hanya dapat dicapai jika ketua menentukan semua keputusan' },
+      { kode: 'C', teks: 'C. perbedaan kemampuan sebaiknya dihindari ketika bekerja dalam kelompok' },
+      { kode: 'D', teks: 'D. persatuan terwujud ketika setiap anggota dihargai dan berkontribusi sesuai kemampuannya' }
+    ],
+    kunciKodePg: 'D',
+    kunciText: 'D. persatuan terwujud ketika setiap anggota dihargai dan berkontribusi sesuai kemampuannya',
+    kunciTeksReviu: 'D. persatuan terwujud ketika setiap anggota dihargai dan berkontribusi sesuai kemampuannya'
+  },
+
+  // 19
+  {
+    nomorAsli: 19,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-19.png',
+    pertanyaan: 'Kata pramuka, kristal, traktor, blangko. Berdasarkan cara pelafalannya, kelompok kata tersebut mengandung gabungan konsonan yang disebut...',
+    kunciIsianList: ['konsonan rangkap', 'kluster', 'konsonan rangkap (kluster)', 'gabungan konsonan'],
+    kunciText: 'Konsonan rangkap / kluster',
+    kunciTeksReviu: 'Konsonan rangkap / kluster'
+  },
+
+  // 20
+  {
+    nomorAsli: 20,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-20.png',
+    bacaanJudul: 'Kegiatan Membaca di Perpustakaan',
+    bacaanTeks: [
+      'Hari ini, kelas enam berkunjung ke perpustakaan sekolah. Di sana mereka menemukan banyak buku cerita yang isinya menarik. Dinda memilih sebuah buku tentang sejarah proklamasi kemerdekaan Indonesia. Sementara itu, Bagas asyik membaca komik tentang sastra budaya Nusantara.',
+      'Di sudut ruangan tampak Bu Astuti sedang membimbing seorang anak yang sedang belajar membaca. Anak itu sedang mengeja sebuah kata pada kartu kata yang dipegangnya. Bu Astuti menjelaskan dengan sabar bahwa dalam Bahasa Indonesia ada gabungan dua huruf mati yang dibacakan bersamaan dalam satu kata, yang dikenal sebagai konsonan rangkap (kluster). Dinda dan Bagas pun ikut mendengarkan penjelasan tersebut dengan saksama.'
+    ],
+    pertanyaan: 'Berdasarkan bacaan tersebut, tentukan pernyataan di bawah ini sesuai atau tidak sesuai!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Kata proklamasi dalam teks di atas mengandung konsonan rangkap yang terletak di awal kata pada suku kata pertama.',
+      'Kata sastra mengandung konsonan rangkap pada suku kata terakhirnya yaitu tr.',
+      'Kata kartu merupakan contoh kata yang memiliki konsonan rangkap yaitu rt.',
+      'Kata Astuti termasuk kata yang memiliki konsonan rangkap karena kedua hurufnya terpisah oleh suku kata saat diucapkan.',
+      'Syarat utama konsonan rangkap (kluster) adalah kedua huruf konsonan berada dalam satu suku kata yang sama saat diucapkan.'
+    ],
+    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Sesuai'],
+    kunciText: '1: Sesuai, 2: Tidak Sesuai, 3: Tidak Sesuai, 4: Tidak Sesuai, 5: Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Tidak Sesuai, 3: Tidak Sesuai, 4: Tidak Sesuai, 5: Sesuai'
+  },
+
+  // 21
+  {
+    nomorAsli: 21,
+    tipe: 'pgk',
+    bacaanJudul: 'Syarat menjadi Dokter Kecil',
+    bacaanTeks: [
+      'Hari ini, Nyoman merasa senang. Guru kelas mengumumkan syarat untuk menjadi dokter kecil di sekolah. Setiap calon dokter kecil harus berbadan sehat dan rajin. Tugas utama mereka adalah membantu menjaga kesehatan lingkungan sekolah. Pengumuman itu dibaca secara khusus di depan kelas. Nyoman langsung mendaftarkan diri karena ia ingin belajar cara merawat teman yang sakit.'
+    ],
+    pertanyaan: 'Manakah kata-kata dari teks di atas yang memiliki arti tersurat di dalam bacaan yang mengandung konsonan rangkap?',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'a. Nyoman' },
+      { kode: 'B', teks: 'b. dokter' },
+      { kode: 'C', teks: 'c. khusus' },
+      { kode: 'D', teks: 'd. daftar' }
+    ],
+    kunciKodePgk: ['B', 'D'],
+    kunciText: 'b. dokter; d. daftar',
+    kunciTeksReviu: 'b. dokter; d. daftar'
+  },
+
+  // 22
+  {
+    nomorAsli: 22,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-22.png',
+    pertanyaan: 'Berilah tanda centang pada kolom Benar atau Salah berdasarkan pernyataan berikut!',
+    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan.',
+    kolomTabel: ['Benar', 'Salah'],
+    barisTabel: [
+      'Perbedaan utama antara digraf dan kluster adalah pada cara pelafalannya digraf menghasilkan satu bunyi baru, sedangkan kluster tetap memunculkan bunyi asli kedua hurufnya.',
+      'Gabungan huruf ng pada kata "ngarai" dan gabungan huruf ny pada kata "nyanyi" termasuk ke dalam jenis konsonan rangkap digraf.',
+      'Kata kertas merupakan kata yang memiliki konsonan rangkap karena huruf r dan t ditulis secara berdampingan.',
+      'Kata khawatir dan syarat mengandung konsonan rangkap yang letak posisinya berada di tengah-tengah kata.',
+      'Pemenggalan suku kata yang tepat untuk kata blender adalah blen-der sehingga gabungan huruf bl disebut sebagai konsonan rangkap kluster.'
+    ],
+    kunciTabel: ['Benar', 'Benar', 'Salah', 'Salah', 'Benar'],
+    kunciText: '1: Benar, 2: Benar, 3: Salah, 4: Salah, 5: Benar',
+    kunciTeksReviu: '1: Benar, 2: Benar, 3: Salah, 4: Salah, 5: Benar'
+  },
+
+  // 23
+  {
+    nomorAsli: 23,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-23.png',
+    bacaanTeks: [
+      'Andi ingin mengirimkan surat kepada wali kelasnya untuk memohon izin karena ia harus mengikuti kompetisi matematika tingkat nasional.'
+    ],
+    pertanyaan: 'Manakah kalimat pembuka yang paling santun dan sesuai dengan kaidah surat resmi untuk situasi tersebut?',
+    opsi: [
+      { kode: 'A', teks: 'A. Halo Bu Guru, saya mau kasih tahu kalau besok saya mau ikut lomba matematika di Jakarta.' },
+      { kode: 'B', teks: 'B. Dengan hormat, melalui surat ini saya ingin memohon izin tidak dapat mengikuti pelajaran pada tanggal 15 Oktober 2023.' },
+      { kode: 'C', teks: 'C. Bu, maaf ya saya besok tidak masuk sekolah karena ada urusan penting yang tidak bisa ditinggalkan.' },
+      { kode: 'D', teks: 'D. Kepada wali kelas 6, saya Andi ingin minta izin karena besok saya harus pergi lomba matematika.' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'B. Dengan hormat, melalui surat ini saya ingin memohon izin tidak dapat mengikuti pelajaran pada tanggal 15 Oktober 2023.',
+    kunciTeksReviu: 'B. Dengan hormat, melalui surat ini saya ingin memohon izin tidak dapat mengikuti pelajaran pada tanggal 15 Oktober 2023.'
+  },
+
+  // 24
+  {
+    nomorAsli: 24,
+    tipe: 'pgk',
+    bacaanGambar: 'bindo6-soal-24.png',
+    bacaanTeks: [
+      'Perhatikan ilustrasi formulir pendaftaran yang sedang diisi oleh seorang siswa.'
+    ],
+    pertanyaan: 'Berdasarkan prinsip ketelitian dan kejujuran dalam mengisi data, pilih DUA kesalahan yang terdapat pada pengisian formulir tersebut!',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'A. Penulisan tanggal lahir tidak logis (30 Februari).' },
+      { kode: 'B', teks: 'B. Nama yang ditulis hanya nama panggilan, bukan nama lengkap sesuai akta.' },
+      { kode: 'C', teks: 'C. Alamat rumah tidak dilengkapi dengan nomor telepon.' },
+      { kode: 'D', teks: 'D. Kolom tanda tangan diletakkan di bagian paling atas formulir.' }
+    ],
+    kunciKodePgk: ['A', 'B'],
+    kunciText: 'A. Penulisan tanggal lahir tidak logis (30 Februari); B. Nama yang ditulis hanya nama panggilan, bukan nama lengkap sesuai akta',
+    kunciTeksReviu: 'A. Penulisan tanggal lahir tidak logis (30 Februari); B. Nama yang ditulis hanya nama panggilan, bukan nama lengkap sesuai akta'
+  },
+
+  // 25
+  {
+    nomorAsli: 25,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-25.png',
+    bacaanTeks: [
+      'Kepada: wali.kelas@sekolah.sch.id',
+      'Subjek: IZIN MENGIKUTI LOMBA',
+      'SELAMAT PAGI BU, SAYA IZIN TIDAK MASUK KARENA MENGIKUTI KOMPETISI MATEMATIKA TINGKAT NASIONAL.'
+    ],
+    pertanyaan: 'Dalam etika berkomunikasi digital (Netiquette), menuliskan seluruh pesan atau subjek dalam surat elektronik (email) menggunakan HURUF KAPITAL SEMUA dianggap sebagai tindakan yang tidak sopan karena setara dengan berteriak kepada penerima pesan.',
+    opsi: [
+      { kode: 'A', teks: 'A. Benar' },
+      { kode: 'B', teks: 'B. Salah' }
+    ],
+    kunciKodePg: 'A',
+    kunciText: 'A. Benar',
+    kunciTeksReviu: 'A. Benar'
+  },
+
+  // 26
+  {
+    nomorAsli: 26,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-26.png',
+    bacaanTeks: [
+      'PROFIL SISWA — Nama: Budi | Alamat: Jl. Pintar No. 1 | Hobi: Membaca buku cerita dan menggambar | Prestasi: Juara 2 Lomba Menulis Cerpen.',
+      'GRAFIK PRESTASI & HOBI: Hobi Membaca (85), Hobi Menggambar (75), Prestasi (90), Aktivitas Kelas (80).'
+    ],
+    pertanyaan: 'Perhatikan infografis Kurikulum Vitae (CV) milik Budi. Jika Budi ingin mendaftarkan diri sebagai anggota "Klub Literasi Sekolah" yang syarat utamanya adalah gemar membaca, bagian kategori manakah pada CV tersebut yang menjadi bukti kuat bahwa Budi layak diterima?',
+    kunciIsianList: ['hobi', 'hobi membaca', 'hobi (membaca buku cerita)', 'grafik hobi membaca'],
+    kunciText: 'Hobi (Membaca buku cerita)',
+    kunciTeksReviu: 'Hobi (Membaca buku cerita)'
+  },
+
+  // 27
+  {
+    nomorAsli: 27,
+    tipe: 'pg',
+    bacaanGambar: 'bindo6-soal-27.png',
+    bacaanTeks: [
+      'Dengan hormat, sehubungan dengan akan diadakannya peringatan Hari Ulang Tahun Republik Indonesia yang ke-81, kami mengundang Bapak/Ibu untuk menghadiri rapat persiapan yang akan dilaksanakan pada...'
+    ],
+    pertanyaan: 'Kutipan tersebut merupakan bagian dari jenis surat...',
+    opsi: [
+      { kode: 'A', teks: 'A. Surat pribadi' },
+      { kode: 'B', teks: 'B. Surat undangan resmi' },
+      { kode: 'C', teks: 'C. Surat dinas perorangan' },
+      { kode: 'D', teks: 'D. Surat pembaca' }
+    ],
+    kunciKodePg: 'B',
+    kunciText: 'B. Surat undangan resmi',
+    kunciTeksReviu: 'B. Surat undangan resmi'
+  },
+
+  // 28
+  {
+    nomorAsli: 28,
+    tipe: 'isian',
+    bacaanGambar: 'bindo6-soal-28.png',
+    bacaanTeks: [
+      'Surat resmi (undangan rapat sekolah dari kepala sekolah) menggunakan bahasa baku, ragam resmi, serta dilengkapi dengan kop surat, nomor surat, lampiran, dan perihal.'
+    ],
+    pertanyaan: 'Tuliskan huruf B jika pernyataan tersebut benar, atau huruf S jika pernyataan tersebut salah!',
+    kunciIsianList: ['b', 'benar'],
+    kunciText: 'B (Benar)',
+    kunciTeksReviu: 'B (Benar)'
+  },
+
+  // 29
+  {
+    nomorAsli: 29,
+    tipe: 'tabel',
+    bacaanGambar: 'bindo6-soal-29.png',
+    bacaanTeks: [
+      'Bandung, 12 November 2026 — Untuk Sahabatku, Rani di Yogyakarta. Halo, Rani! Bagaimana kabarmu di Yogyakarta? Semoga kamu dan keluargamu selalu sehat ya. Aku dan keluarga di Bandung juga sehat. Rani, aku ingin mengabarkan bahwa pada liburan semester depan, keluargaku berencana pergi liburan ke Yogyakarta. Ayah berencana mengajakku berkunjung ke keraton dan Malioboro. Aku sangat tidak sabar ingin bertemu denganmu dan bermain bersama lagi seperti dulu. Jangan lupa balas suratku segera, ya! Kabari aku apakah kamu ada acara liburan atau bisa menemaniku nanti. Sahabatmu, Sinta.'
+    ],
+    pertanyaan: 'Tentukan apakah pernyataan berikut sesuai atau tidak sesuai dengan isi surat!',
+    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan.',
+    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
+    barisTabel: [
+      'Surat tersebut merupakan surat pribadi karena ditujukan kepada sahabat, yaitu Rani.',
+      'Sinta berencana mengunjungi Keraton dan Malioboro bersama keluarganya saat liburan semester depan.',
+      'Surat tersebut ditulis oleh Rani yang tinggal di Yogyakarta kepada Sinta di Bandung.'
+    ],
+    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai'],
+    kunciText: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai',
+    kunciTeksReviu: '1: Sesuai, 2: Sesuai, 3: Tidak Sesuai'
+  },
+
+  // 30
+  {
+    nomorAsli: 30,
+    tipe: 'pgk',
+    bacaanGambar: 'bindo6-soal-29.png',
+    bacaanTeks: [
+      'Bandung, 12 November 2026 — Untuk Sahabatku, Rani di Yogyakarta. Halo, Rani! Bagaimana kabarmu di Yogyakarta? Semoga kamu dan keluargamu selalu sehat ya. Aku dan keluarga di Bandung juga sehat. Rani, aku ingin mengabarkan bahwa pada liburan semester depan, keluargaku berencana pergi liburan ke Yogyakarta. Ayah berencana mengajakku berkunjung ke keraton dan Malioboro. Aku sangat tidak sabar ingin bertemu denganmu dan bermain bersama lagi seperti dulu. Jangan lupa balas suratku segera, ya! Kabari aku apakah kamu ada acara liburan atau bisa menemaniku nanti. Sahabatmu, Sinta.'
+    ],
+    pertanyaan: 'Informasi apa saja yang sesuai dengan isi surat Sinta? Pilihlah dua jawaban yang benar!',
+    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
+    opsi: [
+      { kode: 'A', teks: 'A. Sinta tinggal di Bandung dan menulis surat kepada sahabatnya yang bernama Rani.' },
+      { kode: 'B', teks: 'B. Sinta berencana mengunjungi Keraton dan Malioboro bersama keluarganya saat liburan semester depan.' },
+      { kode: 'C', teks: 'C. Rani mengajak Sinta berlibur ke Bandung pada liburan semester depan.' },
+      { kode: 'D', teks: 'D. Sinta dan keluarganya sedang sakit sehingga tidak dapat berlibur ke Yogyakarta.' }
+    ],
+    kunciKodePgk: ['A', 'B'],
+    kunciText: 'A. Sinta tinggal di Bandung dan menulis surat kepada sahabatnya yang bernama Rani; B. Sinta berencana mengunjungi Keraton dan Malioboro bersama keluarganya saat liburan semester depan',
+    kunciTeksReviu: 'A. Sinta tinggal di Bandung dan menulis surat kepada sahabatnya yang bernama Rani; B. Sinta berencana mengunjungi Keraton dan Malioboro bersama keluarganya saat liburan semester depan'
+  }
+]
+
+// ==========================================
+// 3. BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1)
+// ==========================================
+const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = []
+
+function siapkanPaketSoal(paket: Omit<DataSoal, 'nomor'>[]): DataSoal[] {
+  return paket.map((item, idx) => ({
+    ...item,
+    nomor: idx + 1
+  }))
+}
+
+const DAFTAR_MAPEL = [
+  'Bahasa Indonesia - SD Sederajat (Paket 1)',
+  'Matematika - SD Sederajat (Paket 1)'
+]
+
+const DAFTAR_SEKOLAH = [
+  'SDN KEDUNGREJO 1',
+  'SDN KEDUNGREJO 2',
+  'SDN BANTARAN 1',
+  'SDN BANTARAN 2',
+  'SDN KARANGANYAR 1',
+  'SDN KARANGANYAR 2',
+  'SDN KROMONGAN 1',
+  'SDN KROMONGAN 2',
+  'SDN LEGUNDI 1',
+  'SDN LEGUNDI 2',
+  'SDN MANJARAN 1',
+  'SDN MANJARAN 2',
+  'SDN PATOKAN 1',
+  'SDN PATOKAN 2',
+  'SDN RESONGO 1',
+  'SDN RESONGO 2',
+  'SDN SUMBERLELE 1',
+  'SDN SUMBERLELE 2',
+  'SDN TEMPURAN 1',
+  'SDN TEMPURAN 2',
+  'SDN WATUPANJANG 1',
+  'SDN WATUPANJANG 2',
+  'SDN WONOREJO 1',
+  'SDN WONOREJO 2'
+]
+
+function resolveAssetUrl(path?: string): string {
+  if (!path) return ''
+  const clean = path.replace(/^\.?\//, '')
   const base = import.meta.env.BASE_URL || '/'
   const normalizedBase = base.endsWith('/') ? base : `${base}/`
   return `${normalizedBase}${clean}`
 }
 
-type Jawaban = {
-  [key: number]: any
+function normalisasiTeks(teks: string): string {
+  return teks.trim().toLowerCase().replace(/\s+/g, ' ')
 }
 
-type TipeSoal = 'pg' | 'pgk' | 'tabel' | 'jodoh' | 'isian' | 'uraian'
+function hitungSkor(soalList: DataSoal[], jawaban: Record<number, any>): number {
+  if (!soalList.length) return 0
+  let totalPoin = 0
 
-interface DataSoal {
-  nomorAsli: number
-  nomor: number
-  tipe: TipeSoal
-  bacaanJudul?: string
-  bacaanTeks?: string[]
-  bacaanGambar?: string
-  pertanyaan: string
-  petunjuk?: string
-  opsi?: { kode: string; teks: string }[]
-  kolomTabel?: [string, string]
-  barisTabel?: string[]
-  kolomKiri?: { nomor: number; teks: string }[]
-  kolomKanan?: { kode: string; teks: string }[]
-  placeholderIsian?: string
-  kunciText: string
-  kunciTeksReviu?: string
-  kunciKodePg?: string
-  kunciKodePgk?: string[]
-  kunciTabel?: string[]
-  kunciIsianList?: string[]
+  soalList.forEach(soal => {
+    const jwb = jawaban[soal.nomor]
+    if (jwb === undefined || jwb === null) return
+
+    if (soal.tipe === 'pg') {
+      if (soal.kunciKodePg && String(jwb) === soal.kunciKodePg) {
+        totalPoin += 1
+      }
+    } else if (soal.tipe === 'pgk') {
+      if (soal.kunciKodePgk && Array.isArray(jwb)) {
+        const kunciSorted = [...soal.kunciKodePgk].sort()
+        const jwbSorted = [...new Set(jwb.map(String))].sort()
+        if (
+          kunciSorted.length > 0 &&
+          kunciSorted.length === jwbSorted.length &&
+          kunciSorted.every((val, idx) => val === jwbSorted[idx])
+        ) {
+          totalPoin += 1
+        }
+      }
+    } else if (soal.tipe === 'tabel' || soal.tipe === 'jodoh') {
+      if (soal.kunciTabel && typeof jwb === 'object') {
+        let benarSemua = soal.kunciTabel.length > 0
+        soal.kunciTabel.forEach((kunciVal, idx) => {
+          if (String(jwb[idx + 1] || '') !== kunciVal) {
+            benarSemua = false
+          }
+        })
+        if (benarSemua) totalPoin += 1
+      }
+    } else if (soal.tipe === 'isian') {
+      const bersih = normalisasiTeks(String(jwb))
+      if (bersih && soal.kunciIsianList && soal.kunciIsianList.some(k => normalisasiTeks(k) === bersih)) {
+        totalPoin += 1
+      }
+    }
+  })
+
+  return Math.round((totalPoin / soalList.length) * 100)
 }
 
-// ============================================================================
-// BACAAN PER KELOMPOK SOAL (BAHASA INDONESIA PAKET 1)
-// ============================================================================
-const BACAAN_5_6 = {
-  judul: 'Penyelamat Buku di Pojok Kelas',
-  teks: [
-    'Di sudut perpustakaan sekolah yang sepi, Bayu sedang duduk mengatur susunan buku yang berantakan. Jam istirahat baru saja dimulai, dan lapangan sekolah sudah ramai oleh suara teriakan anak-anak yang bermain bola. Bayu sebenarnya juga ingin bermain bola, tetapi ia melihat Pak Joni, petugas perpustakaan yang sudah tua, tampak kesulitan merapikan puluhan buku yang baru dikembalikan murid-murid.',
-    'Tanpa diminta, Bayu menghampiri Pak Joni dan langsung membantu memilah buku berdasarkan jenisnya. Tangan Bayu cekatan mengembalikan buku-buku cerita ke rak yang tinggi, karena badannya memang paling tinggi di antara teman sekelasnya. Ketika menemukan beberapa halaman buku cerita yang sobek, Bayu tidak membiarkannya. Ia mengambil selotip dan merekatkannya kembali dengan sangat hati-hati agar tulisannya masih bisa dibaca.',
-    '"Terima kasih, Bayu. Kamu selalu bisa diandalkan," kata Pak Joni sambil tersenyum hangat. Bayu hanya mengangguk sopan dan tersenyum, lalu kembali melanjutkan pekerjaannya hingga bel masuk berbunyi.'
-  ]
-}
+const KEY_RIWAYAT = 'sas1_kelas6_riwayat_ujian_v1'
+const KEY_SOAL_CUSTOM = 'sas1_kelas6_bank_soal_custom_v1'
+const KEY_INFO_UJIAN = 'sas1_kelas6_info_ujian_v1'
 
-const BACAAN_7_8 = {
-  judul: 'Pena dan Buku Perjuangan Kartini',
-  teks: [
-    'Pada masa penjajahan, Raden Ajeng Kartini harus menjalani tradisi pingitan setelah lulus dari sekolah dasar (ELS). Ia tidak diperbolehkan melanjutkan pendidikan ke jenjang yang lebih tinggi dan harus tinggal di dalam rumah. Momen ini tentu sangat berat, tetapi Kartini tidak membiarkan pikirannya terkurung.',
-    'Di dalam kamarnya, Kartini mengisi hari-harinya dengan membaca berbagai buku, koran, dan majalah berbahasa Belanda yang ia dapatkan. Melalui buku-buku tersebut, pikirannya bertualang melintasi benua. Ia melihat bagaimana wanita di Eropa bisa berpendidikan tinggi dan berwawasan luas. Semangat belajarnya semakin membara. Kartini kemudian mulai menulis surat-surat kepada teman-temannya di negeri Belanda untuk menceritakan kondisi wanita di Indonesia dan membagikan gagasan-gagasan tentang pentingnya pendidikan.',
-    'Bagi Kartini, membaca dan menulis adalah "senjata" untuk menembus tembok pingitan. Melalui kegiatan membaca, ia memperluas wawasan dan menyerap ilmu pengetahuan. Melalui kegiatan menulis, ia menyuarakan perjuangan agar wanita Indonesia kelak bisa bersekolah, berani bermimpi, dan memiliki wawasan luas untuk memajukan bangsanya.'
-  ]
-}
+export function App() {
+  const [halaman, setHalaman] = useState<'login' | 'konfirmasi' | 'ujian' | 'selesai' | 'reviu' | 'admin'>('login')
 
-const BACAAN_9_10 = {
-  judul: 'Ragam Warna Kegemaran di Kelas Lima',
-  teks: [
-    'Di kelas V SD Nusantara, jam istirahat selalu diisi dengan cerita menarik antar murid tentang kegemaran mereka. Edo sangat menyukai kegiatan berkebun. Setiap akhir pekan, ia membantu ayahnya menanam cabai, tomat, dan berbagai tanaman hias di pekarangan rumah. Alasan Edo menyukai hobi ini adalah karena ia merasa senang melihat benih kecil tumbuh menjadi tanaman berbunga yang indah, sekaligus melatih kesabarannya.',
-    'Berbeda dengan Edo, Siti memiliki hobi menggambar komik. Siti gemar mengamati kejadian unik di sekolah, lalu menuangkannya ke dalam sketsa gambar dengan karakter lucu. Siti memilih hobi menggambar karena baginya, gambar dan cerita dapat menjadi cara yang menyenangkan untuk mengekspresikan imajinasi serta menghibur teman-temannya yang sedang sedih.',
-    'Sementara itu, Lani sangat menggemari hobi membaca buku pengetahuan dan melakukan eksperimen sains sederhana. Lani memilih hobi tersebut karena ia selalu penasaran dengan cara kerja hal-hal di sekitarnya. Dengan membaca dan mencoba eksperimen sendiri, Lani merasa seperti seorang peneliti muda yang menemukan rahasia alam.',
-    'Meskipun ketiga murid ini memiliki hobi dan alasan yang berbeda-beda, mereka saling mendukung dan menghargai. Bagi mereka, hobi bukan sekadar mengisi waktu luang, melainkan sarana untuk mengembangkan potensi diri dan memperluas wawasan.'
-  ]
-}
-
-const BACAAN_11_12 = {
-  judul: 'Dari Ide Menjadi Buku',
-  teks: [
-    'Di sebuah sekolah, Dita memiliki ide untuk membuat buku cerita tentang lingkungan. Ia ingin mengajak anak-anak menjaga kebersihan melalui cerita yang menarik. Dita kemudian menuliskan tokoh, alur cerita, dan pesan yang ingin disampaikan. Setelah selesai, ia menyerahkan naskahnya kepada penerbit.',
-    'Di penerbit, editor membaca naskah Dita. Editor memperbaiki ejaan, tanda baca, dan kalimat yang kurang jelas agar cerita mudah dipahami. Setelah naskah selesai disunting, ilustrator membuat gambar yang sesuai dengan isi cerita. Gambar tersebut membantu pembaca membayangkan tokoh dan peristiwa dalam cerita.',
-    'Selanjutnya, penata letak mengatur posisi tulisan dan gambar agar halaman buku terlihat rapi. Setelah semua bagian diperiksa dan disetujui, naskah dikirim ke percetakan. Petugas percetakan mencetak halaman-halaman buku, menyusunnya, dan menjilidnya menjadi buku utuh.',
-    'Buku cerita Dita akhirnya siap dibaca. Dita merasa senang karena banyak orang bekerja sama untuk mewujudkan idenya. Ia menyadari bahwa sebuah buku tidak hanya dihasilkan oleh penulis, tetapi juga oleh editor, ilustrator, penata letak, petugas percetakan, dan pihak lain yang membantu proses penerbitan.'
-  ]
-}
-
-const BACAAN_14 = {
-  judul: 'Hobi Memasak Rani',
-  teks: [
-    'Rani memiliki hobi memasak. Sejak kelas tiga SD, ia mulai belajar memasak bersama ibunya. Ia senang mencoba berbagai resep makanan sederhana. Menurut Rani, memasak merupakan kegiatan yang menyenangkan sekaligus bermanfaat karena dapat melatih kemandirian dan kreativitas.',
-    'Pada hari Minggu, Rani ingin membuat nasi goreng spesial untuk ibunya. Sebelum mulai memasak, ia menyiapkan nasi putih, telur, bawang merah, bawang putih, dan kecap manis. Ia kemudian menggoreng telur terlebih dahulu, lalu memasak nasi bersama bumbu yang telah disiapkan.',
-    'Setelah selesai, Rani menyajikan nasi goreng buatannya di meja makan. Ibunya merasa senang dan memuji usaha Rani. Rani pun bangga karena berhasil membuat makanan kesukaan ibunya sendiri.'
-  ]
-}
-
-const BACAAN_15_19 = {
-  judul: 'Aku dan Keunikanku',
-  teks: [
-    'Namaku Nabila Putri. Aku duduk di kelas V SD. Aku tinggal bersama kedua orang tuaku dan seorang adik laki-laki. Teman-temanku mengenalku sebagai anak yang ramah, sabar, dan senang membantu orang lain.',
-    'Aku memiliki hobi membuat kerajinan tangan dari barang bekas. Setiap hari Minggu, aku biasanya mengumpulkan botol plastik, kardus, dan kertas yang sudah tidak terpakai. Benda-benda tersebut kemudian kuubah menjadi tempat pensil, hiasan meja, atau bingkai foto.',
-    'Selain membuat kerajinan, aku juga senang membaca buku cerita. Menurutku, membaca dapat menambah pengetahuan dan memberikan banyak inspirasi. Aku bercita-cita menjadi seorang guru seni agar dapat mengajarkan keterampilan membuat karya kreatif kepada anak-anak.',
-    'Aku menyadari bahwa setiap orang memiliki kelebihan dan kekurangan. Aku memang belum terlalu berani berbicara di depan banyak orang. Namun, aku terus berlatih agar lebih percaya diri. Bagiku, keunikan bukanlah alasan untuk merasa lebih baik daripada orang lain, melainkan sesuatu yang harus disyukuri dan dikembangkan.'
-  ]
-}
-
-const BACAAN_20 = {
-  judul: 'Empat Anak dengan Keunikan Berbeda',
-  teks: [
-    'Di kelas V SD Pelita Bangsa terdapat empat murid yang memiliki keunikan masing-masing.',
-    'Andi dikenal sebagai anak yang percaya diri dan senang berbicara di depan kelas. Ia memiliki kemampuan bercerita dan sering menjadi pembawa acara ketika ada kegiatan sekolah.',
-    'Maya adalah anak yang teliti dan sabar. Ia senang menggambar pemandangan dan membuat lukisan dengan berbagai warna. Hasil gambarnya sering dipajang di kelas.',
-    'Fajar memiliki rasa ingin tahu yang tinggi. Ia senang melakukan percobaan sederhana dan membaca buku tentang ilmu pengetahuan. Ia bercita-cita menjadi seorang ilmuwan.',
-    'Sementara itu, Lala merupakan anak yang ramah dan peduli terhadap sesama. Ia senang membantu teman yang mengalami kesulitan dan selalu berusaha menjaga hubungan baik dengan orang lain.'
-  ]
-}
-
-const BACAAN_21_25 = {
-  judul: 'Membaca, Jendela Dunia',
-  teks: [
-    'Ada pepatah yang mengatakan bahwa buku adalah jendela dunia. Dengan membaca buku, kita dapat mengetahui banyak hal tanpa harus pergi jauh. Kita bisa mengenal hewan di hutan Kalimantan, budaya suku di Papua, bahkan planet di luar angkasa.',
-    'Membaca juga memberi banyak manfaat. Wawasan kita bertambah dan kosakata semakin kaya. Kemampuan berbicara dan menulis pun menjadi lebih baik. Orang yang gemar membaca biasanya lebih mudah menyampaikan gagasan dengan runtut.',
-    'Agar bacaan mudah dipahami, kita perlu membaca dengan cermat. Mulailah dengan membaca judul, lalu baca isi bacaan secara perlahan. Tandai kata yang belum dipahami dan carilah artinya di kamus. Setelah itu, catat ide pokok setiap paragraf. Terakhir, ceritakan kembali isi bacaan dengan bahasa sendiri secara santun.'
-  ]
-}
-
-const BACAAN_26_30 = {
-  judul: 'Hobiku, Caraku Bercerita',
-  teks: [
-    'Namaku Rani. Hobiku adalah menggambar. Aku mulai menyukai menggambar sejak kelas satu, ketika ibu memberiku buku gambar dan pensil warna.',
-    'Setiap sore, aku menggambar selama satu jam. Pertama, aku memikirkan gambar apa yang akan dibuat. Kedua, aku membuat sketsa dengan pensil. Ketiga, aku mewarnai gambar itu sampai rapi. Terakhir, aku menunjukkan hasilnya kepada ibu.',
-    'Temanku, Bima, punya hobi yang berbeda. Ia suka bermain sepak bola. Awalnya aku malu ketika menceritakan hobiku di depan kelas. Namun, Bima bertepuk tangan dan berkata bahwa gambarku bagus. Aku pun menjadi percaya diri. Aku juga bangga mendengar cerita Bima tentang pertandingan sepak bolanya.'
-  ]
-}
-
-// ============================================================================
-// BANK SOAL 1: BAHASA INDONESIA - SD SEDERAJAT (PAKET 1)
-// ============================================================================
-const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
-  {
-    nomorAsli: 1,
-    tipe: 'pg',
-    bacaanGambar: './cerita-sungai-bersih.png',
-    pertanyaan: 'Apa kemampuan yang ditunjukkan Lani dalam cerita?',
-    opsi: [
-      { kode: 'A', teks: 'Mengajak teman-temannya bekerja sama' },
-      { kode: 'B', teks: 'Berlari paling cepat' },
-      { kode: 'C', teks: 'Memanjat pohon paling tinggi' },
-      { kode: 'D', teks: 'Berenang paling jauh' }
-    ],
-    kunciText: 'Kunci jawaban: Mengajak teman-temannya bekerja sama.',
-    kunciTeksReviu: 'Mengajak teman-temannya bekerja sama'
-  },
-  {
-    nomorAsli: 2,
-    tipe: 'tabel',
-    bacaanGambar: './cerita-sungai-bersih.png',
-    pertanyaan: 'Apa contoh perilaku yang dapat ditemukan dalam kehidupan sehari-hari berdasarkan pesan dalam cerita?',
-    petunjuk: 'Tentukan Sesuai atau Tidak Sesuai untuk setiap pernyataan berikut!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Menulis pengalaman setelah membaca buku dapat membantu kita mengingat informasi penting.',
-      'Kita tidak perlu belajar karena pengetahuan hanya dapat diperoleh dari pengalaman bermain.',
-      'Bekerja sama menjaga kebersihan seperti Lani dan teman-temannya merupakan perilaku baik.'
-    ],
-    kunciText: 'Kunci jawaban: Sesuai, Tidak Sesuai, Sesuai.',
-    kunciTeksReviu: 'Sesuai, Tidak Sesuai, Sesuai'
-  },
-  {
-    nomorAsli: 3,
-    tipe: 'pgk',
-    bacaanGambar: './cerita-sungai-bersih.png',
-    pertanyaan: 'Apa saja kegiatan yang dapat menjadi hobi berdasarkan cerita tersebut?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Membaca buku tentang hewan dan lingkungan.' },
-      { kode: 'B', teks: 'Menulis cerita tentang pengalaman menjaga kebersihan sungai.' },
-      { kode: 'C', teks: 'Bekerja sama membersihkan lingkungan sebagai kegiatan yang disukai.' },
-      { kode: 'D', teks: 'Membuang sampah ke sungai sebagai kegiatan kesukaan.' }
-    ],
-    kunciText: 'Kunci jawaban: Membaca buku, Menulis cerita, Bekerja sama.',
-    kunciTeksReviu: 'Membaca buku, Menulis cerita, Bekerja sama'
-  },
-  {
-    nomorAsli: 4,
-    tipe: 'isian',
-    bacaanGambar: './cerita-sungai-bersih.png',
-    pertanyaan: 'Rusa, burung, tupai, dan teman-teman Lani bekerja sama membersihkan sungai. Hobi yang sesuai adalah ....',
-    kunciText: 'Kunci jawaban: Menjaga kebersihan lingkungan.',
-    kunciTeksReviu: 'Menjaga kebersihan lingkungan'
-  },
-  {
-    nomorAsli: 5,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_5_6.judul,
-    bacaanTeks: BACAAN_5_6.teks,
-    pertanyaan: 'Berdasarkan cerita di atas, pernyataan yang menunjukkan ciri fisik dan bukti bahwa Bayu adalah anak yang peduli?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Bayu memiliki fisik paling tinggi di antara teman sekelasnya.' },
-      { kode: 'B', teks: 'Bayu sangat suka bermain bola bersama teman-temannya di lapangan.' },
-      { kode: 'C', teks: 'Bayu memperbaiki halaman buku yang sobek menggunakan selotip secara hati-hati.' },
-      { kode: 'D', teks: 'Bayu adalah petugas resmi perpustakaan sekolah yang bertugas setiap hari.' }
-    ],
-    kunciText: 'Kunci jawaban: Fisik paling tinggi, Memperbaiki buku.',
-    kunciTeksReviu: 'Fisik paling tinggi, Memperbaiki buku'
-  },
-  {
-    nomorAsli: 6,
-    tipe: 'isian',
-    bacaanJudul: BACAAN_5_6.judul,
-    bacaanTeks: BACAAN_5_6.teks,
-    pertanyaan: 'Ciri fisik Bayu yang dimanfaatkan secara positif untuk membantu pekerjaan merapikan perpustakaan adalah tubuhnya yang ....',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciText: 'Kunci jawaban: Paling tinggi di antara teman sekelasnya.',
-    kunciTeksReviu: 'Paling tinggi'
-  },
-  {
-    nomorAsli: 7,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_7_8.judul,
-    bacaanTeks: BACAAN_7_8.teks,
-    pertanyaan: 'Mengapa kegiatan membaca buku di dalam kamar pingitan menjadi langkah awal perjuangan R.A. Kartini?',
-    opsi: [
-      { kode: 'A', teks: 'Karena membaca buku membuatnya bisa menghafal bahasa asing.' },
-      { kode: 'B', teks: 'Karena membaca buku memberinya wawasan luas dan kesadaran bahwa wanita berhak berpendidikan.' },
-      { kode: 'C', teks: 'Karena membaca buku adalah satu-satunya hiburan.' },
-      { kode: 'D', teks: 'Karena dengan membaca buku, Kartini diizinkan keluar rumah.' }
-    ],
-    kunciText: 'Kunci jawaban: Karena membaca buku memberinya wawasan luas...',
-    kunciTeksReviu: 'Karena membaca buku memberinya wawasan luas...'
-  },
-  {
-    nomorAsli: 8,
-    tipe: 'isian',
-    bacaanJudul: BACAAN_7_8.judul,
-    bacaanTeks: BACAAN_7_8.teks,
-    pertanyaan: 'Alat/sarana yang digunakan R.A. Kartini sebagai "senjata" untuk memperluas wawasan adalah ... dan ....',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciText: 'Kunci jawaban: Membaca dan menulis.',
-    kunciTeksReviu: 'Membaca dan menulis'
-  },
-  {
-    nomorAsli: 9,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_9_10.judul,
-    bacaanTeks: BACAAN_9_10.teks,
-    pertanyaan: 'Mengapa Edo menganggap hobi berkebun memberikan dampak positif bagi pembentukan karakternya?',
-    opsi: [
-      { kode: 'A', teks: 'Karena berkebun membuatnya bisa menjual hasil panen.' },
-      { kode: 'B', teks: 'Karena proses mengamati benih hingga tumbuh melatih kesabarannya.' },
-      { kode: 'C', teks: 'Karena berkebun tidak memerlukan biaya mahal.' },
-      { kode: 'D', teks: 'Karena berkebun membuatnya dipuji guru.' }
-    ],
-    kunciText: 'Kunci jawaban: Karena proses mengamati benih hingga tumbuh melatih kesabarannya.',
-    kunciTeksReviu: 'Karena proses mengamati benih hingga tumbuh melatih kesabarannya.'
-  },
-  {
-    nomorAsli: 10,
-    tipe: 'jodoh',
-    bacaanJudul: BACAAN_9_10.judul,
-    bacaanTeks: BACAAN_9_10.teks,
-    pertanyaan: 'Pasangkanlah nama tokoh pada Kolom A dengan hobi dan kegiatan utamanya pada Kolom B!',
-    petunjuk: 'Hubungkan atau pilih pasangan huruf yang tepat untuk setiap tokoh!',
-    kolomKiri: [
-      { nomor: 1, teks: 'Edo' },
-      { nomor: 2, teks: 'Siti' },
-      { nomor: 3, teks: 'Lani' }
-    ],
-    kolomKanan: [
-      { kode: 'A', teks: 'Membaca buku sains dan melakukan percobaan ilmiah.' },
-      { kode: 'B', teks: 'Menanam dan merawat benih tanaman.' },
-      { kode: 'C', teks: 'Membuat sketsa gambar cerita lucu.' }
-    ],
-    kunciText: 'Kunci jawaban: 1-B, 2-C, 3-A.',
-    kunciTeksReviu: '1-B, 2-C, 3-A'
-  },
-  {
-    nomorAsli: 11,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_11_12.judul,
-    bacaanTeks: BACAAN_11_12.teks,
-    pertanyaan: 'Bagaimana urutan proses pembuatan buku yang tepat berdasarkan bacaan tersebut?',
-    opsi: [
-      { kode: 'A', teks: 'ilustrasi → ide → pencetakan → penulisan → penyuntingan' },
-      { kode: 'B', teks: 'penulisan → pencetakan → ide → penjilidan → penyuntingan' },
-      { kode: 'C', teks: 'ide → penulisan naskah → penyuntingan → ilustrasi dan penataan letak → pencetakan dan penjilidan' },
-      { kode: 'D', teks: 'pencetakan → ilustrasi → penyuntingan → ide → penulisan naskah' }
-    ],
-    kunciText: 'Kunci jawaban: ide → penulisan naskah → penyuntingan → ilustrasi...',
-    kunciTeksReviu: 'ide → penulisan naskah → penyuntingan → ilustrasi...'
-  },
-  {
-    nomorAsli: 12,
-    tipe: 'tabel',
-    bacaanJudul: BACAAN_11_12.judul,
-    bacaanTeks: BACAAN_11_12.teks,
-    pertanyaan: 'Tentukan apakah pernyataan tersebut Benar atau Salah berdasarkan bacaan tersebut!',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Proses pembuatan buku dapat dimulai dari munculnya ide.',
-      'Editor bertugas mencetak dan menjilid buku.',
-      'Ilustrasi dapat membantu pembaca memahami isi cerita.'
-    ],
-    kunciText: 'Kunci jawaban: Benar, Salah, Benar.',
-    kunciTeksReviu: 'Benar, Salah, Benar'
-  },
-  {
-    nomorAsli: 13,
-    tipe: 'pg',
-    bacaanGambar: './komik-aldi.png',
-    bacaanTeks: [
-      'Aldi memiliki hobi membuat komik sederhana. Ia sering menggambar tokoh dan menulis cerita pendek pada waktu luang. Suatu hari, temannya mengatakan bahwa komik buatannya masih kurang menarik. Aldi sempat kecewa, tetapi kemudian ia meminta saran dari guru dan berlatih membuat gambar serta cerita yang lebih baik. Beberapa minggu kemudian, komik Aldi menjadi lebih menarik dan ia berani memajangnya di kelas.'
-    ],
-    pertanyaan: 'Berdasarkan cerita tersebut, tindakan Aldi menunjukkan bahwa ...',
-    opsi: [
-      { kode: 'A', teks: 'Hobi hanya bermanfaat jika hasilnya langsung sempurna' },
-      { kode: 'B', teks: 'Kritik harus selalu dihindari' },
-      { kode: 'C', teks: 'Ketekunan mengembangkan hobi dapat meningkatkan keterampilan dan rasa percaya diri' },
-      { kode: 'D', teks: 'Seseorang sebaiknya berhenti melakukan hobi ketika mendapat kritik' }
-    ],
-    kunciText: 'Kunci jawaban: Ketekunan mengembangkan hobi dapat meningkatkan keterampilan dan rasa percaya diri.',
-    kunciTeksReviu: 'Ketekunan mengembangkan hobi dapat meningkatkan keterampilan dan rasa percaya diri'
-  },
-  {
-    nomorAsli: 14,
-    tipe: 'tabel',
-    bacaanJudul: BACAAN_14.judul,
-    bacaanTeks: BACAAN_14.teks,
-    pertanyaan: 'Berdasarkan teks tersebut, tentukan apakah setiap pernyataan Sesuai atau Tidak Sesuai!',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Rani memiliki hobi memasak.',
-      'Rani mulai belajar memasak sejak kelas tiga SD.',
-      'Rani membuat nasi goreng spesial untuk ayahnya.'
-    ],
-    kunciText: 'Kunci jawaban: Sesuai, Sesuai, Tidak Sesuai.',
-    kunciTeksReviu: 'Sesuai, Sesuai, Tidak Sesuai'
-  },
-  {
-    nomorAsli: 15,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_15_19.judul,
-    bacaanTeks: BACAAN_15_19.teks,
-    pertanyaan: 'Informasi manakah yang menunjukkan identitas diri Nabila?',
-    opsi: [
-      { kode: 'A', teks: 'Ramah, sabar, dan senang membantu.' },
-      { kode: 'B', teks: 'Bernama Nabila Putri dan duduk di kelas V SD.' },
-      { kode: 'C', teks: 'Senang membuat kerajinan tangan.' },
-      { kode: 'D', teks: 'Bercita-cita menjadi guru seni.' }
-    ],
-    kunciText: 'Kunci jawaban: Bernama Nabila Putri dan duduk di kelas V SD.',
-    kunciTeksReviu: 'Bernama Nabila Putri dan duduk di kelas V SD.'
-  },
-  {
-    nomorAsli: 16,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_15_19.judul,
-    bacaanTeks: BACAAN_15_19.teks,
-    pertanyaan: 'Mengapa Nabila mengumpulkan botol plastik dan kardus bekas?',
-    opsi: [
-      { kode: 'A', teks: 'Untuk dijual' },
-      { kode: 'B', teks: 'Untuk bermain' },
-      { kode: 'C', teks: 'Untuk diolah menjadi kerajinan yang bermanfaat' },
-      { kode: 'D', teks: 'Tidak ada bahan lain' }
-    ],
-    kunciText: 'Kunci jawaban: Untuk diolah menjadi kerajinan yang bermanfaat.',
-    kunciTeksReviu: 'Untuk diolah menjadi kerajinan yang bermanfaat'
-  },
-  {
-    nomorAsli: 17,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_15_19.judul,
-    bacaanTeks: BACAAN_15_19.teks,
-    pertanyaan: 'Manakah informasi identitas dan gambaran diri Nabila?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Bernama Nabila Putri.' },
-      { kode: 'B', teks: 'Duduk di kelas V SD.' },
-      { kode: 'C', teks: 'Memiliki adik laki-laki.' },
-      { kode: 'D', teks: 'Hobi membuat kerajinan.' }
-    ],
-    kunciText: 'Kunci jawaban: Nama, Kelas, Adik, Hobi.',
-    kunciTeksReviu: 'Nama, Kelas, Adik, Hobi'
-  },
-  {
-    nomorAsli: 18,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_15_19.judul,
-    bacaanTeks: BACAAN_15_19.teks,
-    pertanyaan: 'Manakah kegiatan yang menunjukkan minat dan kemampuan Nabila?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Membuat tempat pensil dari botol bekas.' },
-      { kode: 'B', teks: 'Membaca buku cerita.' },
-      { kode: 'C', teks: 'Membuat bingkai foto.' },
-      { kode: 'D', teks: 'Menghindari kreativitas.' }
-    ],
-    kunciText: 'Kunci jawaban: Kerajinan botol, Membaca buku, Bingkai foto.',
-    kunciTeksReviu: 'Kerajinan botol, Membaca buku, Bingkai foto'
-  },
-  {
-    nomorAsli: 19,
-    tipe: 'uraian',
-    bacaanJudul: BACAAN_15_19.judul,
-    bacaanTeks: BACAAN_15_19.teks,
-    pertanyaan: 'Jelaskan tiga keunikan Nabila beserta buktinya!',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciText: 'Kunci jawaban: Kreatif membuat kerajinan, gemar membaca, ramah.',
-    kunciTeksReviu: 'Kreatif membuat kerajinan, gemar membaca, ramah'
-  },
-  {
-    nomorAsli: 20,
-    tipe: 'jodoh',
-    bacaanJudul: BACAAN_20.judul,
-    bacaanTeks: BACAAN_20.teks,
-    pertanyaan: 'Pasangkan nama tokoh dengan karakteristik yang tepat!',
-    petunjuk: 'Pilih pasangan huruf yang tepat!',
-    kolomKiri: [
-      { nomor: 1, teks: 'Andi' },
-      { nomor: 2, teks: 'Maya' },
-      { nomor: 3, teks: 'Fajar' },
-      { nomor: 4, teks: 'Lala' }
-    ],
-    kolomKanan: [
-      { kode: 'A', teks: 'Ramah dan peduli.' },
-      { kode: 'B', teks: 'Percaya diri.' },
-      { kode: 'C', teks: 'Teliti dan sabar.' },
-      { kode: 'D', teks: 'Suka percobaan.' }
-    ],
-    kunciText: 'Kunci jawaban: 1-B, 2-C, 3-D, 4-A.',
-    kunciTeksReviu: '1-B, 2-C, 3-D, 4-A'
-  },
-  {
-    nomorAsli: 21,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_21_25.judul,
-    bacaanTeks: BACAAN_21_25.teks,
-    pertanyaan: 'Manakah ide pokok paragraf kedua?',
-    opsi: [
-      { kode: 'A', teks: 'Buku adalah jendela dunia' },
-      { kode: 'B', teks: 'Membaca memberi banyak manfaat' },
-      { kode: 'C', teks: 'Cara membaca cermat' },
-      { kode: 'D', teks: 'Menulis lebih penting' }
-    ],
-    kunciText: 'Kunci jawaban: Membaca memberi banyak manfaat.',
-    kunciTeksReviu: 'Membaca memberi banyak manfaat'
-  },
-  {
-    nomorAsli: 22,
-    tipe: 'tabel',
-    bacaanJudul: BACAAN_21_25.judul,
-    bacaanTeks: BACAAN_21_25.teks,
-    pertanyaan: 'Tentukan apakah pernyataan berikut sesuai atau tidak sesuai!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Kita harus pergi jauh untuk mengenal Papua.',
-      'Membaca memperkaya kosakata.',
-      'Kata belum dipahami dicari di kamus.'
-    ],
-    kunciText: 'Kunci jawaban: Tidak Sesuai, Sesuai, Sesuai.',
-    kunciTeksReviu: 'Tidak Sesuai, Sesuai, Sesuai'
-  },
-  {
-    nomorAsli: 23,
-    tipe: 'isian',
-    bacaanJudul: BACAAN_21_25.judul,
-    bacaanTeks: BACAAN_21_25.teks,
-    pertanyaan: 'Di mana kita dapat mencari arti kata yang belum dipahami?',
-    kunciText: 'Kunci jawaban: Kamus.',
-    kunciTeksReviu: 'Kamus'
-  },
-  {
-    nomorAsli: 24,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_21_25.judul,
-    bacaanTeks: BACAAN_21_25.teks,
-    pertanyaan: 'Manakah manfaat membaca buku yang disebutkan dalam teks?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Menambah wawasan.' },
-      { kode: 'B', teks: 'Memperkaya kosakata.' },
-      { kode: 'C', teks: 'Tidak perlu belajar.' },
-      { kode: 'D', teks: 'Meningkatkan kemampuan berbicara.' }
-    ],
-    kunciText: 'Kunci jawaban: Menambah wawasan, Memperkaya kosakata, Meningkatkan bicara.',
-    kunciTeksReviu: 'Menambah wawasan, Memperkaya kosakata, Meningkatkan bicara'
-  },
-  {
-    nomorAsli: 25,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_21_25.judul,
-    bacaanTeks: BACAAN_21_25.teks,
-    pertanyaan: 'Langkah apa saja untuk memahami isi bacaan dengan baik?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Membaca judul sebelum isi.' },
-      { kode: 'B', teks: 'Melewati kata sulit.' },
-      { kode: 'C', teks: 'Mencatat ide pokok.' },
-      { kode: 'D', teks: 'Menceritakan kembali.' }
-    ],
-    kunciText: 'Kunci jawaban: Membaca judul, Mencatat ide pokok, Menceritakan kembali.',
-    kunciTeksReviu: 'Membaca judul, Mencatat ide pokok, Menceritakan kembali'
-  },
-  {
-    nomorAsli: 26,
-    tipe: 'pg',
-    bacaanJudul: BACAAN_26_30.judul,
-    bacaanTeks: BACAAN_26_30.teks,
-    pertanyaan: 'Bagaimana urutan kegiatan Rani saat menggambar?',
-    opsi: [
-      { kode: 'A', teks: 'sketsa, memikirkan, mewarnai, menunjukkan' },
-      { kode: 'B', teks: 'memikirkan, sketsa, mewarnai, menunjukkan' },
-      { kode: 'C', teks: 'memikirkan, mewarnai, sketsa, menunjukkan' },
-      { kode: 'D', teks: 'menunjukkan, memikirkan, sketsa, mewarnai' }
-    ],
-    kunciText: 'Kunci jawaban: memikirkan, sketsa, mewarnai, menunjukkan.',
-    kunciTeksReviu: 'memikirkan, sketsa, mewarnai, menunjukkan'
-  },
-  {
-    nomorAsli: 27,
-    tipe: 'tabel',
-    bacaanJudul: BACAAN_26_30.judul,
-    bacaanTeks: BACAAN_26_30.teks,
-    pertanyaan: 'Tentukan sesuai atau tidak sesuai dengan teks!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Rani suka menggambar sejak kelas satu.',
-      'Bima dan Rani punya hobi sama.',
-      'Rani menggambar setiap sore selama 1 jam.'
-    ],
-    kunciText: 'Kunci jawaban: Sesuai, Tidak Sesuai, Sesuai.',
-    kunciTeksReviu: 'Sesuai, Tidak Sesuai, Sesuai'
-  },
-  {
-    nomorAsli: 28,
-    tipe: 'isian',
-    bacaanJudul: BACAAN_26_30.judul,
-    bacaanTeks: BACAAN_26_30.teks,
-    pertanyaan: 'Rani berbicara dengan suara yang ... dan kalimat jelas.',
-    kunciText: 'Kunci jawaban: Lantang / jelas.',
-    kunciTeksReviu: 'Lantang / jelas'
-  },
-  {
-    nomorAsli: 29,
-    tipe: 'tabel',
-    bacaanJudul: BACAAN_26_30.judul,
-    bacaanTeks: BACAAN_26_30.teks,
-    pertanyaan: 'Tentukan Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Bima menghargai hobi Rani.',
-      'Hobi beda boleh mengejek.',
-      'Rani lebih percaya diri.'
-    ],
-    kunciText: 'Kunci jawaban: Benar, Salah, Benar.',
-    kunciTeksReviu: 'Benar, Salah, Benar'
-  },
-  {
-    nomorAsli: 30,
-    tipe: 'pgk',
-    bacaanJudul: BACAAN_26_30.judul,
-    bacaanTeks: BACAAN_26_30.teks,
-    pertanyaan: 'Kegiatan apa yang menunjukkan kebiasaan Rani?',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Menggambar setiap sore 1 jam.' },
-      { kode: 'B', teks: 'Bermain bola.' },
-      { kode: 'C', teks: 'Membuat sketsa.' },
-      { kode: 'D', teks: 'Membeli buku.' }
-    ],
-    kunciText: 'Kunci jawaban: Menggambar sore, Membuat sketsa.',
-    kunciTeksReviu: 'Menggambar sore, Membuat sketsa'
-  }
-]
-
-// ============================================================================
-// BANK SOAL 2: MATEMATIKA - SD SEDERAJAT (PAKET 1) — SESUAI PDF (TIDAK DIUBAH)
-// ============================================================================
-const BANK_SOAL_MATEMATIKA_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
-  {
-    nomorAsli: 1,
-    tipe: 'pgk',
-    bacaanJudul: 'Bilangan Cacah dan Nilai Tempat',
-    bacaanTeks: [
-      'Perhatikan bilangan cacah 57.631. Setiap angka pada bilangan tersebut memiliki nilai tempat dan nilai angka yang berbeda sesuai posisinya.'
-    ],
-    bacaanGambar: 'mtk-soal-1.png',
-    pertanyaan: 'Perhatikan bilangan berikut 57.631. Pernyataan dibawah ini yang benar adalah (Pilih dua jawaban atau lebih yang benar)!',
-    petunjuk: 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.',
-    opsi: [
-      { kode: 'A', teks: 'Angka 5 menempati nilai tempat puluh ribuan (bernilai 50.000)' },
-      { kode: 'B', teks: 'Angka 7 menempati nilai tempat ratusan (bernilai 700)' },
-      { kode: 'C', teks: 'Angka 3 menempati nilai tempat puluhan (bernilai 30)' },
-      { kode: 'D', teks: 'Angka 1 menempati nilai tempat satuan (bernilai 1)' }
-    ],
-    kunciKodePgk: ['A', 'C', 'D'],
-    kunciText: 'Kunci jawaban: A, C, D.',
-    kunciTeksReviu: 'A, C, D'
-  },
-  {
-    nomorAsli: 2,
-    tipe: 'tabel',
-    bacaanJudul: 'Kue Jajan Pasar Ibu Citra',
-    bacaanTeks: [
-      'Ibu Citra membuat kue jajan pasar untuk acara arisan. Ia membuat 54 kue lumpur dan 72 kue sus. Ibu Citra ingin menata kue-kue tersebut ke dalam beberapa piring secara merata. Setiap piring harus berisi kedua jenis kue dengan jumlah yang sama banyak. Sebelum ditata, ternyata ada 4 kue lumpur yang rusak sehingga tidak bisa disajikan.'
-    ],
-    bacaanGambar: 'mtk-soal-2.png',
-    pertanyaan: 'Berdasarkan cerita tersebut, tentukan apakah setiap pernyataan berikut Benar atau Salah!',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Kue lumpur yang siap disajikan ada 50',
-      'Masing-masing piring berisi 25 kue lumpur dan 36 kue sus',
-      'Ibu Citra harus menyiapkan paling banyak 5 piring',
-      'Faktor prima dari 72 = 2³ × 3²'
-    ],
-    kunciTabel: ['Benar', 'Benar', 'Salah', 'Benar'],
-    kunciText: 'Kunci jawaban: Benar, Benar, Salah, Benar.',
-    kunciTeksReviu: 'Benar, Benar, Salah, Benar'
-  },
-  {
-    nomorAsli: 3,
-    tipe: 'pg',
-    bacaanJudul: 'Pengumuman Dinas Kabupaten Probolinggo',
-    bacaanTeks: [
-      'Dinas Kabupaten Probolinggo mengumumkan bahwa pada akhir tahun 2021, terdapat delapan belas ribu tujuh ratus empat puluh lima orang terkonfirmasi positif Covid-19.'
-    ],
-    bacaanGambar: 'mtk-soal-3.png',
-    pertanyaan: 'Banyak masyarakat Probolinggo yang terkonfirmasi positif Covid-19 pada akhir tahun 2021 yaitu ... orang.',
-    opsi: [
-      { kode: 'A', teks: '18.744' },
-      { kode: 'B', teks: '18.745' },
-      { kode: 'C', teks: '18.755' },
-      { kode: 'D', teks: '18.464' }
-    ],
-    kunciKodePg: 'B',
-    kunciText: 'Kunci jawaban: B.',
-    kunciTeksReviu: 'B'
-  },
-  {
-    nomorAsli: 4,
-    tipe: 'isian',
-    bacaanJudul: 'Brem Khas Kota Madiun',
-    bacaanTeks: [
-      'Brem merupakan makanan khas Kota Madiun yang dijual dengan harga empat puluh tiga ribu lima ratus rupiah.'
-    ],
-    bacaanGambar: 'mtk-soal-4.png',
-    pertanyaan: 'Angka empat pada harga Brem menempati tempat ... dan nilainya ....',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['puluh ribuan, 40.000', 'puluh ribuan dan 40.000', 'puluh ribuan, 40000', '40.000'],
-    kunciText: 'Kunci jawaban: Puluh ribuan, 40.000.',
-    kunciTeksReviu: 'Puluh ribuan, 40.000'
-  },
-  {
-    nomorAsli: 5,
-    tipe: 'pg',
-    bacaanJudul: 'Potongan Kertas Siti',
-    bacaanTeks: [
-      'Siti memiliki dua potong kertas berbentuk persegi panjang. Kertas pertama diwarnai 2/8 bagian dan kertas kedua diwarnai 3/8 bagian.'
-    ],
-    pertanyaan: 'Jika kedua bagian tersebut digabungkan, jumlah bagian kertas yang diwarnai adalah ....',
-    opsi: [
-      { kode: 'A', teks: '5/16' },
-      { kode: 'B', teks: '5/8' },
-      { kode: 'C', teks: '6/8' },
-      { kode: 'D', teks: '1/8' }
-    ],
-    kunciKodePg: 'B',
-    kunciText: 'Kunci jawaban: B.',
-    kunciTeksReviu: 'B'
-  },
-  {
-    nomorAsli: 6,
-    tipe: 'isian',
-    bacaanJudul: 'Pendapat Budi tentang Keliling Persegi',
-    bacaanTeks: [
-      'Budi mengatakan bahwa untuk mengetahui keliling persegi, cukup menghitung 7 + 7 = 14 cm karena persegi hanya memiliki satu ukuran sisi. Pernyataan: Pendapat Budi adalah benar.'
-    ],
-    bacaanGambar: 'mtk-soal-6.png',
-    pertanyaan: 'Menurut kalian bagaimana pernyataan Budi? Benar atau salah?',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['b', 'benar', 'salah'],
-    kunciText: 'Kunci jawaban: B.',
-    kunciTeksReviu: 'B'
-  },
-  {
-    nomorAsli: 7,
-    tipe: 'tabel',
-    bacaanJudul: 'Perbandingan Bilangan Cacah',
-    bacaanTeks: [
-      'Perhatikan pasangan bilangan cacah berikut untuk menentukan kesesuaian tanda perbandingannya.'
-    ],
-    bacaanGambar: 'mtk-soal-7.png',
-    pertanyaan: 'Tentukan apakah perbandingan berikut sesuai atau tidak sesuai! Beri tanda centang pada kolom yang tepat.',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      '62.481 > 62.418',
-      '9.999 > 10.000',
-      '35.706 < 35.760'
-    ],
-    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Sesuai'],
-    kunciText: 'Kunci jawaban: Benar.',
-    kunciTeksReviu: 'Benar'
-  },
-  {
-    nomorAsli: 8,
-    tipe: 'pg',
-    bacaanJudul: 'Luas Bangun Gabungan',
-    bacaanTeks: [
-      'Bangun tersebut terbentuk dari persegi panjang berukuran 8 cm × 5 cm dan persegi dengan panjang sisi 3 cm yang menempel pada salah satu sisi persegi panjang.'
-    ],
-    bacaanGambar: 'mtk-soal-8.png',
-    pertanyaan: 'Luas bangun gabungan itu adalah ....',
-    opsi: [
-      { kode: 'A', teks: '13 cm²' },
-      { kode: 'B', teks: '43 cm²' },
-      { kode: 'C', teks: '49 cm²' },
-      { kode: 'D', teks: '120 cm²' }
-    ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
-  },
-  {
-    nomorAsli: 9,
-    tipe: 'tabel',
-    bacaanJudul: 'Koleksi Buku Perpustakaan',
-    bacaanTeks: [
-      'Perpustakaan sekolah memiliki koleksi sebanyak 63.482 buku. Petugas perpustakaan mencatat jumlah tersebut berdasarkan nilai tempat agar mudah dibaca dan dipahami oleh para siswa.'
-    ],
-    bacaanGambar: 'mtk-soal-9.png',
-    pertanyaan: 'Berdasarkan cerita tersebut, tentukan Benar atau Salah untuk setiap pernyataan berikut!',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Angka 6 pada bilangan 63.482',
-      'Angka 4 menempati nilai tempat ratusan dan bernilai 400',
-      'Bilangan 63.482 dapat diuraikan menjadi 60.000 + 3.000 + 400 + 80 + 2'
-    ],
-    kunciTabel: ['Salah', 'Benar', 'Benar'],
-    kunciText: 'Kunci jawaban: S, B, B.',
-    kunciTeksReviu: 'S, B, B'
-  },
-  {
-    nomorAsli: 10,
-    tipe: 'uraian',
-    bacaanJudul: 'Membagi Buah ke dalam Kantong',
-    bacaanTeks: [
-      'Ibu memiliki 36 buah jeruk dan 48 buah apel. Buah-buahan tersebut akan dimasukkan ke dalam beberapa kantong untuk dibagikan kepada tetangga. Setiap kantong harus berisi jumlah jeruk yang sama dan jumlah apel yang sama. Tidak boleh ada buah yang tersisa, dan jumlah kantong yang dibuat harus sebanyak mungkin.'
-    ],
-    bacaanGambar: 'mtk-soal-10.png',
-    pertanyaan: 'Berapa jumlah kantong terbanyak yang dapat dibuat Ibu? Berapa buah jeruk dan apel yang terdapat dalam setiap kantong?',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['12', '3', '4'],
-    kunciText: 'Kunci jawaban: 12 kantong, jeruk perkantong ada 3 buah, apel perkantong ada 4 buah.',
-    kunciTeksReviu: '12 kantong, jeruk perkantong ada 3 buah, apel perkantong ada 4 buah'
-  },
-  {
-    nomorAsli: 11,
-    tipe: 'isian',
-    bacaanJudul: 'Kue Bolu Dinda',
-    bacaanTeks: [
-      'Pada hari Minggu, Dinda membantu Ibu membuat kue bolu. Kue tersebut dipotong menjadi 12 bagian sama besar. Ayah memakan 3 potong kue, sedangkan Dinda memakan 2 potong kue. Sisanya disimpan untuk dinikmati bersama pada sore hari.'
-    ],
-    bacaanGambar: 'mtk-soal-11.png',
-    pertanyaan: 'Berapa bagian kue yang dimakan Ayah dan Dinda jika dinyatakan dalam bentuk pecahan?',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['5/12', '5 per 12'],
-    kunciText: 'Kunci jawaban: 5/12 (5 per 12).',
-    kunciTeksReviu: '5/12 (5 per 12)'
-  },
-  {
-    nomorAsli: 12,
-    tipe: 'pg',
-    bacaanJudul: 'Data Jumlah Penduduk Kecamatan',
-    bacaanTeks: [
-      'Data jumlah penduduk (jiwa): Tongas = 14.640; Sumberasih = 37.797; Wonomerto = 19.924; Bantaran = 38.145.',
-      'Pernyataan: (1) Kecamatan Sumberasih memiliki jumlah penduduk paling banyak; (2) Kecamatan Tongas memiliki jumlah penduduk paling sedikit; (3) Kecamatan Tongas dan Wonomerto memiliki jumlah penduduk di bawah 20.000 jiwa; (4) Penduduk di Kecamatan Bantaran lebih sedikit dari Sumberasih.'
-    ],
-    bacaanGambar: 'mtk-soal-12.png',
-    pertanyaan: 'Pernyataan yang benar ditunjukkan oleh nomor ....',
-    opsi: [
-      { kode: 'A', teks: '(1), (2), dan (3) benar' },
-      { kode: 'B', teks: '(1) dan (3) benar' },
-      { kode: 'C', teks: '(2) dan (3) benar' },
-      { kode: 'D', teks: 'Semuanya benar' }
-    ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
-  },
-  {
-    nomorAsli: 13,
-    tipe: 'pg',
-    bacaanJudul: 'Membaca Nilai Tempat pada Tabel',
-    bacaanTeks: [
-      'Perhatikan tabel nilai tempat (Puluh Ribuan, Ribuan, Ratusan, Puluhan, Satuan) beserta keterangan simbolnya pada ilustrasi berikut.'
-    ],
-    bacaanGambar: 'mtk-soal-13.png',
-    pertanyaan: 'Bilangan yang sesuai berdasarkan tabel di atas adalah ....',
-    opsi: [
-      { kode: 'A', teks: '42.559' },
-      { kode: 'B', teks: '43.599' },
-      { kode: 'C', teks: '44.559' },
-      { kode: 'D', teks: '44.599' }
-    ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
-  },
-  {
-    nomorAsli: 14,
-    tipe: 'tabel',
-    bacaanJudul: 'Menentukan Nilai Tempat Bilangan',
-    bacaanTeks: [
-      'Perhatikan tabel pernyataan mengenai nilai tempat angka pada beberapa bilangan cacah.'
-    ],
-    bacaanGambar: 'mtk-soal-14.png',
-    pertanyaan: 'Tentukan sesuai atau tidak sesuai tentang pernyataan berikut dengan memberi tanda centang. Kalian dapat memilih lebih dari satu jawaban.',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Nilai tempat ratusan dari bilangan 42.051 berangka 0',
-      'Nilai tempat puluhan dari bilangan 28.471 berangka 7',
-      'Nilai tempat puluh ribuan dari bilangan 36.490 berangka 6',
-      'Nilai tempat satuan dari bilangan 13.027 berangka 2',
-      'Nilai tempat puluhan dari bilangan 60.317 berangka 3'
-    ],
-    kunciTabel: ['Sesuai', 'Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Tidak Sesuai'],
-    kunciText: 'Kunci jawaban: Sesuai - Sesuai - Tidak Sesuai - Tidak Sesuai - Tidak sesuai.',
-    kunciTeksReviu: 'Sesuai - Sesuai - Tidak Sesuai - Tidak Sesuai - Tidak sesuai'
-  },
-  {
-    nomorAsli: 15,
-    tipe: 'pg',
-    bacaanJudul: 'Berbagi Buah Abraham',
-    bacaanTeks: [
-      'Abraham memiliki 15 apel dan 20 jeruk. Dia akan memberikan buahnya kepada beberapa teman-temannya. Setiap teman mendapatkan kedua jenis buah tersebut. Setiap jenis buah yang didapatkan setiap anak sama banyak.'
-    ],
-    bacaanGambar: 'mtk-soal-15.png',
-    pertanyaan: 'Banyak teman Abraham yang mendapatkan buah adalah ... anak.',
-    opsi: [
-      { kode: 'A', teks: '2' },
-      { kode: 'B', teks: '3' },
-      { kode: 'C', teks: '4' },
-      { kode: 'D', teks: '5' }
-    ],
-    kunciKodePg: 'D',
-    kunciText: 'Kunci jawaban: D.',
-    kunciTeksReviu: 'D'
-  },
-  {
-    nomorAsli: 16,
-    tipe: 'pg',
-    bacaanJudul: 'Jadwal Les Piano Kanaya dan Ulfa',
-    bacaanTeks: [
-      'Kanaya dan Ulfa menyukai piano, sehingga orang tuanya mendaftarkan ke tempat les piano untuk mengasah kemampuan mereka. Kanaya les piano setiap 4 hari sekali dan Ulfa les piano setiap 6 hari sekali. Jika pada hari Minggu mereka les piano bersama.'
-    ],
-    bacaanGambar: 'mtk-soal-16.png',
-    pertanyaan: 'Maka mereka akan les piano bersama-sama lagi untuk yang kedua kalinya pada hari ....',
-    opsi: [
-      { kode: 'A', teks: 'Minggu' },
-      { kode: 'B', teks: 'Sabtu' },
-      { kode: 'C', teks: 'Senin' },
-      { kode: 'D', teks: 'Jumat' }
-    ],
-    kunciKodePg: 'D',
-    kunciText: 'Kunci jawaban: D.',
-    kunciTeksReviu: 'D'
-  },
-  {
-    nomorAsli: 17,
-    tipe: 'tabel',
-    bacaanJudul: 'Jadwal Menerbangkan Drone',
-    bacaanTeks: [
-      'Kak Adit dan Kak Anis masing-masing memiliki drone. Drone adalah pesawat tanpa awak yang terbang dengan kendali jarak jauh menggunakan remot. Mereka menggunakannya untuk merekam video pemandangan alam sekitar. Kak Adit menggunakan drone setiap seminggu sekali. Kak Anis menggunakan drone setiap 5 hari sekali. Pada 14 April ini, mereka menggunakan drone bersamaan.'
-    ],
-    bacaanGambar: 'mtk-soal-17.png',
-    pertanyaan: 'Tentukan sesuai tidak sesuai tentang pernyataan berikut ini.',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Mereka menggunakan drone setiap 115 hari sekali',
-      'Penggunaan drone bersama lagi paling cepat pada 18 Mei',
-      'Penggunaan drone bersama lagi paling cepat pada 19 Mei',
-      'Mereka akan menggunakan drone bersama lagi pada 23 Juni',
-      'Mereka akan menggunakan drone bersama lagi pada 28 Juli'
-    ],
-    kunciTabel: ['Tidak Sesuai', 'Tidak Sesuai', 'Sesuai', 'Sesuai', 'Tidak Sesuai'],
-    kunciText: 'Kunci jawaban: Tidak Sesuai - Tidak Sesuai - Sesuai - Sesuai - Tidak Sesuai.',
-    kunciTeksReviu: 'Tidak Sesuai - Tidak Sesuai - Sesuai - Sesuai - Tidak Sesuai'
-  },
-  {
-    nomorAsli: 18,
-    tipe: 'tabel',
-    bacaanJudul: 'Kelereng Warna-warni Fauzan',
-    bacaanTeks: [
-      'Fauzan memiliki kelereng 96 butir. Kelereng hijau ada 24 butir, merah 36 butir, selebihnya putih. Fauzan memasukkan kelerengnya dalam toples. Setiap toples berisi sama banyak dan kombinasi warnanya. Toples yang disediakan sebanyak-banyaknya.'
-    ],
-    bacaanGambar: 'mtk-soal-18.png',
-    pertanyaan: 'Berdasarkan ilustrasi tersebut, tentukan benar atau salah untuk setiap pernyataan berikut!',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Banyak toples yang dibutuhkan seluruhnya ada 12 buah',
-      'Banyak kelereng putih setiap toples ada 3 buah',
-      'Banyak kelereng dalam setiap toples ada 9 buah'
-    ],
-    kunciTabel: ['Benar', 'Benar', 'Salah'],
-    kunciText: 'Kunci jawaban: Benar - Benar - Salah.',
-    kunciTeksReviu: 'Benar - Benar - Salah'
-  },
-  {
-    nomorAsli: 19,
-    tipe: 'tabel',
-    bacaanJudul: 'Hasil Perahan Susu Sapi Pak Malik',
-    bacaanTeks: [
-      'Pak Malik memerah susu sapi perahnya setiap hari. Pada hari pertama, diperoleh sebanyak 12 1/8 liter. Pada hari kedua, diperoleh sebanyak 12 3/8 liter. Pada hari ketiga, diperoleh sebanyak 13 2/5 liter. Pada hari keempat, diperoleh sebanyak 12 7/10 liter. Pada hari kelima, diperoleh sebanyak 11 1/4 liter.'
-    ],
-    bacaanGambar: 'mtk-soal-19.png',
-    pertanyaan: 'Tentukan sesuai atau tidak sesuai tentang pernyataan berikut!',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Jumlah susu hari pertama dan kedua adalah 24 1/2',
-      'Jumlah susu hari kedua dan ketiga adalah 25 1/3',
-      'Jumlah susu hari ketiga dan keempat adalah 25 9/10',
-      'Jumlah susu hari keempat dan kelima adalah 23 19/20',
-      'Jumlah susu hari pertama dan kelima adalah 23 3/8'
-    ],
-    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Tidak Sesuai', 'Sesuai', 'Sesuai'],
-    kunciText: 'Kunci jawaban: Sesuai - Tidak Sesuai - Tidak Sesuai - Sesuai - Sesuai.',
-    kunciTeksReviu: 'Sesuai - Tidak Sesuai - Tidak Sesuai - Sesuai - Sesuai'
-  },
-  {
-    nomorAsli: 20,
-    tipe: 'tabel',
-    bacaanJudul: 'Operasi Penjumlahan Pecahan dalam Cerita',
-    bacaanTeks: [
-      'Bacalah setiap cerita penjumlahan pecahan dengan cermat dan periksa ketepatan hasilnya.'
-    ],
-    pertanyaan: 'Bacalah setiap cerita dengan cermat, kemudian tentukan apakah pernyataan dan hasil penjumlahannya benar atau salah dengan memberi tanda centang.',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Ibu menggunakan 2/8 kg gula untuk membuat kue dan 3/8 kg gula untuk membuat roti. Total gula yang digunakan adalah 5/8.',
-      'Pak Tani menggunakan dua bilah bambu dengan panjang berbeda sebagai alat ukur. Bilah pertama panjangnya 1/2 meter dan bilah kedua panjangnya 1/4 meter. Jika kedua bilah bambu disambung menjadi satu garis lurus, panjang total sambungannya adalah 2/6 meter.',
-      'Siti menyiapkan dua cetakan agar-agar berbentuk balok berukuran sama. Cetakan pertama diisi agar-agar hijau setinggi 3/5 bagian, dan cetakan kedua diisi agar-agar merah setinggi 1/10 bagian. Jika seluruh agar-agar tersebut disatukan ke dalam satu wadah besar berukuran sama, tinggi bagian agar-agar menjadi 4/5 bagian dari wadah.',
-      'Dalam kegiatan meronce manik-manik, Lani menggunakan seutas tali. Ia memasukkan manik-manik biru sepanjang 1/3 bagian tali dan manik-manik kuning sepanjang 1/2 bagian tali. Jika kedua bagian manik-manik tersebut dideretkan berdampingan pada tali, total panjang bagian tali yang terisi manik-manik adalah 5/6 bagian.',
-      'Beni mengisi dua buah gelas ukur dengan air. Gelas pertama berisi 3/4 liter air dan gelas kedua berisi 1/8 liter air. Ketika air dari kedua gelas tersebut dituangkan ke dalam botol besar, total volume air di dalam botol menjadi 4/12.'
-    ],
-    kunciTabel: ['Benar', 'Salah', 'Salah', 'Benar', 'Salah'],
-    kunciText: 'Kunci jawaban: Benar - Salah - Salah - Benar - Salah.',
-    kunciTeksReviu: 'Benar - Salah - Salah - Benar - Salah'
-  },
-  {
-    nomorAsli: 21,
-    tipe: 'pg',
-    bacaanJudul: 'Persegi Panjang Tersusun Petak Satuan',
-    bacaanTeks: [
-      'Sebuah persegi panjang tersusun dari 5 petak × 4 petak. Satu petak satuan memiliki luas 1 cm². Tiga petak dipindahkan dari bagian dalam bangun lalu ditempelkan di sisi luar bangun (tanpa tumpang tindih) sehingga membentuk bangun baru.'
-    ],
-    bacaanGambar: 'mtk-soal-21.png',
-    pertanyaan: 'Pernyataan yang tepat tentang luas bangun baru adalah ....',
-    opsi: [
-      { kode: 'A', teks: 'Tetap 20 cm² karena banyak petak yang menyusun bangun tidak berubah.' },
-      { kode: 'B', teks: 'Menjadi 17 cm² karena ada tiga petak yang dipindahkan.' },
-      { kode: 'C', teks: 'Menjadi 23 cm² karena ada tiga petak yang ditambahkan.' },
-      { kode: 'D', teks: 'Tidak dapat ditentukan karena bentuknya berubah.' }
-    ],
-    kunciKodePg: 'A',
-    kunciText: 'Kunci jawaban: A.',
-    kunciTeksReviu: 'A'
-  },
-  {
-    nomorAsli: 22,
-    tipe: 'tabel',
-    bacaanJudul: 'Perbandingan Luas Kartu A dan Kartu B',
-    bacaanTeks: [
-      'Kartu A berbentuk persegi panjang dengan ukuran 6 petak × 2 petak. Kartu B berbentuk persegi dengan ukuran 3 petak × 4 petak. Petak satuan kedua kartu sama besar.'
-    ],
-    bacaanGambar: 'mtk-soal-22.png',
-    pertanyaan: 'Tentukan apakah setiap pernyataan berikut SESUAI atau TIDAK SESUAI dengan stimulus! (Beri tanda centang pada kolom yang tepat)',
-    petunjuk: 'Pilih Sesuai atau Tidak Sesuai untuk setiap pernyataan!',
-    kolomTabel: ['Sesuai', 'Tidak Sesuai'],
-    barisTabel: [
-      'Luas kartu A sama dengan luas kartu B, yaitu 12 petak satuan.',
-      'Kartu B lebih luas karena bentuknya lebih mendekati persegi.',
-      'Jika setiap petak satuan memiliki luas 2 cm², luas kartu A adalah 24 cm².'
-    ],
-    kunciTabel: ['Sesuai', 'Tidak Sesuai', 'Sesuai'],
-    kunciText: 'Kunci jawaban: S, TS, S.',
-    kunciTeksReviu: 'S, TS, S'
-  },
-  {
-    nomorAsli: 23,
-    tipe: 'isian',
-    bacaanJudul: 'Ubin Lantai Ruangan',
-    bacaanTeks: [
-      'Lantai sebuah ruangan berbentuk persegi panjang ditutup ubin berukuran 1 m². Ubin tersusun 8 baris dan 5 kolom. Sebanyak 12 ubin bagian tengah ditutup karpet.'
-    ],
-    pertanyaan: 'Luas lantai yang tidak tertutup karpet adalah ... m².',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['28', '28 m2', '28 m²'],
-    kunciText: 'Kunci jawaban: 28.',
-    kunciTeksReviu: '28'
-  },
-  {
-    nomorAsli: 24,
-    tipe: 'pg',
-    bacaanJudul: 'Belanjaan Ardian di Pasar Bantaran',
-    bacaanTeks: [
-      'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang putih, Bawang Merah, dan Beras. Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan ke empat barang tersebut menjadi 2 bagian di antaranya Bawang Putih dengan bawang merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
-    ],
-    bacaanGambar: 'mtk-soal-24.png',
-    pertanyaan: 'Kemungkinan yang akan terjadi dari cerita di atas adalah ....',
-    opsi: [
-      { kode: 'A', teks: 'Berat gula dan beras sama dengan berat bawang putih dan bawang merah.' },
-      { kode: 'B', teks: 'Berat gula dan beras lebih ringan dari pada berat bawang putih dan bawang merah.' },
-      { kode: 'C', teks: 'Berat beras jika dijumlah dengan berat bawang merah adalah 8 3/6 kg' },
-      { kode: 'D', teks: 'Berat bawang merah jika dijumlah dengan berat beras adalah 10 3/4 kg.' }
-    ],
-    kunciKodePg: 'B',
-    kunciText: 'Kunci jawaban: B.',
-    kunciTeksReviu: 'B'
-  },
-  {
-    nomorAsli: 25,
-    tipe: 'tabel',
-    bacaanJudul: 'Perbandingan Berat Belanjaan Ardian',
-    bacaanTeks: [
-      'Ardian diminta ibu untuk pergi berbelanja ke pasar Bantaran. Ardian membeli beberapa barang di antaranya ada Gula, Bawang putih, Bawang Merah, dan Beras. Ardian membeli gula sebanyak 2 3/4 kg, Bawang Putih sebanyak 3 5/6 kg, Bawang Merah sebanyak 5 1/2 kg, dan Beras sebanyak 5 2/4 kg. Kemudian Ardian mengelompokkan ke empat barang tersebut menjadi 2 bagian di antaranya Bawang Putih dengan bawang merah dimasukkan ke dalam wadah yang sama supaya mudah membawanya.'
-    ],
-    bacaanGambar: 'mtk-soal-25.png',
-    pertanyaan: 'Pernyataan di bawah ini yang sesuai adalah ....',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Berat bawang merah dengan berat beras itu sama',
-      'Berat beras jika dijumlah dengan berat bawang merah adalah 9 1/2 kg',
-      'Berat bawang merah jika dijumlah dengan berat beras adalah 10 kg.'
-    ],
-    kunciTabel: ['Benar', 'Salah', 'Salah'],
-    kunciText: 'Kunci jawaban: B, S, S.',
-    kunciTeksReviu: 'B, S, S'
-  },
-  {
-    nomorAsli: 26,
-    tipe: 'tabel',
-    bacaanJudul: 'Kartu Bilangan Toni dan Lisa',
-    bacaanTeks: [
-      'Toni dan Lisa membuat sebuah kartu bilangan. Kartu Toni bertuliskan bilangan 48.201. Kartu Lisa bertuliskan bilangan 22.930.'
-    ],
-    bacaanGambar: 'mtk-soal-26.png',
-    pertanyaan: 'Tentukan Benar atau Salah tentang dua bilangan dalam kartu tersebut!',
-    petunjuk: 'Pilih Benar atau Salah untuk setiap pernyataan!',
-    kolomTabel: ['Benar', 'Salah'],
-    barisTabel: [
-      'Jumlah bilangan dari kedua kartu adalah 71.131',
-      'Selisih dari kedua kartu adalah 25.271',
-      'Jumlah bilangan dari kedua kartu adalah 71.031',
-      'Dua kali lipat dari bilangan di kartu Toni adalah 96.402',
-      'Selisih dari kedua kartu adalah 26.271'
-    ],
-    kunciTabel: ['Benar', 'Benar', 'Salah', 'Benar', 'Salah'],
-    kunciText: 'Kunci jawaban: B, B, S, B, S.',
-    kunciTeksReviu: 'B, B, S, B, S'
-  },
-  {
-    nomorAsli: 27,
-    tipe: 'pg',
-    bacaanJudul: 'Alat Tulis Dodi',
-    bacaanTeks: [
-      'Dodi memiliki 4 pensil dan 20 penghapus. Ia akan membagikannya kepada teman-teman. Tiap teman mendapatkan kedua jenis barang itu. Jumlah tiap jenis barang yang didapatkan tiap temannya sama banyak.'
-    ],
-    bacaanGambar: 'mtk-soal-27.png',
-    pertanyaan: 'Teman terbanyak yang mendapatkan kedua barang itu adalah ....',
-    opsi: [
-      { kode: 'A', teks: '1' },
-      { kode: 'B', teks: '5' },
-      { kode: 'C', teks: '4' },
-      { kode: 'D', teks: '2' }
-    ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
-  },
-  {
-    nomorAsli: 28,
-    tipe: 'pg',
-    bacaanJudul: 'Panen Jeruk Pak Doni',
-    bacaanTeks: [
-      'Pak Doni memanen 4.500 buah jeruk dari kebunnya. Jeruk-jeruk tersebut dimasukkan ke dalam 36 keranjang dengan jumlah yang sama banyak. Jika seluruh jeruk dalam 1 keranjang dijual dengan harga Rp150.000, berapa rupiah total uang yang diperoleh Pak Doni jika 1 keranjang berisi berapa buah jeruk?'
-    ],
-    bacaanGambar: 'mtk-soal-28.png',
-    pertanyaan: 'Satu keranjang berisi ... buah jeruk.',
-    opsi: [
-      { kode: 'A', teks: '115 buah' },
-      { kode: 'B', teks: '120 buah' },
-      { kode: 'C', teks: '125 buah' },
-      { kode: 'D', teks: '130 buah' }
-    ],
-    kunciKodePg: 'C',
-    kunciText: 'Kunci jawaban: C.',
-    kunciTeksReviu: 'C'
-  },
-  {
-    nomorAsli: 29,
-    tipe: 'isian',
-    bacaanJudul: 'Keliling Persegi dan Persegi Panjang',
-    bacaanTeks: [
-      'Sebuah persegi memiliki luas 36 cm². Persegi panjang memiliki panjang 12 cm dan lebar 3 cm.'
-    ],
-    bacaanGambar: 'mtk-soal-29.png',
-    pertanyaan: 'Kedua bangun memiliki luas yang sama, tetapi keliling persegi panjang lebih besar daripada keliling persegi sebanyak ... cm.',
-    placeholderIsian: 'Ketik jawaban di sini...',
-    kunciIsianList: ['6', '6 cm'],
-    kunciText: 'Kunci jawaban: 6.',
-    kunciTeksReviu: '6'
-  },
-  {
-    nomorAsli: 30,
-    tipe: 'pg',
-    bacaanJudul: 'Jumlah Buku Perpustakaan SDN Maju Sejahtera',
-    bacaanTeks: [
-      'Perpustakaan SDN Maju Sejahtera mencatat jumlah buku yang dimiliki oleh empat kelas sebagai berikut: Kelas IV A: 2.450 buku; Kelas IV B: 2.405 buku; Kelas IV C: 2.540 buku; Kelas IV D: 2.504 buku.'
-    ],
-    bacaanGambar: 'mtk-soal-30.png',
-    pertanyaan: 'Urutan jumlah buku dari yang terkecil ke terbesar adalah ....',
-    opsi: [
-      { kode: 'A', teks: '2.540, 2.504, 2.450, 2.405' },
-      { kode: 'B', teks: '2.405, 2.450, 2.504, 2.540' },
-      { kode: 'C', teks: '2.450, 2.405, 2.540, 2.504' },
-      { kode: 'D', teks: '2.405, 2.504, 2.450, 2.540' }
-    ],
-    kunciKodePg: 'B',
-    kunciText: 'Kunci jawaban: B.',
-    kunciTeksReviu: 'B'
-  }
-]
-
-const MAPEL_TERSEDIA = [
-  'Bahasa Indonesia - SD Sederajat (Paket 1)',
-  'Matematika - SD Sederajat (Paket 1)'
-]
-
-const daftarMapel = [
-  'Matematika - SD Sederajat (Paket 1)',
-  'Matematika - SD Sederajat (Paket 2)',
-  'Bahasa Indonesia - SD Sederajat (Paket 1)',
-  'Bahasa Indonesia - SD Sederajat (Paket 2)',
-  'Bahasa Inggris - SD Sederajat (Paket 1)',
-  'Bahasa Inggris - SD Sederajat (Paket 2)'
-]
-
-function susunSoalBerdasarkanMapel(namaMapel: string): DataSoal[] {
-  // PENGACAKAN KELOMPOK BACAAN BAHASA INDONESIA PAKET 1
-  if (namaMapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)') {
-    const k1 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 1 && s.nomorAsli <= 4).sort(() => Math.random() - 0.5)
-    const k2 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 5 && s.nomorAsli <= 6).sort(() => Math.random() - 0.5)
-    const k3 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 7 && s.nomorAsli <= 8).sort(() => Math.random() - 0.5)
-    const k4 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 9 && s.nomorAsli <= 10).sort(() => Math.random() - 0.5)
-    const k5 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 11 && s.nomorAsli <= 12).sort(() => Math.random() - 0.5)
-    const k13 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 13)
-    const k14 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 14)
-    const k6 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 15 && s.nomorAsli <= 19).sort(() => Math.random() - 0.5)
-    const k20 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli === 20)
-    const k7 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 21 && s.nomorAsli <= 25).sort(() => Math.random() - 0.5)
-    const k8 = BANK_SOAL_BINDO_PAKET_1.filter(s => s.nomorAsli >= 26 && s.nomorAsli <= 30).sort(() => Math.random() - 0.5)
-
-    return [
-      ...k1, ...k2, ...k3, ...k4, ...k5, ...k13, ...k14, ...k6, ...k20, ...k7, ...k8
-    ].map((item, index) => ({
-      ...item,
-      nomor: index + 1
-    }))
-  }
-
-  // MATEMATIKA PAKET 1 (30 SOAL BERURUTAN SESUAI NASKAH PDF)
-  if (namaMapel === 'Matematika - SD Sederajat (Paket 1)') {
-    return BANK_SOAL_MATEMATIKA_PAKET_1.map((item, index) => ({
-      ...item,
-      nomor: index + 1
-    }))
-  }
-
-  return []
-}
-
-function App() {
-  const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
-  const [sesiKey, setSesiKey] = useState(0)
-  const [sedangMengirim, setSedangMengirim] = useState(false)
-
-  const [jenjang, setJenjang] = useState('SD/MI/Sederajat')
-  const [jenis, setJenis] = useState('Mata Pelajaran Wajib')
-  const [mapel, setMapel] = useState('')
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [namaLembaga, setNamaLembaga] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [infoUjian, setInfoUjian] = useState({
+    namaUjian: 'SUMATIF AKHIR SEMESTER 1 (SAS 1) — KELAS VI (ENAM)',
+    pelaksana: 'SD NEGERI KEDUNGREJO 1 — KEC. BANTARAN',
+    tahunAjaran: 'TAHUN AJARAN 2026 / 2027'
+  })
 
   const [namaPeserta, setNamaPeserta] = useState('')
-  const [jenisKelamin, setJenisKelamin] = useState('')
-  const [hari, setHari] = useState('')
-  const [bulan, setBulan] = useState('')
-  const [tahun, setTahun] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [namaLembaga, setNamaLembaga] = useState(DAFTAR_SEKOLAH[0])
+  const [mapel, setMapel] = useState(DAFTAR_MAPEL[0])
+  const [pesanError, setPesanError] = useState('')
 
-  const [tokenInput, setTokenInput] = useState('')
-  const [token, setToken] = useState(buatToken())
-  const [logoError, setLogoError] = useState(false)
+  const [bankBindo, setBankBindo] = useState<DataSoal[]>(() => siapkanPaketSoal(BANK_SOAL_BINDO_PAKET_1))
+  const [bankMatematika, setBankMatematika] = useState<DataSoal[]>(() => siapkanPaketSoal(BANK_SOAL_MATEMATIKA_PAKET_1))
 
-  // DATA UJIAN & BANK SOAL DINAMIS
-  const [bankSoalAktif, setBankSoalAktif] = useState<DataSoal[]>([])
+  const soalList = mapel.toLowerCase().includes('matematika') ? bankMatematika : bankBindo
+  const isBindo = mapel.toLowerCase().includes('bahasa indonesia')
+
   const [nomorAktif, setNomorAktif] = useState(1)
-  const [jawaban, setJawaban] = useState<Jawaban>({})
-  const [ragu, setRagu] = useState<number[]>([])
-  const [sisaWaktu, setSisaWaktu] = useState(75 * 60)
-  const [lihatDaftar, setLihatDaftar] = useState(false)
-  const [lihatInfo, setLihatInfo] = useState(false)
-  const [ukuranFont, setUkuranFont] = useState(16)
+  const [jawaban, setJawaban] = useState<Record<number, any>>({})
+  const [raguRagu, setRaguRagu] = useState<Record<number, boolean>>({})
+  const [ukuranFont, setUkuranFont] = useState<number>(17)
+  const [sisaDetik, setSisaDetik] = useState<number>(75 * 60)
 
-  const [waktuTes] = useState(() =>
-    new Date().toLocaleString('id-ID', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  )
+  const [skorAkhir, setSkorAkhir] = useState<number>(0)
+  const [statusKirim, setStatusKirim] = useState<string>('')
+  const [riwayatList, setRiwayatList] = useState<RiwayatUjian[]>([])
 
-  const jenjangValid = jenjang === 'SD/MI/Sederajat'
-  const jenisValid = jenjangValid && jenis === 'Mata Pelajaran Wajib'
-  const mapelValid = jenisValid && MAPEL_TERSEDIA.includes(mapel)
+  const [passwordAdmin, setPasswordAdmin] = useState('')
+  const [terbukaAdmin, setTerbukaAdmin] = useState(false)
+  const [tabAdmin, setTabAdmin] = useState<'rekap' | 'soal' | 'pengaturan'>('rekap')
+  const [filterSekolahRekap, setFilterSekolahRekap] = useState<string>('SEMUA')
+  const [filterMapelRekap, setFilterMapelRekap] = useState<string>('SEMUA')
+  const [cariNamaRekap, setCariNamaRekap] = useState<string>('')
 
-  const identitasPeserta = `${username} - PESERTA SAS 1`
+  const [soalBaruTipe, setSoalBaruTipe] = useState<TipeSoal>('pg')
+  const [soalBaruMapel, setSoalBaruMapel] = useState<string>(DAFTAR_MAPEL[0])
+  const [soalBaruPertanyaan, setSoalBaruPertanyaan] = useState('')
+  const [soalBaruOpsiA, setSoalBaruOpsiA] = useState('')
+  const [soalBaruOpsiB, setSoalBaruOpsiB] = useState('')
+  const [soalBaruOpsiC, setSoalBaruOpsiC] = useState('')
+  const [soalBaruOpsiD, setSoalBaruOpsiD] = useState('')
+  const [soalBaruKunciPG, setSoalBaruKunciPG] = useState('A')
+  const [soalBaruKunciIsian, setSoalBaruKunciIsian] = useState('')
+  const [soalBaruBacaanJudul, setSoalBaruBacaanJudul] = useState('')
+  const [soalBaruBacaanTeks, setSoalBaruBacaanTeks] = useState('')
+  const [soalBaruGambar, setSoalBaruGambar] = useState('')
 
-  const keluarKeHalamanAwal = () => {
-    setJenjang('SD/MI/Sederajat')
-    setJenis('Mata Pelajaran Wajib')
-    setMapel('')
+  useEffect(() => {
+    try {
+      const savedRiwayat = localStorage.getItem(KEY_RIWAYAT)
+      if (savedRiwayat) {
+        setRiwayatList(JSON.parse(savedRiwayat))
+      }
+      const savedSoal = localStorage.getItem(KEY_SOAL_CUSTOM)
+      if (savedSoal) {
+        const parsed = JSON.parse(savedSoal)
+        if (Array.isArray(parsed.bindo) && parsed.bindo.length > 0) {
+          setBankBindo(siapkanPaketSoal(parsed.bindo))
+        }
+        if (Array.isArray(parsed.mtk) && parsed.mtk.length > 0) {
+          setBankMatematika(siapkanPaketSoal(parsed.mtk))
+        }
+      }
+      const savedInfo = localStorage.getItem(KEY_INFO_UJIAN)
+      if (savedInfo) {
+        setInfoUjian(prev => ({ ...prev, ...JSON.parse(savedInfo) }))
+      }
+    } catch {
+      // Abaikan jika penyimpanan browser dibatasi
+    }
+  }, [])
 
-    setUsername('')
-    setPassword('')
-    setNamaLembaga('')
-    setShowPassword(false)
+  useEffect(() => {
+    if (halaman !== 'ujian') return
+    const timer = setInterval(() => {
+      setSisaDetik(prev => {
+        if (prev <= 1) {
+          clearInterval(timer)
+          selesaikanUjian(true)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [halaman, jawaban, soalList])
 
-    setNamaPeserta('')
-    setJenisKelamin('')
-    setHari('')
-    setBulan('')
-    setTahun('')
-
-    setTokenInput('')
-    setToken(buatToken())
-
-    setBankSoalAktif([])
-    setNomorAktif(1)
-    setJawaban({})
-    setRagu([])
-    setSisaWaktu(75 * 60)
-    setLihatDaftar(false)
-    setLihatInfo(false)
-    setUkuranFont(16)
-    setSedangMengirim(false)
-
-    setSesiKey(k => k + 1)
-    setHalaman('awal')
+  const formatWaktu = (detik: number) => {
+    const jam = Math.floor(detik / 3600)
+    const menit = Math.floor((detik % 3600) / 60)
+    const dtk = detik % 60
+    const pad = (n: number) => String(n).padStart(2, '0')
+    return `${pad(jam)}:${pad(menit)}:${pad(dtk)}`
   }
 
-  // FUNGSI HITUNG NILAI SKALA 100 DENGAN PENILAIAN PARSIAL & KIRIM KE GOOGLE SHEETS
-  const kirimNilaiKeGuru = async () => {
-    if (sedangMengirim) return
-    setSedangMengirim(true)
-
-    let totalPoinMentah = 0
-    const maxPoinTotal = Math.max(bankSoalAktif.length, 1)
-
-    bankSoalAktif.forEach(soal => {
-      const jawabSiswa = jawaban[soal.nomor]
-      if (!jawabSiswa) return
-
-      // 1. PILIHAN GANDA (PG)
-      if (soal.tipe === 'pg') {
-        if (soal.kunciKodePg) {
-          if (jawabSiswa === soal.kunciKodePg) totalPoinMentah += 1
-        } else {
-          const opsiPilih = soal.opsi?.find(o => o.kode === jawabSiswa)
-          if (
-            (opsiPilih && soal.kunciTeksReviu && opsiPilih.teks.toLowerCase().includes(soal.kunciTeksReviu.toLowerCase().substring(0, 15))) ||
-            jawabSiswa === soal.kunciTeksReviu
-          ) {
-            totalPoinMentah += 1
-          }
-        }
-      }
-      // 2. PILIHAN GANDA KOMPLEKS (PGK) - Penilaian Parsial
-      else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
-        const kodeBenarList = soal.kunciKodePgk
-          ? soal.kunciKodePgk
-          : (soal.opsi
-              ?.filter(o => soal.kunciTeksReviu?.toLowerCase().includes(o.teks.toLowerCase().substring(0, 10)))
-              .map(o => o.kode) || [])
-
-        const totalBenarSeharusnya = kodeBenarList.length > 0 ? kodeBenarList.length : 1
-        let benarDipilih = 0
-        let salahDipilih = 0
-
-        jawabSiswa.forEach((kode: string) => {
-          if (kodeBenarList.includes(kode)) benarDipilih += 1
-          else salahDipilih += 1
-        })
-
-        const skorParsial = Math.max(0, (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya)
-        totalPoinMentah += skorParsial
-      }
-      // 3. TABEL & MENJODOHKAN - Penilaian Parsial per Baris
-      else if ((soal.tipe === 'tabel' || soal.tipe === 'jodoh') && typeof jawabSiswa === 'object') {
-        const jumlahItem = soal.barisTabel?.length || soal.kolomKiri?.length || 1
-        if (soal.kunciTabel && Array.isArray(soal.kunciTabel)) {
-          let itemBenar = 0
-          soal.kunciTabel.forEach((kunciBaris, idx) => {
-            const pilihanBaris = jawabSiswa[idx + 1]
-            if (pilihanBaris && String(pilihanBaris).trim().toLowerCase() === String(kunciBaris).trim().toLowerCase()) {
-              itemBenar += 1
-            }
-          })
-          totalPoinMentah += itemBenar / jumlahItem
-        } else {
-          const itemTerisi = Object.keys(jawabSiswa).length
-          totalPoinMentah += itemTerisi / jumlahItem
-        }
-      }
-      // 4. ISIAN SINGKAT & URAIAN
-      else if (soal.tipe === 'isian' || soal.tipe === 'uraian') {
-        if (typeof jawabSiswa === 'string' && jawabSiswa.trim().length > 0) {
-          if (soal.kunciIsianList && soal.kunciIsianList.length > 0) {
-            const bersih = jawabSiswa.trim().toLowerCase()
-            const cocok = soal.kunciIsianList.some(k => bersih.includes(k.toLowerCase()))
-            if (cocok) totalPoinMentah += 1
-          } else {
-            totalPoinMentah += 1
-          }
-        }
-      }
-    })
-
-    const nilaiSkala100 = Math.round((totalPoinMentah / maxPoinTotal) * 100)
-
-    const payload = {
-      namaPeserta: namaPeserta.trim(),
-      username: username.trim(),
-      namaLembaga: namaLembaga.trim(),
-      mapel: mapel,
-      skor: nilaiSkala100,
-      jawaban: jawaban
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!namaPeserta.trim()) {
+      setPesanError('Nama Peserta wajib diisi.')
+      return
     }
+    if (!username.trim()) {
+      setPesanError('Username wajib diisi.')
+      return
+    }
+    if (!password.trim()) {
+      setPesanError('Password wajib diisi.')
+      return
+    }
+    setPesanError('')
+    setHalaman('konfirmasi')
+  }
 
-    const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxRuxEKvnSRtweKC0TLYWqk12P1tfsCRVp6vTKX7yssZxc7VsUED2gMq7j1q88ffii1dA/exec'
+  const mulaiUjian = () => {
+    setNomorAktif(1)
+    setJawaban({})
+    setRaguRagu({})
+    setSisaDetik(75 * 60)
+    setStatusKirim('')
+    setHalaman('ujian')
+  }
 
+  const soalAktif = soalList.find(s => s.nomor === nomorAktif) || soalList[0]
+
+  const pilihJawaban = (no: number, nilai: any) => {
+    setJawaban(prev => ({ ...prev, [no]: nilai }))
+  }
+
+  const pilihJawabanKompleks = (no: number, kode: string) => {
+    setJawaban(prev => {
+      const sekarang: string[] = Array.isArray(prev[no]) ? prev[no] : []
+      if (sekarang.includes(kode)) {
+        return { ...prev, [no]: sekarang.filter(item => item !== kode) }
+      }
+      return { ...prev, [no]: [...sekarang, kode] }
+    })
+  }
+
+  const pilihBaris = (no: number, indeksBaris: number, nilaiKolom: string) => {
+    setJawaban(prev => ({
+      ...prev,
+      [no]: {
+        ...(prev[no] || {}),
+        [indeksBaris]: nilaiKolom
+      }
+    }))
+  }
+
+  const toggleRagu = () => {
+    setRaguRagu(prev => ({ ...prev, [nomorAktif]: !prev[nomorAktif] }))
+  }
+
+  const sudahDijawab = (no: number) => {
+    const jwb = jawaban[no]
+    if (jwb === undefined || jwb === null) return false
+    if (typeof jwb === 'string') return jwb.trim().length > 0
+    if (Array.isArray(jwb)) return jwb.length > 0
+    if (typeof jwb === 'object') return Object.values(jwb).some(v => String(v || '').trim().length > 0)
+    return false
+  }
+
+  const jumlahTerjawab = soalList.filter(s => sudahDijawab(s.nomor)).length
+
+  const kirimNilaiKeGuru = async (dataNilai: RiwayatUjian) => {
+    const URL_APPS_SCRIPT = ''
+    if (!URL_APPS_SCRIPT) {
+      return 'Tersimpan lokal (URL Apps Script Kelas VI belum dipasang)'
+    }
     try {
       await fetch(URL_APPS_SCRIPT, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(dataNilai)
       })
-    } catch (error) {
-      console.error('Gagal mengirim nilai:', error)
-    } finally {
-      setSedangMengirim(false)
-      setHalaman('reviu')
+      return 'Terkirim ke rekap guru & tersimpan lokal'
+    } catch {
+      return 'Tersimpan lokal (gagal terhubung ke server)'
     }
   }
 
-  useEffect(() => {
-    if (halaman !== 'ujian') return
-
-    const interval = window.setInterval(() => {
-      setSisaWaktu(waktu => {
-        if (waktu <= 1) {
-          window.clearInterval(interval)
-          setHalaman('konfirmasiSelesai')
-          return 0
-        }
-        return waktu - 1
-      })
-    }, 1000)
-
-    return () => window.clearInterval(interval)
-  }, [halaman])
-
-  // PRELOAD SEMUA GAMBAR SOAL SAAT MASUK HALAMAN UJIAN AGAR CEPAT MUNCUL
-  useEffect(() => {
-    if (halaman !== 'ujian' || bankSoalAktif.length === 0) return
-
-    const preloaded: HTMLImageElement[] = []
-    bankSoalAktif.forEach(soal => {
-      if (!soal.bacaanGambar) return
-      const img = new Image()
-      img.decoding = 'async'
-      img.src = resolveAssetUrl(soal.bacaanGambar)
-      preloaded.push(img)
-    })
-
-    return () => {
-      preloaded.length = 0
-    }
-  }, [halaman, bankSoalAktif])
-
-  const formatWaktu = (detik: number) => {
-    const menit = Math.floor(detik / 60)
-    const sisaDetik = detik % 60
-    return `${String(menit).padStart(2, '0')}:${String(sisaDetik).padStart(2, '0')}`
-  }
-
-  const mulaiSimulasi = () => {
-    if (!mapelValid) {
-      alert('Pilihan kosong atau tidak tersedia untuk soal saat ini.')
-      return
-    }
-    setHalaman('login')
-  }
-
-  const loginPeserta = () => {
-    if (!username.trim() || !password.trim() || !namaLembaga.trim()) {
-      alert('Username, password, dan nama lembaga wajib diisi!')
-      return
-    }
-    setHalaman('konfirmasi')
-  }
-
-  const refreshToken = () => {
-    setToken(buatToken())
-    setTokenInput('')
-  }
-
-  const submitKonfirmasi = () => {
-    if (
-      !namaPeserta.trim() ||
-      !jenisKelamin ||
-      !hari ||
-      !bulan ||
-      !tahun ||
-      !tokenInput.trim()
-    ) {
-      alert('Mohon lengkapi seluruh data peserta!')
-      return
+  const selesaikanUjian = async (otomatis = false) => {
+    if (!otomatis) {
+      const belum = soalList.length - jumlahTerjawab
+      const konfirmasi = window.confirm(
+        belum > 0
+          ? `Masih ada ${belum} soal yang belum dijawab. Yakin ingin mengakhiri ujian?`
+          : 'Yakin ingin mengakhiri dan mengumpulkan jawaban ujian?'
+      )
+      if (!konfirmasi) return
     }
 
-    if (tokenInput.trim().toUpperCase() !== token) {
-      alert('Token salah. Silakan periksa kembali!')
-      return
+    const nilai = hitungSkor(soalList, jawaban)
+    setSkorAkhir(nilai)
+    setHalaman('selesai')
+    setStatusKirim('Menyimpan hasil ujian...')
+
+    const record: RiwayatUjian = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      waktu: new Date().toLocaleString('id-ID'),
+      namaPeserta: namaPeserta.trim(),
+      username: username.trim(),
+      namaLembaga,
+      mapel,
+      skor: nilai,
+      jawaban
     }
 
-    const bankSoalFinal = susunSoalBerdasarkanMapel(mapel)
-    if (bankSoalFinal.length === 0) {
-      alert('Soal belum tersedia untuk mata pelajaran ini.')
-      return
-    }
+    const status = await kirimNilaiKeGuru(record)
+    const recordFinal = { ...record, kirimStatus: status }
+    setStatusKirim(status)
 
-    setBankSoalAktif(bankSoalFinal)
-    setHalaman('konfirmasiTes')
-  }
-
-  const mulaiUjian = () => {
-    setJawaban({})
-    setRagu([])
-    setNomorAktif(1)
-    setSisaWaktu(75 * 60)
-    setLihatDaftar(false)
-    setLihatInfo(false)
-    setHalaman('ujian')
-  }
-
-  const pilihJawaban = (nomorTampil: number, nilai: any) => {
-    setJawaban((lama: Jawaban) => ({
-      ...lama,
-      [nomorTampil]: nilai
-    }))
-  }
-
-  const pilihJawabanKompleks = (nomorTampil: number, nilai: string) => {
-    const lama: string[] = jawaban[nomorTampil] || []
-    const baru = lama.includes(nilai)
-      ? lama.filter(item => item !== nilai)
-      : [...lama, nilai]
-    pilihJawaban(nomorTampil, baru)
-  }
-
-  const pilihBaris = (nomorTampil: number, baris: number, nilai: string) => {
-    const lama = jawaban[nomorTampil] || {}
-    pilihJawaban(nomorTampil, {
-      ...lama,
-      [baris]: nilai
+    setRiwayatList(prev => {
+      const updated = [recordFinal, ...prev]
+      try {
+        localStorage.setItem(KEY_RIWAYAT, JSON.stringify(updated))
+      } catch {
+        // Abaikan error penyimpanan
+      }
+      return updated
     })
   }
 
-  const tandaiRagu = () => {
-    setRagu(lama =>
-      lama.includes(nomorAktif)
-        ? lama.filter(n => n !== nomorAktif)
-        : [...lama, nomorAktif]
-    )
+  const bukaPanelAdmin = () => {
+    setPasswordAdmin('')
+    setTerbukaAdmin(false)
+    setHalaman('admin')
   }
 
-  const LogoTutWuri = () => (
-    <div className="pus-logo">
-      {!logoError ? (
-        <img
-          src={`${import.meta.env.BASE_URL}logo-tutwuri.png`}
-          alt="Logo Tut Wuri Handayani"
-          onError={() => setLogoError(true)}
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-        />
-      ) : (
-        <span>🎓</span>
-      )}
-    </div>
-  )
-
-  const labelPesertaKanan = namaPeserta.trim()
-    ? `${namaPeserta.trim()} - PESERTA SAS 1`
-    : username.trim()
-      ? `${username.trim()} - PESERTA SAS 1`
-      : ''
-
-  const Header = ({ peserta = false, reviu = false }: { peserta?: boolean; reviu?: boolean }) => (
-    <header
-      className={`anbk-header ${peserta ? 'header-peserta-mode' : ''}`}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        position: 'relative',
-        padding: '0 3.5%',
-        minHeight: '96px',
-        boxSizing: 'border-box'
-      }}
-    >
-      <div className="anbk-brand">
-        <LogoTutWuri />
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.4 }}>
-          <strong>PUSMENDIK</strong>
-          <small>APLIKASI TKA - SUMATIF AKHIR SEMESTER 1</small>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', color: '#ffffff' }}>
-        {reviu && (
-          <span style={{ fontSize: '13px', color: '#ffffff', fontWeight: 500 }}>Reviu Hasil Simulasi</span>
-        )}
-        {peserta && labelPesertaKanan && (
-          <span style={{ fontSize: '14px', fontWeight: 500, color: '#ffffff' }}>
-            {labelPesertaKanan}
-          </span>
-        )}
-        <span
-          title="Simulasi TKA"
-          style={{
-            background: '#60a5fa',
-            borderRadius: '6px',
-            width: '32px',
-            height: '32px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '17px',
-            lineHeight: 1
-          }}
-        >
-          🎓
-        </span>
-      </div>
-    </header>
-  )
-
-  // 1. HALAMAN AWAL
-  if (halaman === 'awal') {
-    return (
-      <div key={`awal-${sesiKey}`} className="awal-page">
-        <header className="awal-header">
-          <div className="awal-brand">
-            <LogoTutWuri />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.35 }}>
-              <strong>PUSMENDIK</strong>
-              <small>APLIKASI Sumatif Akhir Semester 1 (SAS 1)</small>
-              <small style={{ fontWeight: 600, color: '#e2e8f0', marginTop: '2px' }}>Kelas V (Lima)</small>
-            </div>
-          </div>
-        </header>
-
-        <main className="awal-main">
-          <div className="awal-card">
-            <div className="awal-icon">🎓</div>
-            <h1 style={{ color: '#0f172a', fontWeight: 800 }}>Sumatif Akhir Semester 1 (SAS 1)</h1>
-            <p className="awal-subtitle">Pilih jenjang dan mata pelajaran untuk memulai simulasi</p>
-
-            <div className="awal-group">
-              <label>📚 &nbsp;Jenjang Pendidikan:</label>
-              <select
-                value={jenjang}
-                onChange={e => {
-                  setJenjang(e.target.value)
-                  setMapel('')
-                }}
-              >
-                <option value="SD/MI/Sederajat">SD/MI/Sederajat</option>
-                <option value="SMP/MTs/Sederajat">SMP/MTs/Sederajat</option>
-                <option value="SMA/MA/SMK/MAK/Sederajat">SMA/MA/SMK/MAK/Sederajat</option>
-              </select>
-              {!jenjangValid && (
-                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
-                  (Kosong / tidak tersedia)
-                </div>
-              )}
-            </div>
-
-            <div className="awal-group">
-              <label>▣ &nbsp;Jenis Mata Pelajaran:</label>
-              <select
-                value={jenis}
-                onChange={e => {
-                  setJenis(e.target.value)
-                  setMapel('')
-                }}
-              >
-                <option value="Mata Pelajaran Wajib">Mata Pelajaran Wajib</option>
-                <option value="Mata Pelajaran Pilihan">Mata Pelajaran Pilihan</option>
-              </select>
-              {jenjangValid && !jenisValid && (
-                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
-                  (Kosong / tidak tersedia)
-                </div>
-              )}
-            </div>
-
-            <div className="awal-group">
-              <label>📖 &nbsp;Mata Pelajaran:</label>
-              <select value={mapel} onChange={e => setMapel(e.target.value)}>
-                <option value="">Pilih mata pelajaran...</option>
-                {daftarMapel.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              {jenisValid && mapel !== '' && !mapelValid && (
-                <div style={{ marginTop: '6px', color: '#64748b', fontSize: '13px' }}>
-                  (Kosong / belum tersedia)
-                </div>
-              )}
-            </div>
-
-            <button className="awal-button" onClick={mulaiSimulasi}>
-              ▶ &nbsp; Mulai Ujian
-            </button>
-          </div>
-
-          <div className="awal-copyright">Copyright © 2026 Pusmendik. All rights reserved.</div>
-        </main>
-      </div>
-    )
+  const verifikasiAdmin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (passwordAdmin === 'admin6' || passwordAdmin === 'guru6' || passwordAdmin === '123456') {
+      setTerbukaAdmin(true)
+    } else {
+      alert('Password panel guru salah! Gunakan password guru/admin Kelas VI.')
+    }
   }
 
-  // 2. HALAMAN LOGIN
-  if (halaman === 'login') {
-    return (
-      <div key={`login-${sesiKey}`} className="login-page">
-        <Header />
-        <main className="login-main">
-          <form
-            className="login-card"
-            autoComplete="off"
-            onSubmit={e => {
-              e.preventDefault()
-              loginPeserta()
+  const simpanBankSoalCustom = (baruBindo: DataSoal[], baruMtk: DataSoal[]) => {
+    const siapBindo = siapkanPaketSoal(baruBindo)
+    const siapMtk = siapkanPaketSoal(baruMtk)
+    setBankBindo(siapBindo)
+    setBankMatematika(siapMtk)
+    try {
+      localStorage.setItem(
+        KEY_SOAL_CUSTOM,
+        JSON.stringify({ bindo: siapBindo, mtk: siapMtk })
+      )
+    } catch {
+      // Abaikan error penyimpanan
+    }
+  }
+
+  const tambahSoalBaru = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!soalBaruPertanyaan.trim()) {
+      alert('Pertanyaan soal tidak boleh kosong.')
+      return
+    }
+
+    const targetIsMtk = soalBaruMapel.toLowerCase().includes('matematika')
+    const daftarTarget = targetIsMtk ? [...bankMatematika] : [...bankBindo]
+
+    const itemBaru: Omit<DataSoal, 'nomor'> = {
+      nomorAsli: daftarTarget.length + 1,
+      tipe: soalBaruTipe,
+      bacaanJudul: soalBaruBacaanJudul.trim() || undefined,
+      bacaanTeks: soalBaruBacaanTeks.trim()
+        ? soalBaruBacaanTeks.split('\n').map(b => b.trim()).filter(Boolean)
+        : undefined,
+      bacaanGambar: soalBaruGambar.trim() || undefined,
+      pertanyaan: soalBaruPertanyaan.trim()
+    }
+
+    if (soalBaruTipe === 'pg') {
+      itemBaru.opsi = [
+        { kode: 'A', teks: soalBaruOpsiA.trim() || 'A. Pilihan A' },
+        { kode: 'B', teks: soalBaruOpsiB.trim() || 'B. Pilihan B' },
+        { kode: 'C', teks: soalBaruOpsiC.trim() || 'C. Pilihan C' },
+        { kode: 'D', teks: soalBaruOpsiD.trim() || 'D. Pilihan D' }
+      ]
+      itemBaru.kunciKodePg = soalBaruKunciPG
+      itemBaru.kunciText = soalBaruKunciPG
+      itemBaru.kunciTeksReviu = soalBaruKunciPG
+    } else if (soalBaruTipe === 'isian') {
+      const daftarKunci = soalBaruKunciIsian
+        .split('|')
+        .map(k => k.trim())
+        .filter(Boolean)
+      itemBaru.kunciIsianList = daftarKunci.length ? daftarKunci : [soalBaruKunciIsian.trim()]
+      itemBaru.kunciText = soalBaruKunciIsian.trim()
+      itemBaru.kunciTeksReviu = soalBaruKunciIsian.trim()
+    }
+
+    const daftarUpdate = [...daftarTarget, { ...itemBaru, nomor: daftarTarget.length + 1 }]
+    if (targetIsMtk) {
+      simpanBankSoalCustom(bankBindo, daftarUpdate)
+    } else {
+      simpanBankSoalCustom(daftarUpdate, bankMatematika)
+    }
+
+    setSoalBaruPertanyaan('')
+    setSoalBaruOpsiA('')
+    setSoalBaruOpsiB('')
+    setSoalBaruOpsiC('')
+    setSoalBaruOpsiD('')
+    setSoalBaruKunciIsian('')
+    setSoalBaruBacaanJudul('')
+    setSoalBaruBacaanTeks('')
+    setSoalBaruGambar('')
+    alert('Soal baru berhasil ditambahkan ke bank soal Kelas VI!')
+  }
+
+  const hapusSoal = (targetMapel: string, nomorSoal: number) => {
+    const isMtk = targetMapel.toLowerCase().includes('matematika')
+    if (isMtk) {
+      const sisa = bankMatematika.filter(s => s.nomor !== nomorSoal)
+      simpanBankSoalCustom(bankBindo, sisa)
+    } else {
+      const sisa = bankBindo.filter(s => s.nomor !== nomorSoal)
+      simpanBankSoalCustom(sisa, bankMatematika)
+    }
+  }
+
+  const resetKeBankSoalAwal = () => {
+    if (!window.confirm('Kembalikan bank soal ke susunan awal bawaan kode?')) return
+    const awalBindo = siapkanPaketSoal(BANK_SOAL_BINDO_PAKET_1)
+    const awalMtk = siapkanPaketSoal(BANK_SOAL_MATEMATIKA_PAKET_1)
+    setBankBindo(awalBindo)
+    setBankMatematika(awalMtk)
+    localStorage.removeItem(KEY_SOAL_CUSTOM)
+    alert('Bank soal dikembalikan ke susunan awal.')
+  }
+
+  const simpanPengaturanUjian = (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      localStorage.setItem(KEY_INFO_UJIAN, JSON.stringify(infoUjian))
+      alert('Informasi ujian Kelas VI berhasil disimpan.')
+    } catch {
+      alert('Gagal menyimpan pengaturan.')
+    }
+  }
+
+  const exportRekapCSV = () => {
+    const barisFiltered = riwayatList.filter(r => {
+      const cocokSekolah = filterSekolahRekap === 'SEMUA' || r.namaLembaga === filterSekolahRekap
+      const cocokMapel = filterMapelRekap === 'SEMUA' || r.mapel === filterMapelRekap
+      const cocokNama =
+        !cariNamaRekap.trim() ||
+        r.namaPeserta.toLowerCase().includes(cariNamaRekap.trim().toLowerCase()) ||
+        r.username.toLowerCase().includes(cariNamaRekap.trim().toLowerCase())
+      return cocokSekolah && cocokMapel && cocokNama
+    })
+
+    const header = ['No', 'Waktu', 'Nama Peserta', 'Username', 'Lembaga / SD', 'Mata Pelajaran', 'Skor']
+    const rows = barisFiltered.map((r, idx) => [
+      idx + 1,
+      `"${r.waktu}"`,
+      `"${r.namaPeserta.replace(/"/g, '""')}"`,
+      `"${r.username.replace(/"/g, '""')}"`,
+      `"${r.namaLembaga.replace(/"/g, '""')}"`,
+      `"${r.mapel.replace(/"/g, '""')}"`,
+      r.skor
+    ])
+    const csvContent = [header.join(','), ...rows.map(e => e.join(','))].join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `rekap-nilai-sas1-kelas-6.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  const hapusSemuaRiwayat = () => {
+    if (!window.confirm('Hapus seluruh riwayat nilai lokal di browser ini?')) return
+    setRiwayatList([])
+    localStorage.removeItem(KEY_RIWAYAT)
+  }
+
+  const riwayatTersaring = riwayatList.filter(r => {
+    const cocokSekolah = filterSekolahRekap === 'SEMUA' || r.namaLembaga === filterSekolahRekap
+    const cocokMapel = filterMapelRekap === 'SEMUA' || r.mapel === filterMapelRekap
+    const cocokNama =
+      !cariNamaRekap.trim() ||
+      r.namaPeserta.toLowerCase().includes(cariNamaRekap.trim().toLowerCase()) ||
+      r.username.toLowerCase().includes(cariNamaRekap.trim().toLowerCase())
+    return cocokSekolah && cocokMapel && cocokNama
+  })
+
+  return (
+    <div className="app-container">
+      {/* ==========================================
+          HEADER GLOBAL APLIKASI (KELAS VI / ENAM)
+         ========================================== */}
+      <header className="header-utama">
+        <div className="header-kiri">
+          <img
+            src={resolveAssetUrl('logo-tutwuri.png')}
+            alt="Logo Tut Wuri Handayani"
+            className="logo-header"
+            onError={e => {
+              ;(e.currentTarget as HTMLImageElement).style.display = 'none'
             }}
-          >
-            <h3>Selamat Datang</h3>
-            <p>Silakan login dengan menggunakan username dan password yang anda miliki</p>
+          />
+          <div>
+            <div className="badge-kelas-vi">KELAS VI (ENAM) • SD / MI</div>
+            <h1 className="judul-header">{infoUjian.namaUjian}</h1>
+            <p className="subjudul-header">
+              {infoUjian.pelaksana} • {infoUjian.tahunAjaran}
+            </p>
+          </div>
+        </div>
 
-            <div className="login-field">
-              <span>👤</span>
-              <input
-                type="text"
-                name={`tka_user_${sesiKey}`}
-                autoComplete="off"
-                placeholder="Username"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-
-            <div className="login-field">
-              <span>🔒</span>
-              <input
-                type="text"
-                name={`tka_kode_akses_${sesiKey}`}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="none"
-                spellCheck={false}
-                data-form-type="other"
-                data-lpignore="true"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                style={
-                  {
-                    WebkitTextSecurity: showPassword ? 'none' : 'disc',
-                    textSecurity: showPassword ? 'none' : 'disc'
-                  } as any
-                }
-              />
-              <button
-                type="button"
-                className="eye-button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? '🙈' : '◉'}
-              </button>
-            </div>
-
-            <div className="login-field">
-              <span>🏫</span>
-              <input
-                type="text"
-                name={`tka_lembaga_${sesiKey}`}
-                autoComplete="off"
-                placeholder="Nama Lembaga"
-                value={namaLembaga}
-                onChange={e => setNamaLembaga(e.target.value)}
-              />
-            </div>
-
-            <button type="submit" className="login-button">
-              Login
+        <div className="header-kanan">
+          {halaman !== 'login' && (
+            <button
+              type="button"
+              className="btn-sekunder"
+              onClick={() => setHalaman('login')}
+            >
+              Halaman Awal
             </button>
-          </form>
-        </main>
-      </div>
-    )
-  }
+          )}
+          <button
+            type="button"
+            className="btn-admin"
+            onClick={bukaPanelAdmin}
+          >
+            Panel Guru
+          </button>
+        </div>
+      </header>
 
-  // 3. HALAMAN KONFIRMASI DATA PESERTA
-  if (halaman === 'konfirmasi') {
-    return (
-      <div key={`konfirmasi-${sesiKey}`} className="konfirmasi-page">
-        <Header peserta />
+      {/* ==========================================
+          HALAMAN 1: LOGIN PESERTA
+         ========================================== */}
+      {halaman === 'login' && (
+        <main className="kotak-tengah">
+          <div className="kartu-form">
+            <div className="label-jenjang">SIMULASI & UJIAN SAS 1 • KELAS VI (ENAM)</div>
+            <h2>Masuk Peserta Ujian</h2>
+            <p className="deskripsi-kartu">
+              Silakan lengkapi data peserta dan pilih mata pelajaran untuk memulai ujian Kelas VI.
+            </p>
 
-        <main className="konfirmasi-layout">
-          <section className="token-card">
-            <div className="token-content">
-              <span>Token :</span>
-              <strong>{token}</strong>
-              <button type="button" onClick={refreshToken}>Refresh</button>
-            </div>
-          </section>
+            {pesanError && <div className="pesan-error">{pesanError}</div>}
 
-          <section className="data-card">
-            <div className="data-content">
-              <h2>Konfirmasi data Peserta</h2>
-
-              <div className="data-group">
-                <label>Username</label>
-                <div className="readonly-value">{username}</div>
-              </div>
-
-              <div className="data-group">
-                <label>Nama Peserta</label>
-                <div className="readonly-value">{identitasPeserta}</div>
-              </div>
-
-              <div className="data-group">
-                <label>Nama Lembaga</label>
-                <div className="readonly-value">{namaLembaga}</div>
-              </div>
-
-              <div className="data-group">
-                <label>Jenis Kelamin</label>
-                <select
-                  value={jenisKelamin}
-                  onChange={e => setJenisKelamin(e.target.value)}
-                >
-                  <option value="">Pilih jenis kelamin</option>
-                  <option value="Laki-Laki">Laki-Laki</option>
-                  <option value="Perempuan">Perempuan</option>
-                </select>
-              </div>
-
-              <div className="data-group">
-                <label>Mata Ujian</label>
-                <div className="readonly-value">{mapel}</div>
-              </div>
-
-              <div className="data-group">
-                <label>Nama Peserta</label>
+            <form onSubmit={handleLogin} className="form-grid">
+              <div className="form-grup">
+                <label>Nama Lengkap Peserta</label>
                 <input
                   type="text"
-                  name={`tka_nama_${sesiKey}`}
-                  autoComplete="off"
-                  placeholder="Ketikkan Nama Peserta"
+                  placeholder="Contoh: Ahmad Fauzi"
                   value={namaPeserta}
                   onChange={e => setNamaPeserta(e.target.value)}
                 />
               </div>
 
-              <div className="data-group">
-                <label>Tanggal Lahir</label>
-                <div className="tanggal-row">
-                  <select value={hari} onChange={e => setHari(e.target.value)}>
-                    <option value="">Hari</option>
-                    {Array.from({ length: 31 }, (_, i) => (
-                      <option key={i + 1} value={i + 1}>{i + 1}</option>
-                    ))}
-                  </select>
-
-                  <select value={bulan} onChange={e => setBulan(e.target.value)}>
-                    <option value="">Bulan</option>
-                    {[
-                      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                    ].map((item, i) => (
-                      <option key={item} value={i + 1}>{item}</option>
-                    ))}
-                  </select>
-
-                  <select value={tahun} onChange={e => setTahun(e.target.value)}>
-                    <option value="">Tahun</option>
-                    {Array.from({ length: 40 }, (_, i) => (
-                      <option key={i} value={2026 - i}>{2026 - i}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="data-group token-input-group">
-                <label>Token</label>
+              <div className="form-grup">
+                <label>Username / NISN</label>
                 <input
                   type="text"
-                  name={`tka_token_${sesiKey}`}
-                  autoComplete="off"
-                  placeholder="Ketikkan token di sini"
-                  value={tokenInput}
-                  onChange={e => setTokenInput(e.target.value.toUpperCase())}
+                  placeholder="Contoh: 0014567890"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
                 />
               </div>
 
-              <button type="button" className="submit-data" onClick={submitKonfirmasi}>
-                Submit
+              <div className="form-grup">
+                <label>Password / Token</label>
+                <input
+                  type="password"
+                  placeholder="Masukkan password ujian"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="form-grup">
+                <label>Asal Sekolah / Lembaga (24 SD)</label>
+                <select value={namaLembaga} onChange={e => setNamaLembaga(e.target.value)}>
+                  {DAFTAR_SEKOLAH.map(sd => (
+                    <option key={sd} value={sd}>
+                      {sd}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-grup form-penuh">
+                <label>Mata Pelajaran</label>
+                <select value={mapel} onChange={e => setMapel(e.target.value)}>
+                  {DAFTAR_MAPEL.map(m => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button type="submit" className="btn-utama form-penuh">
+                Lanjutkan ke Konfirmasi Data
               </button>
-            </div>
-          </section>
+            </form>
+          </div>
         </main>
-      </div>
-    )
-  }
+      )}
 
-  // 4. HALAMAN KONFIRMASI TES
-  if (halaman === 'konfirmasiTes') {
-    return (
-      <div className="login-page">
-        <Header peserta />
-        <main className="tes-main">
-          <section className="tes-card">
-            <h2>Konfirmasi Tes</h2>
-            <div className="tes-group">
-              <label>Nama Tes</label>
-              <div>{mapel}</div>
-            </div>
-            <div className="tes-group">
-              <label>Status Tes</label>
-              <div>Tes Baru</div>
-            </div>
-            <div className="tes-group">
-              <label>Waktu Tes</label>
-              <div>{waktuTes}</div>
-            </div>
-            <div className="tes-group">
-              <label>Alokasi Waktu Tes</label>
-              <div>75 Menit</div>
-            </div>
-            <button className="login-button" onClick={mulaiUjian}>
-              Mulai
-            </button>
-          </section>
-        </main>
-      </div>
-    )
-  }
-
-  // 5. POP-UP KONFIRMASI SELESAI
-  if (halaman === 'konfirmasiSelesai') {
-    return (
-      <div className="login-page" style={{ position: 'relative' }}>
-        <Header peserta />
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 999
-        }}>
-          <div style={{
-            background: '#ffffff',
-            padding: '32px',
-            borderRadius: '16px',
-            width: '450px',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-            textAlign: 'left'
-          }}>
-            <h3 style={{ margin: '0 0 16px 0', fontSize: '20px', color: '#1e293b' }}>Konfirmasi Tes</h3>
-            <p style={{ fontSize: '14px', color: '#475569', lineHeight: 1.6, marginBottom: '24px' }}>
-              Terimakasih telah berpartisipasi dalam tes ini. Silahkan tekan tombol <span style={{ background: '#dc2626', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>SELESAI TES</span> untuk mengakhiri tes. Atau tekan tombol <span style={{ background: '#059669', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>KEMBALI</span> untuk kembali ke halaman tes.
+      {/* ==========================================
+          HALAMAN 2: KONFIRMASI PESERTA
+         ========================================== */}
+      {halaman === 'konfirmasi' && (
+        <main className="kotak-tengah">
+          <div className="kartu-form">
+            <div className="label-jenjang">KONFIRMASI PESERTA • KELAS VI (ENAM)</div>
+            <h2>Periksa Kembali Data Anda</h2>
+            <p className="deskripsi-kartu">
+              Pastikan identitas peserta, asal lembaga, dan mata pelajaran sudah benar sebelum waktu ujian dimulai.
             </p>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-start' }}>
+
+            <div className="ringkasan-data">
+              <div className="baris-data">
+                <span>Jenjang / Kelas</span>
+                <strong>Kelas VI (Enam)</strong>
+              </div>
+              <div className="baris-data">
+                <span>Nama Peserta</span>
+                <strong>{namaPeserta}</strong>
+              </div>
+              <div className="baris-data">
+                <span>Username</span>
+                <strong>{username}</strong>
+              </div>
+              <div className="baris-data">
+                <span>Nama Lembaga</span>
+                <strong>{namaLembaga}</strong>
+              </div>
+              <div className="baris-data">
+                <span>Mata Pelajaran</span>
+                <strong>{mapel}</strong>
+              </div>
+              <div className="baris-data">
+                <span>Jumlah Soal</span>
+                <strong>{soalList.length} Butir Soal</strong>
+              </div>
+              <div className="baris-data">
+                <span>Alokasi Waktu</span>
+                <strong>75 Menit</strong>
+              </div>
+            </div>
+
+            {soalList.length === 0 && (
+              <div className="pesan-error">
+                Bank soal untuk mata pelajaran ini masih kosong. Silakan isi soal terlebih dahulu.
+              </div>
+            )}
+
+            <div className="aksi-ganda">
               <button
                 type="button"
-                disabled={sedangMengirim}
-                onClick={kirimNilaiKeGuru}
-                style={{
-                  background: sedangMengirim ? '#9ca3af' : '#dc2626',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  cursor: sedangMengirim ? 'not-allowed' : 'pointer'
-                }}
+                className="btn-sekunder"
+                onClick={() => setHalaman('login')}
               >
-                {sedangMengirim ? 'MENGIRIM...' : 'SELESAI TES'}
+                Kembali Ubah Data
               </button>
               <button
                 type="button"
-                disabled={sedangMengirim}
-                onClick={() => setHalaman('ujian')}
-                style={{
-                  background: '#059669',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  cursor: sedangMengirim ? 'not-allowed' : 'pointer'
-                }}
+                className="btn-utama"
+                disabled={soalList.length === 0}
+                onClick={mulaiUjian}
               >
-                KEMBALI
+                Mulai Kerjakan Sekarang
               </button>
             </div>
           </div>
+        </main>
+      )}
+
+      {/* ==========================================
+          HALAMAN 3: HALAMAN UJIAN
+         ========================================== */}
+      {halaman === 'ujian' && (
+        <div className="layout-ujian">
+          <section className="panel-utama-ujian">
+            <div className="topbar-ujian">
+              <div>
+                <div className="ujian-mapel">{mapel}</div>
+                <div className="info-peserta-kecil">
+                  {namaPeserta} • {namaLembaga} (Kelas VI)
+                </div>
+              </div>
+
+              <div className="kontrol-kanan-atas">
+                <div className="kontrol-font">
+                  <span>Ukuran Huruf:</span>
+                  <button
+                    type="button"
+                    onClick={() => setUkuranFont(f => Math.max(14, f - 1))}
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setUkuranFont(f => Math.min(24, f + 1))}
+                  >
+                    A+
+                  </button>
+                </div>
+                <div className="timer-box">Sisa Waktu: {formatWaktu(sisaDetik)}</div>
+              </div>
+            </div>
+
+            {soalAktif ? (
+              <div
+                className="area-soal"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1fr)',
+                  gap: '24px',
+                  alignItems: 'start',
+                  fontSize: `${ukuranFont}px`
+                }}
+              >
+                {/* KIRI: GAMBAR ILUSTRASI & DESKRIPSI/BACAAN DI BAWAH GAMBAR */}
+                <div
+                  className="bacaan-soal"
+                  style={{
+                    fontSize: `${ukuranFont}px`,
+                    minHeight: '460px',
+                    maxHeight: '540px',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    padding: '12px',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    background: '#ffffff'
+                  }}
+                >
+                  {soalAktif.bacaanGambar && (
+                    <img
+                      key={`img-${mapel}-${soalAktif.nomor}-${soalAktif.bacaanGambar}`}
+                      src={resolveAssetUrl(soalAktif.bacaanGambar)}
+                      alt={`Ilustrasi Soal ${soalAktif.nomor}`}
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority={soalAktif.nomor === nomorAktif ? 'high' : 'auto'}
+                      onError={e => {
+                        const el = e.currentTarget as HTMLImageElement
+                        const cleanName = soalAktif.bacaanGambar!.replace(/^\.?\//, '')
+                        if (!el.dataset.triedFallback) {
+                          el.dataset.triedFallback = '1'
+                          el.src = `./${cleanName}`
+                        } else {
+                          el.style.display = 'none'
+                        }
+                      }}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        maxHeight: '360px',
+                        borderRadius: '8px',
+                        objectFit: 'contain',
+                        marginBottom: soalAktif.bacaanJudul || soalAktif.bacaanTeks ? '14px' : '0',
+                        flexShrink: 0
+                      }}
+                    />
+                  )}
+
+                  {soalAktif.bacaanJudul && (
+                    <h3
+                      style={{
+                        marginTop: 0,
+                        marginBottom: '10px',
+                        textAlign: 'center',
+                        color: '#1e293b',
+                        width: '100%',
+                        fontSize: `${ukuranFont}px`,
+                        fontWeight: 700
+                      }}
+                    >
+                      {soalAktif.bacaanJudul}
+                    </h3>
+                  )}
+
+                  {soalAktif.bacaanTeks && (
+                    <div
+                      style={{
+                        textAlign: 'left',
+                        lineHeight: 1.65,
+                        width: '100%',
+                        fontSize: `${ukuranFont}px`
+                      }}
+                    >
+                      {soalAktif.bacaanTeks.map((paragraf, idx) => (
+                        <p
+                          key={idx}
+                          style={{
+                            margin: '0 0 10px 0',
+                            fontSize: `${ukuranFont}px`,
+                            textIndent: isBindo ? '1.5em' : '0'
+                          }}
+                        >
+                          {paragraf}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* KANAN: PERTANYAAN & OPSI JAWABAN */}
+                <div
+                  className="pertanyaan-soal"
+                  style={{
+                    fontSize: `${ukuranFont}px`,
+                    minHeight: '460px',
+                    maxHeight: '540px',
+                    overflowY: 'auto',
+                    padding: '12px 16px',
+                    boxSizing: 'border-box',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    background: '#ffffff'
+                  }}
+                >
+                  <div className="nomor-badge" style={{ fontSize: `${ukuranFont}px` }}>
+                    Soal Nomor {soalAktif.nomor} dari {soalList.length}
+                  </div>
+
+                  <p
+                    className="teks-pertanyaan"
+                    style={{
+                      fontSize: `${ukuranFont}px`,
+                      lineHeight: 1.6,
+                      marginTop: 0,
+                      marginBottom: '12px'
+                    }}
+                  >
+                    {soalAktif.pertanyaan}
+                  </p>
+
+                  {soalAktif.tipe === 'pgk' && (
+                    <p
+                      className="petunjuk-soal"
+                      style={{
+                        color: '#2563eb',
+                        fontWeight: 500,
+                        fontSize: `${ukuranFont}px`,
+                        marginBottom: '14px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <span>🔗</span>{' '}
+                      {soalAktif.petunjuk ||
+                        'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.'}
+                    </p>
+                  )}
+
+                  {soalAktif.petunjuk && soalAktif.tipe !== 'pgk' && (
+                    <p
+                      className="petunjuk-soal"
+                      style={{
+                        color: '#2563eb',
+                        fontWeight: 500,
+                        fontSize: `${ukuranFont}px`,
+                        marginBottom: '14px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <span>🔗</span> {soalAktif.petunjuk}
+                    </p>
+                  )}
+
+                  {soalAktif.tipe === 'pg' &&
+                    soalAktif.opsi?.map(item => (
+                      <label
+                        className="pilihan-jawaban"
+                        key={item.kode}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          marginBottom: '10px',
+                          fontSize: `${ukuranFont}px`
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name={`soal-${soalAktif.nomor}`}
+                          checked={jawaban[soalAktif.nomor] === item.kode}
+                          onChange={() => pilihJawaban(soalAktif.nomor, item.kode)}
+                        />
+                        <span style={{ fontSize: `${ukuranFont}px` }}>{item.teks}</span>
+                      </label>
+                    ))}
+
+                  {soalAktif.tipe === 'pgk' &&
+                    soalAktif.opsi?.map(item => (
+                      <label
+                        className="pilihan-jawaban pilihan-kompleks"
+                        key={item.kode}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          marginBottom: '10px',
+                          fontSize: `${ukuranFont}px`
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={(jawaban[soalAktif.nomor] || []).includes(item.kode)}
+                          onChange={() => pilihJawabanKompleks(soalAktif.nomor, item.kode)}
+                        />
+                        <span style={{ fontSize: `${ukuranFont}px` }}>{item.teks}</span>
+                      </label>
+                    ))}
+
+                  {soalAktif.tipe === 'tabel' &&
+                    soalAktif.kolomTabel &&
+                    soalAktif.barisTabel && (
+                      <div className="tabel-jawaban" style={{ fontSize: `${ukuranFont}px` }}>
+                        <div className="tabel-header" style={{ fontSize: `${ukuranFont}px` }}>
+                          <span>No.</span>
+                          <span>Pernyataan</span>
+                          <span>{soalAktif.kolomTabel[0]}</span>
+                          <span>{soalAktif.kolomTabel[1]}</span>
+                        </div>
+
+                        {soalAktif.barisTabel.map((teks, i) => {
+                          const kolom1 = soalAktif.kolomTabel![0]
+                          const kolom2 = soalAktif.kolomTabel![1]
+
+                          return (
+                            <div
+                              className="tabel-baris"
+                              key={i}
+                              style={{ fontSize: `${ukuranFont}px` }}
+                            >
+                              <span style={{ fontSize: `${ukuranFont}px` }}>{i + 1}</span>
+                              <span style={{ fontSize: `${ukuranFont}px` }}>{teks}</span>
+                              <label>
+                                <input
+                                  type="radio"
+                                  name={`soal${soalAktif.nomor}-${i + 1}`}
+                                  checked={jawaban[soalAktif.nomor]?.[i + 1] === kolom1}
+                                  onChange={() => pilihBaris(soalAktif.nomor, i + 1, kolom1)}
+                                />
+                              </label>
+                              <label>
+                                <input
+                                  type="radio"
+                                  name={`soal${soalAktif.nomor}-${i + 1}`}
+                                  checked={jawaban[soalAktif.nomor]?.[i + 1] === kolom2}
+                                  onChange={() => pilihBaris(soalAktif.nomor, i + 1, kolom2)}
+                                />
+                              </label>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                  {soalAktif.tipe === 'jodoh' &&
+                    soalAktif.kolomKiri &&
+                    soalAktif.kolomKanan && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '14px',
+                          marginTop: '10px',
+                          fontSize: `${ukuranFont}px`
+                        }}
+                      >
+                        <div
+                          style={{
+                            background: '#f8fafc',
+                            border: '1px solid #cbd5e1',
+                            borderRadius: '8px',
+                            padding: '12px 16px',
+                            fontSize: `${ukuranFont}px`
+                          }}
+                        >
+                          <strong style={{ color: '#1e293b', fontSize: `${ukuranFont}px` }}>
+                            Pilihan Kolom B (Target Pasangan):
+                          </strong>
+                          <ul
+                            style={{
+                              margin: '8px 0 0 18px',
+                              padding: 0,
+                              lineHeight: 1.6,
+                              fontSize: `${ukuranFont}px`
+                            }}
+                          >
+                            {soalAktif.kolomKanan.map(kanan => (
+                              <li
+                                key={kanan.kode}
+                                style={{ color: '#334155', fontSize: `${ukuranFont}px` }}
+                              >
+                                <strong>{kanan.kode}.</strong> {kanan.teks}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          {soalAktif.kolomKiri.map(kiri => (
+                            <div
+                              key={kiri.nomor}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: '12px',
+                                padding: '12px 16px',
+                                border: '2px solid #e2e8f0',
+                                borderRadius: '10px',
+                                background: '#ffffff',
+                                fontSize: `${ukuranFont}px`
+                              }}
+                            >
+                              <span
+                                style={{
+                                  flex: 1,
+                                  fontWeight: 500,
+                                  color: '#1e293b',
+                                  fontSize: `${ukuranFont}px`
+                                }}
+                              >
+                                <strong>{kiri.nomor}.</strong> {kiri.teks}
+                              </span>
+
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span
+                                  style={{
+                                    fontSize: `${ukuranFont}px`,
+                                    color: '#64748b',
+                                    fontStyle: 'italic'
+                                  }}
+                                >
+                                  Pasangan ➔
+                                </span>
+                                <select
+                                  value={jawaban[soalAktif.nomor]?.[kiri.nomor] || ''}
+                                  onChange={e =>
+                                    pilihBaris(soalAktif.nomor, kiri.nomor, e.target.value)
+                                  }
+                                  style={{
+                                    padding: '8px 12px',
+                                    borderRadius: '8px',
+                                    border: '2px solid #3b82f6',
+                                    background: '#eff6ff',
+                                    color: '#1d4ed8',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    minWidth: '110px',
+                                    fontSize: `${ukuranFont}px`
+                                  }}
+                                >
+                                  <option value="">Pilih Huruf</option>
+                                  {soalAktif.kolomKanan!.map(kanan => (
+                                    <option key={kanan.kode} value={kanan.kode}>
+                                      Huruf {kanan.kode}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                  {soalAktif.tipe === 'isian' && (
+                    <input
+                      className="isian-jawaban"
+                      type="text"
+                      style={{ fontSize: `${ukuranFont}px` }}
+                      placeholder="Ketik jawaban di sini..."
+                      value={jawaban[soalAktif.nomor] || ''}
+                      onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
+                    />
+                  )}
+
+                  {soalAktif.tipe === 'uraian' && (
+                    <textarea
+                      className="isian-jawaban"
+                      rows={5}
+                      style={{
+                        width: '100%',
+                        resize: 'vertical',
+                        padding: '12px',
+                        fontSize: `${ukuranFont}px`
+                      }}
+                      placeholder="Ketik jawaban di sini..."
+                      value={jawaban[soalAktif.nomor] || ''}
+                      onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
+                    />
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="pesan-error">Soal tidak ditemukan.</div>
+            )}
+
+            <div className="navigasi-ujian">
+              <button
+                type="button"
+                className="btn-sekunder"
+                disabled={nomorAktif <= 1}
+                onClick={() => setNomorAktif(n => Math.max(1, n - 1))}
+              >
+                ← Soal Sebelumnya
+              </button>
+
+              <button
+                type="button"
+                className={`btn-ragu ${raguRagu[nomorAktif] ? 'aktif' : ''}`}
+                onClick={toggleRagu}
+              >
+                {raguRagu[nomorAktif] ? 'Ditandai Ragu-Ragu' : 'Tandai Ragu-Ragu'}
+              </button>
+
+              {nomorAktif < soalList.length ? (
+                <button
+                  type="button"
+                  className="btn-utama"
+                  onClick={() => setNomorAktif(n => Math.min(soalList.length, n + 1))}
+                >
+                  Soal Berikutnya →
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn-selesai"
+                  onClick={() => selesaikanUjian(false)}
+                >
+                  Selesai & Kumpulkan
+                </button>
+              )}
+            </div>
+          </section>
+
+          <aside className="sidebar-nomor">
+            <h3>Daftar Nomor Soal</h3>
+            <p className="status-ringkas">
+              Terjawab: <strong>{jumlahTerjawab}</strong> / {soalList.length}
+            </p>
+
+            <div className="grid-nomor">
+              {soalList.map(item => {
+                const terjawab = sudahDijawab(item.nomor)
+                const isRagu = !!raguRagu[item.nomor]
+                const isAktif = item.nomor === nomorAktif
+
+                let kelasBtn = 'btn-no'
+                if (isAktif) kelasBtn += ' aktif'
+                if (isRagu) kelasBtn += ' ragu'
+                else if (terjawab) kelasBtn += ' terjawab'
+
+                return (
+                  <button
+                    type="button"
+                    key={item.nomor}
+                    className={kelasBtn}
+                    onClick={() => setNomorAktif(item.nomor)}
+                  >
+                    {item.nomor}
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="legenda-nomor">
+              <div><span className="dot hijau" /> Sudah Dijawab</div>
+              <div><span className="dot kuning" /> Ragu-Ragu</div>
+              <div><span className="dot biru" /> Sedang Dibuka</div>
+            </div>
+
+            <button
+              type="button"
+              className="btn-selesai penuh"
+              onClick={() => selesaikanUjian(false)}
+            >
+              Akhiri Ujian
+            </button>
+          </aside>
         </div>
-      </div>
-    )
-  }
+      )}
 
-  // 6. REVIU HASIL SIMULASI
-  if (halaman === 'reviu') {
-    const jumlahSoalReviu = bankSoalAktif.length
+      {/* ==========================================
+          HALAMAN 4: SELESAI UJIAN
+         ========================================== */}
+      {halaman === 'selesai' && (
+        <main className="kotak-tengah">
+          <div className="kartu-form tengah-teks">
+            <div className="label-jenjang">HASIL UJIAN • KELAS VI (ENAM)</div>
+            <h2>Ujian Telah Selesai</h2>
+            <p className="deskripsi-kartu">
+              Terima kasih, <strong>{namaPeserta}</strong> ({namaLembaga}). Jawaban Anda telah diproses.
+            </p>
 
-    return (
-      <div className="login-page" style={{ background: '#2563eb', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <Header peserta reviu />
-
-        <main style={{ flex: 1, padding: '30px 5%' }}>
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '16px',
-            padding: '30px',
-            maxWidth: '1100px',
-            margin: '0 auto',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
-          }}>
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <div style={{
-                background: '#0284c7',
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 12px auto',
-                color: '#fff',
-                fontSize: '20px'
-              }}>
-                📈
-              </div>
-              <h2 style={{ margin: 0, fontSize: '22px', color: '#1e293b' }}>Reviu Hasil Simulasi</h2>
-              <div style={{
-                display: 'inline-block',
-                background: '#f1f5f9',
-                border: '1px solid #cbd5e1',
-                borderRadius: '20px',
-                padding: '6px 16px',
-                marginTop: '10px',
-                fontSize: '13px',
-                color: '#334155'
-              }}>
-                📖 &nbsp;{mapel || 'Bahasa Indonesia - SD Sederajat (Paket 1)'}
-              </div>
+            <div className="kotak-skor">
+              <span>Nilai / Skor Akhir</span>
+              <strong>{skorAkhir}</strong>
+              <small>Mata Pelajaran: {mapel}</small>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '80px 1fr 1fr',
-              background: '#3b82f6',
-              color: '#ffffff',
-              padding: '12px 16px',
-              borderRadius: '8px 8px 0 0',
-              fontWeight: 600,
-              fontSize: '14px'
-            }}>
-              <div>No.</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>👤 Jawaban Anda</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>🔑 Kunci Jawaban</div>
+            {statusKirim && <div className="info-kirim">{statusKirim}</div>}
+
+            <div className="aksi-ganda tengah-aksi">
+              <button
+                type="button"
+                className="btn-utama"
+                onClick={() => setHalaman('reviu')}
+              >
+                Lihat Reviu Jawaban
+              </button>
+              <button
+                type="button"
+                className="btn-sekunder"
+                onClick={() => setHalaman('login')}
+              >
+                Kembali ke Awal
+              </button>
+            </div>
+          </div>
+        </main>
+      )}
+
+      {/* ==========================================
+          HALAMAN 5: REVIU JAWABAN PESERTA
+         ========================================== */}
+      {halaman === 'reviu' && (
+        <main className="kotak-lebar">
+          <div className="kartu-form">
+            <div className="flex-antara">
+              <div>
+                <div className="label-jenjang">REVIU HASIL • KELAS VI (ENAM)</div>
+                <h2>Reviu Jawaban: {namaPeserta}</h2>
+                <p className="deskripsi-kartu">
+                  {mapel} • Skor: <strong>{skorAkhir}</strong>
+                </p>
+              </div>
+              <button
+                type="button"
+                className="btn-sekunder"
+                onClick={() => setHalaman('selesai')}
+              >
+                Kembali ke Ringkasan
+              </button>
             </div>
 
-            <div style={{ border: '1px solid #e2e8f0', borderTop: 'none', borderRadius: '0 0 8px 8px', marginBottom: '30px' }}>
-              {bankSoalAktif.map(soal => {
-                const jawabSiswa = jawaban[soal.nomor]
-                let teksJawabanSiswa = '-'
+            <div className="daftar-reviu">
+              {soalList.map(s => {
+                const jwb = jawaban[s.nomor]
+                let tampilanJawaban = 'Tidak dijawab'
 
-                if (jawabSiswa) {
-                  if (soal.tipe === 'pg') {
-                    const pilihanObj = soal.opsi?.find(o => o.kode === jawabSiswa)
-                    teksJawabanSiswa = pilihanObj ? pilihanObj.teks : jawabSiswa
-                  } else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
-                    teksJawabanSiswa = jawabSiswa.map(kode => {
-                      const o = soal.opsi?.find(item => item.kode === kode)
-                      return o ? o.teks : kode
-                    }).join(', ')
-                  } else if (typeof jawabSiswa === 'string') {
-                    teksJawabanSiswa = jawabSiswa
-                  } else if (Array.isArray(jawabSiswa)) {
-                    teksJawabanSiswa = jawabSiswa.join(', ')
-                  } else if (typeof jawabSiswa === 'object') {
-                    teksJawabanSiswa = Object.entries(jawabSiswa)
-                      .map(([k, v]) => `${k} (${v})`)
-                      .join(', ')
-                  }
+                if (Array.isArray(jwb)) {
+                  tampilanJawaban = jwb.length ? jwb.join(', ') : 'Tidak dijawab'
+                } else if (typeof jwb === 'object' && jwb !== null) {
+                  const entries = Object.entries(jwb)
+                  tampilanJawaban = entries.length
+                    ? entries.map(([k, v]) => `${k}: ${v}`).join(' | ')
+                    : 'Tidak dijawab'
+                } else if (typeof jwb === 'string' && jwb.trim()) {
+                  tampilanJawaban = jwb
                 }
 
                 return (
-                  <div key={soal.nomor} style={{
-                    display: 'grid',
-                    gridTemplateColumns: '80px 1fr 1fr',
-                    padding: '16px',
-                    borderBottom: '1px solid #f1f5f9',
-                    alignItems: 'center',
-                    background: soal.nomor % 2 === 0 ? '#fafafa' : '#ffffff'
-                  }}>
-                    <div style={{ fontWeight: 600, color: '#334155' }}>
-                      No. {soal.nomor} <span style={{ fontSize: '11px', color: '#64748b' }}>(Asli: {soal.nomorAsli})</span>
+                  <div className="item-reviu" key={s.nomor}>
+                    <div className="reviu-header">
+                      <strong>Soal No. {s.nomor}</strong>
+                      <span className="badge-tipe">{s.tipe.toUpperCase()}</span>
                     </div>
-                    <div style={{ color: '#0f172a', paddingRight: '12px' }}>
-                      <span style={{ borderLeft: '3px solid #3b82f6', paddingLeft: '8px', display: 'block' }}>
-                        {teksJawabanSiswa}
-                      </span>
-                    </div>
-                    <div style={{ color: '#047857' }}>
-                      <span style={{ borderLeft: '3px solid #10b981', paddingLeft: '8px', display: 'block' }}>
-                        {soal.kunciTeksReviu || soal.kunciText}
-                      </span>
+                    <p className="reviu-pertanyaan">{s.pertanyaan}</p>
+                    <div className="reviu-jawaban">
+                      <div>
+                        <span>Jawaban Anda:</span> <strong>{tampilanJawaban}</strong>
+                      </div>
+                      {(s.kunciTeksReviu || s.kunciText) && (
+                        <div className="kunci-teks">
+                          <span>Kunci:</span> <strong>{s.kunciTeksReviu || s.kunciText}</strong>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )
               })}
             </div>
-
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '12px',
-              padding: '20px 24px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{
-                  background: '#1e3a8a',
-                  color: '#fff',
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '20px'
-                }}>
-                  📋
-                </div>
-                <div>
-                  <strong style={{ display: 'block', fontSize: '16px', color: '#1e293b' }}>Total Soal</strong>
-                  <span style={{ fontSize: '13px', color: '#64748b' }}>{jumlahSoalReviu} Pertanyaan</span>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={keluarKeHalamanAwal}
-                style={{
-                  background: '#dc2626',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                🚪 &nbsp;Keluar
-              </button>
-            </div>
           </div>
         </main>
-      </div>
-    )
-  }
+      )}
 
-  // 7. HALAMAN UJIAN
-  const daftarNomorAktif = Array.from({ length: bankSoalAktif.length || 1 }, (_, i) => i + 1)
-  const soalAktif = bankSoalAktif[nomorAktif - 1] || bankSoalAktif[0]
-  const isBindo = mapel === 'Bahasa Indonesia - SD Sederajat (Paket 1)'
-  const isBindoGambar1to4 = Boolean(isBindo && soalAktif && [1, 2, 3, 4].includes(soalAktif.nomorAsli))
-  const isTargetGambarBesar = soalAktif
-    ? (isBindo ? [1, 2, 3, 4, 13].includes(soalAktif.nomorAsli) : Boolean(soalAktif.bacaanGambar))
-    : false
-
-  return (
-    <div className="login-page">
-      <Header peserta />
-
-      <main className="lembar-ujian">
-        <div className="ujian-top">
-          <div className="judul-soal-area">
-            <strong>Soal nomor {nomorAktif}</strong>
-
-            <div className="pengatur-font">
-              <span>Ukuran font soal:</span>
-              <button onClick={() => setUkuranFont(14)}>A</button>
-              <button onClick={() => setUkuranFont(16)}>A</button>
-              <button onClick={() => setUkuranFont(20)}>A</button>
-            </div>
-          </div>
-
-          <div className="ujian-tools">
-            <button onClick={() => setLihatInfo(!lihatInfo)}>INFORMASI SOAL</button>
-
-            <span className={sisaWaktu < 300 ? 'timer-warning' : ''}>
-              Sisa Waktu : <strong>{formatWaktu(sisaWaktu)}</strong>
-            </span>
-
-            <button onClick={() => setLihatDaftar(!lihatDaftar)}>Daftar Soal ▦</button>
-          </div>
-        </div>
-
-        {lihatInfo && (
-          <div className="info-soal">
-            <strong>Informasi Soal</strong>
-            <p>Bacalah cerita dengan cermat. Jawablah setiap soal sesuai petunjuk. Periksa kembali jawaban sebelum mengakhiri tes.</p>
-            <button onClick={() => setLihatInfo(false)}>Tutup</button>
-          </div>
-        )}
-
-        {lihatDaftar && (
-          <div className="daftar-soal-panel">
-            <div className="daftar-soal-header">
-              <strong>Daftar Soal</strong>
-              <button className="tutup-daftar" onClick={() => setLihatDaftar(false)}>×</button>
-            </div>
-
-            <div className="daftar-soal-grid">
-              {daftarNomorAktif.map(n => (
-                <button
-                  key={n}
-                  className={`
-                    ${nomorAktif === n ? 'aktif' : ''}
-                    ${jawaban[n] !== undefined ? 'terjawaban' : ''}
-                    ${ragu.includes(n) ? 'ditandai-ragu' : ''}
-                  `}
-                  onClick={() => {
-                    setNomorAktif(n)
-                    setLihatDaftar(false)
-                  }}
-                >
-                  {n}
+      {/* ==========================================
+          HALAMAN 6: PANEL GURU / ADMIN KELAS VI
+         ========================================== */}
+      {halaman === 'admin' && (
+        <main className="kotak-lebar">
+          <div className="kartu-form">
+            {!terbukaAdmin ? (
+              <form onSubmit={verifikasiAdmin} className="form-login-admin">
+                <div className="label-jenjang">PANEL GURU • KELAS VI (ENAM)</div>
+                <h2>Masuk Panel Guru</h2>
+                <p className="deskripsi-kartu">
+                  Kelola rekap nilai, bank soal, dan identitas ujian khusus Kelas VI.
+                </p>
+                <div className="form-grup">
+                  <label>Password Guru</label>
+                  <input
+                    type="password"
+                    placeholder="Masukkan password guru"
+                    value={passwordAdmin}
+                    onChange={e => setPasswordAdmin(e.target.value)}
+                  />
+                </div>
+                <button type="submit" className="btn-utama">
+                  Buka Panel Guru
                 </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="ujian-mapel">{mapel}</div>
-
-        {/* KOTAK PUTIH UTAMA */}
-        {soalAktif && (
-          <div className="area-soal">
-            {/* KOLOM KIRI: JUDUL DESKRIPSI -> TEKS DESKRIPSI -> GAMBAR / ILUSTRASI */}
-            <div
-              className="bacaan-soal"
-              style={{
-                fontSize: `${ukuranFont}px`,
-                height: '440px',
-                maxHeight: '440px',
-                overflowY: isBindoGambar1to4 ? 'hidden' : 'auto',
-                overflowX: 'hidden',
-                padding: isBindoGambar1to4 ? '4px 8px' : '0 12px 0 0',
-                boxSizing: 'border-box',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: isBindoGambar1to4 ? 'center' : 'flex-start',
-                alignItems: 'center'
-              }}
-            >
-              {soalAktif.bacaanJudul && !(isBindo && [1, 2, 3, 4].includes(soalAktif.nomorAsli)) && (
-                <h3 style={{ marginTop: 0, marginBottom: '12px', textAlign: 'center', color: '#1e293b', width: '100%' }}>
-                  {soalAktif.bacaanJudul}
-                </h3>
-              )}
-
-              {soalAktif.bacaanTeks && (
-                <div style={{ textAlign: 'left', lineHeight: 1.7, marginBottom: '12px', width: '100%' }}>
-                  {soalAktif.bacaanTeks.map((paragraf, idx) => (
-                    <p key={idx} style={{ marginBottom: '10px', textIndent: isBindo ? '2em' : '0' }}>
-                      {paragraf}
-                    </p>
-                  ))}
-                </div>
-              )}
-
-              {soalAktif.bacaanGambar && (
-                <img
-                  key={`img-${mapel}-${soalAktif.nomor}-${soalAktif.bacaanGambar}`}
-                  src={resolveAssetUrl(soalAktif.bacaanGambar)}
-                  alt={`Ilustrasi Soal ${soalAktif.nomor}`}
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority={soalAktif.nomor === nomorAktif ? 'high' : 'auto'}
-                  onError={e => {
-                    const el = e.currentTarget as HTMLImageElement
-                    const cleanName = soalAktif.bacaanGambar!.replace(/^\.?\//, '')
-                    if (!el.dataset.triedFallback) {
-                      el.dataset.triedFallback = '1'
-                      el.src = `./${cleanName}`
-                    } else {
-                      el.style.display = 'none'
-                    }
-                  }}
-                  style={{
-                    width: '100%',
-                    height: isBindoGambar1to4 ? '100%' : 'auto',
-                    maxHeight: isBindoGambar1to4
-                      ? '432px'
-                      : isTargetGambarBesar
-                        ? '320px'
-                        : '240px',
-                    borderRadius: isBindoGambar1to4 ? '6px' : '8px',
-                    objectFit: 'contain',
-                    transform: 'none',
-                    flexShrink: 0
-                  }}
-                />
-              )}
-
-              {/* ILUSTRASI OTOMATIS SOAL 5: DUA POTONG KERTAS PECAHAN */}
-              {!isBindo && soalAktif.nomorAsli === 5 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
-                    Ilustrasi Potongan Kertas Siti
+              </form>
+            ) : (
+              <div>
+                <div className="flex-antara">
+                  <div>
+                    <div className="label-jenjang">PANEL GURU • KELAS VI (ENAM)</div>
+                    <h2>Dashboard Guru Kelas VI</h2>
                   </div>
-
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>
-                    Kertas Pertama (2/8 bagian diwarnai)
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px', marginBottom: '12px' }}>
-                    {Array.from({ length: 8 }, (_, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          border: '1.5px solid #475569',
-                          borderRadius: '4px',
-                          background: idx < 2 ? '#2563eb' : '#ffffff'
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#334155', marginBottom: '4px' }}>
-                    Kertas Kedua (3/8 bagian diwarnai)
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '4px', height: '28px' }}>
-                    {Array.from({ length: 8 }, (_, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          border: '1.5px solid #475569',
-                          borderRadius: '4px',
-                          background: idx < 3 ? '#16a34a' : '#ffffff'
-                        }}
-                      />
-                    ))}
+                  <div className="tab-admin">
+                    <button
+                      type="button"
+                      className={tabAdmin === 'rekap' ? 'btn-utama' : 'btn-sekunder'}
+                      onClick={() => setTabAdmin('rekap')}
+                    >
+                      Rekap Nilai ({riwayatList.length})
+                    </button>
+                    <button
+                      type="button"
+                      className={tabAdmin === 'soal' ? 'btn-utama' : 'btn-sekunder'}
+                      onClick={() => setTabAdmin('soal')}
+                    >
+                      Bank Soal ({bankBindo.length + bankMatematika.length})
+                    </button>
+                    <button
+                      type="button"
+                      className={tabAdmin === 'pengaturan' ? 'btn-utama' : 'btn-sekunder'}
+                      onClick={() => setTabAdmin('pengaturan')}
+                    >
+                      Identitas Ujian
+                    </button>
                   </div>
                 </div>
-              )}
 
-              {/* ILUSTRASI OTOMATIS SOAL 20: PENJUMLAHAN PECAHAN DALAM CERITA */}
-              {!isBindo && soalAktif.nomorAsli === 20 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
-                    Visualisasi Bagian Pecahan (No. 1 – 5)
-                  </div>
-                  {[
-                    { judul: '1. Gula Ibu (2/8 kg + 3/8 kg)', total: 8, terisi: 5, warna: '#2563eb' },
-                    { judul: '2. Bambu Pak Tani (1/2 m + 1/4 m)', total: 4, terisi: 3, warna: '#16a34a' },
-                    { judul: '3. Agar-agar Siti (3/5 + 1/10 bagian)', total: 10, terisi: 7, warna: '#d97706' },
-                    { judul: '4. Tali Manik Lani (1/3 + 1/2 bagian)', total: 6, terisi: 5, warna: '#7c3aed' },
-                    { judul: '5. Gelas Air Beni (3/4 L + 1/8 L)', total: 8, terisi: 7, warna: '#0284c7' }
-                  ].map((item, i) => (
-                    <div key={i} style={{ marginBottom: i === 4 ? 0 : '8px' }}>
-                      <div style={{ fontSize: '11.5px', fontWeight: 600, color: '#334155', marginBottom: '3px' }}>{item.judul}</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${item.total}, 1fr)`, gap: '3px', height: '16px' }}>
-                        {Array.from({ length: item.total }, (_, idx) => (
-                          <div
-                            key={idx}
-                            style={{
-                              border: '1px solid #64748b',
-                              borderRadius: '3px',
-                              background: idx < item.terisi ? item.warna : '#ffffff'
-                            }}
-                          />
+                {tabAdmin === 'rekap' && (
+                  <div className="bagian-admin">
+                    <div className="filter-rekap">
+                      <select
+                        value={filterSekolahRekap}
+                        onChange={e => setFilterSekolahRekap(e.target.value)}
+                      >
+                        <option value="SEMUA">Semua SD (24 Sekolah)</option>
+                        {DAFTAR_SEKOLAH.map(sd => (
+                          <option key={sd} value={sd}>
+                            {sd}
+                          </option>
                         ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                      </select>
 
-              {/* ILUSTRASI OTOMATIS SOAL 23: DENAH UBIN LANTAI & KARPET */}
-              {!isBindo && soalAktif.nomorAsli === 23 && (
-                <div style={{ marginTop: '8px', padding: '14px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#f8fafc', flexShrink: 0, width: '100%' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '10px' }}>
-                    Denah Ubin Lantai (8 Baris × 5 Kolom)
-                  </div>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(5, 1fr)',
-                      gap: '4px',
-                      maxWidth: '230px',
-                      margin: '0 auto'
-                    }}
-                  >
-                    {Array.from({ length: 40 }, (_, idx) => {
-                      const baris = Math.floor(idx / 5)
-                      const kolom = idx % 5
-                      const tertutupKarpet = baris >= 2 && baris <= 5 && kolom >= 1 && kolom <= 3
-                      return (
-                        <div
-                          key={idx}
-                          style={{
-                            height: '20px',
-                            border: '1.5px solid #475569',
-                            borderRadius: '3px',
-                            background: tertutupKarpet ? '#f59e0b' : '#bae6fd'
-                          }}
-                        />
-                      )
-                    })}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '10px', fontSize: '12px', color: '#334155', fontWeight: 500 }}>
-                    <span>🟦 Ubin terbuka</span>
-                    <span>🟧 Tertutup karpet (12 ubin)</span>
-                  </div>
-                </div>
-              )}
-            </div>
+                      <select
+                        value={filterMapelRekap}
+                        onChange={e => setFilterMapelRekap(e.target.value)}
+                      >
+                        <option value="SEMUA">Semua Mata Pelajaran</option>
+                        {DAFTAR_MAPEL.map(m => (
+                          <option key={m} value={m}>
+                            {m}
+                          </option>
+                        ))}
+                      </select>
 
-            {/* KOLOM KANAN */}
-            <div
-              className="pertanyaan-soal"
-              style={{
-                fontSize: `${ukuranFont}px`,
-                height: '440px',
-                maxHeight: '440px',
-                overflowY: 'auto',
-                paddingRight: '12px',
-                boxSizing: 'border-box'
-              }}
-            >
-              <p className="teks-pertanyaan">{soalAktif.pertanyaan}</p>
+                      <input
+                        type="text"
+                        placeholder="Cari nama / username..."
+                        value={cariNamaRekap}
+                        onChange={e => setCariNamaRekap(e.target.value)}
+                      />
 
-              {soalAktif.tipe === 'pgk' && (
-                <p className="petunjuk-soal" style={{ color: '#2563eb', fontWeight: 500, marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🔗</span> {soalAktif.petunjuk || 'Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.'}
-                </p>
-              )}
-
-              {soalAktif.petunjuk && soalAktif.tipe !== 'pgk' && (
-                <p className="petunjuk-soal" style={{ color: '#2563eb', fontWeight: 500, marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🔗</span> {soalAktif.petunjuk}
-                </p>
-              )}
-
-              {/* 1. PILIHAN GANDA */}
-              {soalAktif.tipe === 'pg' &&
-                soalAktif.opsi?.map(item => (
-                  <label className="pilihan-jawaban" key={item.kode} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginBottom: '10px' }}>
-                    <input
-                      type="radio"
-                      name={`soal-${soalAktif.nomor}`}
-                      checked={jawaban[soalAktif.nomor] === item.kode}
-                      onChange={() => pilihJawaban(soalAktif.nomor, item.kode)}
-                    />
-                    <span>{item.teks}</span>
-                  </label>
-                ))}
-
-              {/* 2. PILIHAN GANDA KOMPLEKS */}
-              {soalAktif.tipe === 'pgk' &&
-                soalAktif.opsi?.map(item => (
-                  <label className="pilihan-jawaban pilihan-kompleks" key={item.kode} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', marginBottom: '10px' }}>
-                    <input
-                      type="checkbox"
-                      checked={(jawaban[soalAktif.nomor] || []).includes(item.kode)}
-                      onChange={() => pilihJawabanKompleks(soalAktif.nomor, item.kode)}
-                    />
-                    <span>{item.teks}</span>
-                  </label>
-                ))}
-
-              {/* 3. TABEL */}
-              {soalAktif.tipe === 'tabel' &&
-                soalAktif.kolomTabel &&
-                soalAktif.barisTabel && (
-                  <div className="tabel-jawaban">
-                    <div className="tabel-header">
-                      <span>No.</span>
-                      <span>Pernyataan</span>
-                      <span>{soalAktif.kolomTabel[0]}</span>
-                      <span>{soalAktif.kolomTabel[1]}</span>
+                      <button type="button" className="btn-utama" onClick={exportRekapCSV}>
+                        Unduh CSV
+                      </button>
+                      <button type="button" className="btn-sekunder" onClick={hapusSemuaRiwayat}>
+                        Reset Riwayat
+                      </button>
                     </div>
 
-                    {soalAktif.barisTabel.map((teks, i) => {
-                      const kolom1 = soalAktif.kolomTabel![0]
-                      const kolom2 = soalAktif.kolomTabel![1]
-
-                      return (
-                        <div className="tabel-baris" key={i}>
-                          <span>{i + 1}</span>
-                          <span>{teks}</span>
-                          <label>
-                            <input
-                              type="radio"
-                              name={`soal${soalAktif.nomor}-${i + 1}`}
-                              checked={jawaban[soalAktif.nomor]?.[i + 1] === kolom1}
-                              onChange={() => pilihBaris(soalAktif.nomor, i + 1, kolom1)}
-                            />
-                          </label>
-                          <label>
-                            <input
-                              type="radio"
-                              name={`soal${soalAktif.nomor}-${i + 1}`}
-                              checked={jawaban[soalAktif.nomor]?.[i + 1] === kolom2}
-                              onChange={() => pilihBaris(soalAktif.nomor, i + 1, kolom2)}
-                            />
-                          </label>
-                        </div>
-                      )
-                    })}
+                    <div className="table-responsive">
+                      <table className="tabel-rekap">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Waktu</th>
+                            <th>Nama Peserta</th>
+                            <th>Lembaga / SD</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Skor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {riwayatTersaring.length === 0 ? (
+                            <tr>
+                              <td colSpan={6} className="tengah-teks">
+                                Belum ada data nilai yang tercatat.
+                              </td>
+                            </tr>
+                          ) : (
+                            riwayatTersaring.map((r, idx) => (
+                              <tr key={r.id}>
+                                <td>{idx + 1}</td>
+                                <td>{r.waktu}</td>
+                                <td>{r.namaPeserta}</td>
+                                <td>{r.namaLembaga}</td>
+                                <td>{r.mapel}</td>
+                                <td>
+                                  <strong>{r.skor}</strong>
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 
-              {/* 4. MENJODOHKAN */}
-              {soalAktif.tipe === 'jodoh' &&
-                soalAktif.kolomKiri &&
-                soalAktif.kolomKanan && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '10px' }}>
-                    <div
-                      style={{
-                        background: '#f8fafc',
-                        border: '1px solid #cbd5e1',
-                        borderRadius: '8px',
-                        padding: '12px 16px'
-                      }}
-                    >
-                      <strong style={{ color: '#1e293b' }}>Pilihan Kolom B (Target Pasangan):</strong>
-                      <ul style={{ margin: '8px 0 0 18px', padding: 0, lineHeight: 1.6 }}>
-                        {soalAktif.kolomKanan.map(kanan => (
-                          <li key={kanan.kode} style={{ color: '#334155' }}>
-                            <strong>{kanan.kode}.</strong> {kanan.teks}
-                          </li>
-                        ))}
-                      </ul>
+                {tabAdmin === 'soal' && (
+                  <div className="bagian-admin">
+                    <div className="flex-antara">
+                      <h3>Tambah Soal Baru Kelas VI</h3>
+                      <button type="button" className="btn-sekunder" onClick={resetKeBankSoalAwal}>
+                        Reset ke Bank Soal Awal
+                      </button>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      {soalAktif.kolomKiri.map(kiri => (
-                        <div
-                          key={kiri.nomor}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: '12px',
-                            padding: '12px 16px',
-                            border: '2px solid #e2e8f0',
-                            borderRadius: '10px',
-                            background: '#ffffff',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-                          }}
+                    <form onSubmit={tambahSoalBaru} className="form-grid">
+                      <div className="form-grup">
+                        <label>Mata Pelajaran</label>
+                        <select
+                          value={soalBaruMapel}
+                          onChange={e => setSoalBaruMapel(e.target.value)}
                         >
-                          <span style={{ flex: 1, fontWeight: 500, color: '#1e293b' }}>
-                            <strong>{kiri.nomor}.</strong> {kiri.teks}
-                          </span>
+                          {DAFTAR_MAPEL.map(m => (
+                            <option key={m} value={m}>
+                              {m}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ fontSize: '13px', color: '#64748b', fontStyle: 'italic' }}>Pasangan ➔</span>
+                      <div className="form-grup">
+                        <label>Tipe Soal</label>
+                        <select
+                          value={soalBaruTipe}
+                          onChange={e => setSoalBaruTipe(e.target.value as TipeSoal)}
+                        >
+                          <option value="pg">Pilihan Ganda (PG)</option>
+                          <option value="pgk">Pilihan Ganda Kompleks (PGK)</option>
+                          <option value="tabel">Tabel Benar/Salah atau Sesuai/Tidak Sesuai</option>
+                          <option value="jodoh">Menjodohkan</option>
+                          <option value="isian">Isian Singkat</option>
+                          <option value="uraian">Uraian</option>
+                        </select>
+                      </div>
+
+                      <div className="form-grup">
+                        <label>Nama File Gambar (di folder public)</label>
+                        <input
+                          type="text"
+                          placeholder="Contoh: bindo6-soal-1.png"
+                          value={soalBaruGambar}
+                          onChange={e => setSoalBaruGambar(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-grup">
+                        <label>Judul Bacaan (Opsional)</label>
+                        <input
+                          type="text"
+                          placeholder="Judul teks/bacaan"
+                          value={soalBaruBacaanJudul}
+                          onChange={e => setSoalBaruBacaanJudul(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-grup form-penuh">
+                        <label>Teks / Deskripsi Bacaan (Pisahkan paragraf dengan Enter)</label>
+                        <textarea
+                          rows={3}
+                          value={soalBaruBacaanTeks}
+                          onChange={e => setSoalBaruBacaanTeks(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-grup form-penuh">
+                        <label>Pertanyaan Soal</label>
+                        <textarea
+                          rows={2}
+                          value={soalBaruPertanyaan}
+                          onChange={e => setSoalBaruPertanyaan(e.target.value)}
+                        />
+                      </div>
+
+                      {soalBaruTipe === 'pg' && (
+                        <>
+                          <div className="form-grup">
+                            <label>Opsi A</label>
+                            <input
+                              type="text"
+                              value={soalBaruOpsiA}
+                              onChange={e => setSoalBaruOpsiA(e.target.value)}
+                            />
+                          </div>
+                          <div className="form-grup">
+                            <label>Opsi B</label>
+                            <input
+                              type="text"
+                              value={soalBaruOpsiB}
+                              onChange={e => setSoalBaruOpsiB(e.target.value)}
+                            />
+                          </div>
+                          <div className="form-grup">
+                            <label>Opsi C</label>
+                            <input
+                              type="text"
+                              value={soalBaruOpsiC}
+                              onChange={e => setSoalBaruOpsiC(e.target.value)}
+                            />
+                          </div>
+                          <div className="form-grup">
+                            <label>Opsi D</label>
+                            <input
+                              type="text"
+                              value={soalBaruOpsiD}
+                              onChange={e => setSoalBaruOpsiD(e.target.value)}
+                            />
+                          </div>
+                          <div className="form-grup">
+                            <label>Kunci Jawaban PG</label>
                             <select
-                              value={jawaban[soalAktif.nomor]?.[kiri.nomor] || ''}
-                              onChange={e => pilihBaris(soalAktif.nomor, kiri.nomor, e.target.value)}
-                              style={{
-                                padding: '8px 12px',
-                                borderRadius: '8px',
-                                border: '2px solid #3b82f6',
-                                background: '#eff6ff',
-                                color: '#1d4ed8',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                minWidth: '90px'
-                              }}
+                              value={soalBaruKunciPG}
+                              onChange={e => setSoalBaruKunciPG(e.target.value)}
                             >
-                              <option value="">Pilih Huruf</option>
-                              {soalAktif.kolomKanan!.map(kanan => (
-                                <option key={kanan.kode} value={kanan.kode}>
-                                  Huruf {kanan.kode}
-                                </option>
-                              ))}
+                              <option value="A">A</option>
+                              <option value="B">B</option>
+                              <option value="C">C</option>
+                              <option value="D">D</option>
                             </select>
                           </div>
+                        </>
+                      )}
+
+                      {soalBaruTipe === 'isian' && (
+                        <div className="form-grup form-penuh">
+                          <label>Kunci Jawaban Isian (pisahkan alternatif dengan tanda |)</label>
+                          <input
+                            type="text"
+                            placeholder="Contoh: lingkungan | kebersihan lingkungan"
+                            value={soalBaruKunciIsian}
+                            onChange={e => setSoalBaruKunciIsian(e.target.value)}
+                          />
+                        </div>
+                      )}
+
+                      <button type="submit" className="btn-utama form-penuh">
+                        Simpan Soal Baru
+                      </button>
+                    </form>
+
+                    <div className="daftar-kelola-soal">
+                      <h4>
+                        Bahasa Indonesia Paket 1 ({bankBindo.length} Soal) & Matematika Paket 1 (
+                        {bankMatematika.length} Soal)
+                      </h4>
+                      {bankBindo.map(item => (
+                        <div className="baris-kelola-soal" key={`bindo-${item.nomor}`}>
+                          <span>
+                            <strong>[Bindo #{item.nomor}]</strong> {item.pertanyaan}
+                          </span>
+                          <button
+                            type="button"
+                            className="btn-hapus-kecil"
+                            onClick={() => hapusSoal(DAFTAR_MAPEL[0], item.nomor)}
+                          >
+                            Hapus
+                          </button>
+                        </div>
+                      ))}
+                      {bankMatematika.map(item => (
+                        <div className="baris-kelola-soal" key={`mtk-${item.nomor}`}>
+                          <span>
+                            <strong>[Mtk #{item.nomor}]</strong> {item.pertanyaan}
+                          </span>
+                          <button
+                            type="button"
+                            className="btn-hapus-kecil"
+                            onClick={() => hapusSoal(DAFTAR_MAPEL[1], item.nomor)}
+                          >
+                            Hapus
+                          </button>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-              {/* 5. ISIAN SINGKAT */}
-              {soalAktif.tipe === 'isian' && (
-                <input
-                  className="isian-jawaban"
-                  type="text"
-                  placeholder="Ketik jawaban di sini..."
-                  value={jawaban[soalAktif.nomor] || ''}
-                  onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
-                />
-              )}
-
-              {/* 6. URAIAN */}
-              {soalAktif.tipe === 'uraian' && (
-                <textarea
-                  className="isian-jawaban"
-                  rows={5}
-                  style={{ width: '100%', resize: 'vertical', padding: '12px' }}
-                  placeholder="Ketik jawaban di sini..."
-                  value={jawaban[soalAktif.nomor] || ''}
-                  onChange={e => pilihJawaban(soalAktif.nomor, e.target.value)}
-                />
-              )}
-            </div>
+                {tabAdmin === 'pengaturan' && (
+                  <form onSubmit={simpanPengaturanUjian} className="bagian-admin form-grid">
+                    <div className="form-grup form-penuh">
+                      <label>Nama Ujian</label>
+                      <input
+                        type="text"
+                        value={infoUjian.namaUjian}
+                        onChange={e => setInfoUjian({ ...infoUjian, namaUjian: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-grup">
+                      <label>Instansi / Pelaksana</label>
+                      <input
+                        type="text"
+                        value={infoUjian.pelaksana}
+                        onChange={e => setInfoUjian({ ...infoUjian, pelaksana: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-grup">
+                      <label>Tahun Ajaran</label>
+                      <input
+                        type="text"
+                        value={infoUjian.tahunAjaran}
+                        onChange={e =>
+                          setInfoUjian({ ...infoUjian, tahunAjaran: e.target.value })
+                        }
+                      />
+                    </div>
+                    <button type="submit" className="btn-utama form-penuh">
+                      Simpan Identitas Ujian
+                    </button>
+                  </form>
+                )}
+              </div>
+            )}
           </div>
-        )}
-
-        {/* NAVIGASI SOAL */}
-        <div className="navigasi-ujian">
-          <button
-            className="tombol-sebelumnya"
-            disabled={nomorAktif === 1}
-            onClick={() => setNomorAktif(n => n - 1)}
-          >
-            ◀ Soal sebelumnya
-          </button>
-
-          <button
-            className={`tombol-ragu ${ragu.includes(nomorAktif) ? 'ragu-aktif' : ''}`}
-            onClick={tandaiRagu}
-          >
-            □ {ragu.includes(nomorAktif) ? 'Hapus Ragu-ragu' : 'Ragu-ragu'}
-          </button>
-
-          {nomorAktif < daftarNomorAktif.length ? (
-            <button
-              className="tombol-berikutnya"
-              onClick={() => setNomorAktif(n => n + 1)}
-            >
-              Soal berikutnya ▶
-            </button>
-          ) : (
-            <button
-              className="tombol-selesai"
-              onClick={() => setHalaman('konfirmasiSelesai')}
-            >
-              Selesai
-            </button>
-          )}
-        </div>
-      </main>
+        </main>
+      )}
     </div>
   )
 }
