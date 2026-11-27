@@ -27,6 +27,7 @@ function GambarSoal({
   maxHeight,
   isBindoGambar1to4,
   fullWidthScroll = false,
+  expandFullWidth = false,
   nomorAsli,
   isMtk = false
 }: {
@@ -35,6 +36,7 @@ function GambarSoal({
   maxHeight: string
   isBindoGambar1to4: boolean
   fullWidthScroll?: boolean
+  expandFullWidth?: boolean
   nomorAsli?: number
   isMtk?: boolean
 }) {
@@ -100,15 +102,15 @@ function GambarSoal({
       }}
       style={{
         display: 'block',
-        width: 'auto',
+        width: expandFullWidth ? '100%' : 'auto',
         maxWidth: '100%',
         height: 'auto',
-        maxHeight: maxHeight,
+        maxHeight: expandFullWidth ? 'none' : maxHeight,
         borderRadius: isBindoGambar1to4 ? '6px' : '8px',
         objectFit: 'contain',
         transform: 'none',
         flexShrink: 0,
-        margin: fullWidthScroll ? '0 auto' : '6px auto 8px auto'
+        margin: fullWidthScroll || expandFullWidth ? '4px auto 16px auto' : '6px auto 8px auto'
       }}
     />
   )
@@ -3155,7 +3157,7 @@ function App() {
                 overflowY: isBindoPasKotakPutih ? 'hidden' : 'auto',
                 overflowX: isBindoPasKotakPutih ? 'hidden' : 'auto',
                 padding: isBindoNomorTargetScroll
-                  ? '10px 14px 16px 12px'
+                  ? '12px 14px 32px 12px'
                   : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
                     ? '6px'
                     : isMtkGambarBesarTanpaTeks
@@ -3181,14 +3183,14 @@ function App() {
               {isBindoNomorTargetScroll && (
                 <div
                   style={{
-                    fontSize: '1.12em',
+                    fontSize: '1.18em',
                     fontWeight: 800,
                     color: '#0f172a',
                     background: '#eff6ff',
                     border: '1px solid #bfdbfe',
                     borderLeft: '4px solid #1d4ed8',
                     borderRadius: '8px',
-                    padding: '8px 14px',
+                    padding: '9px 14px',
                     marginBottom: '12px',
                     width: '100%',
                     boxSizing: 'border-box',
@@ -3306,6 +3308,7 @@ function App() {
                   isMtk={isMtkKelas6}
                   isBindoGambar1to4={isBindoGambar1to4}
                   fullWidthScroll={isBindoGambarScrollBesar}
+                  expandFullWidth={isBindoNomorTargetScroll}
                   maxHeight={
                     isBindoNomorTargetScroll
                       ? 'none'
