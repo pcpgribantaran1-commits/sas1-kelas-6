@@ -2028,6 +2028,8 @@ function App() {
   const [showPassword, setShowPassword] = useState(false)
 
   const [namaPeserta, setNamaPeserta] = useState('')
+  const [namaPesertaManual, setNamaPesertaManual] = useState('')
+  const [lockAutofillNama, setLockAutofillNama] = useState(false)
   const [jenisKelamin, setJenisKelamin] = useState('')
   const [hari, setHari] = useState('')
   const [bulan, setBulan] = useState('')
@@ -2114,6 +2116,17 @@ function App() {
     }
   }, [halaman, mapel, username, namaPeserta, namaLembaga, bankSoalAktif, nomorAktif, jawaban, ragu, sisaWaktu])
 
+  useEffect(() => {
+    if (halaman !== 'konfirmasi') return
+    setNamaPesertaManual('')
+    setLockAutofillNama(true)
+    const timer = window.setTimeout(() => {
+      setNamaPesertaManual('')
+      setLockAutofillNama(false)
+    }, 150)
+    return () => window.clearTimeout(timer)
+  }, [halaman, sesiKey])
+
   const keluarKeHalamanAwal = () => {
     setJenjang('SD/MI/Sederajat')
     setJenis('Mata Pelajaran Wajib')
@@ -2125,6 +2138,8 @@ function App() {
     setShowPassword(false)
 
     setNamaPeserta('')
+    setNamaPesertaManual('')
+    setLockAutofillNama(false)
     setJenisKelamin('')
     setHari('')
     setBulan('')
@@ -2315,6 +2330,7 @@ function App() {
     setPassword(passFinal)
     setNamaLembaga(lembagaFinal)
     setNamaPeserta('')
+    setNamaPesertaManual('')
     const tBaru = buatToken()
     setToken(tBaru)
     setTokenInput('')
@@ -2328,8 +2344,9 @@ function App() {
   }
 
   const submitKonfirmasi = () => {
-    if (!namaPeserta.trim()) {
-      alert('Silakan tulis Nama Peserta terlebih dahulu.')
+    const namaManualBersih = namaPesertaManual.trim()
+    if (!namaManualBersih) {
+      alert('Silakan tulis Nama Peserta secara manual terlebih dahulu.')
       return
     }
 
@@ -2338,8 +2355,7 @@ function App() {
       return
     }
 
-    const namaFinal = namaPeserta.trim()
-    setNamaPeserta(namaFinal)
+    setNamaPeserta(namaManualBersih)
 
     const bankSoalFinal = susunSoalBerdasarkanMapel(mapel)
     if (bankSoalFinal.length === 0) {
@@ -2409,9 +2425,11 @@ function App() {
 
   const labelPesertaKanan = namaPeserta.trim()
     ? `${namaPeserta.trim()} - PESERTA SAS 1`
-    : username.trim()
-      ? `${username.trim()} - PESERTA SAS 1`
-      : ''
+    : namaPesertaManual.trim()
+      ? `${namaPesertaManual.trim()} - PESERTA SAS 1`
+      : username.trim()
+        ? `${username.trim()} - PESERTA SAS 1`
+        : ''
 
   const Header = ({ peserta = false, reviu = false }: { peserta?: boolean; reviu?: boolean }) => (
     <header
@@ -2683,13 +2701,20 @@ function App() {
               <div className="data-group">
                 <label>Nama Peserta</label>
                 <input
-                  key={`nama-peserta-input-${sesiKey}`}
+                  key={`nama-peserta-manual-${sesiKey}`}
                   type="text"
-                  name={`tka_nama_${sesiKey}`}
-                  autoComplete="off"
+                  name={`nama_peserta_tulis_tangan_${sesiKey}`}
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="words"
+                  spellCheck={false}
+                  readOnly={lockAutofillNama}
                   placeholder="Ketikkan Nama Peserta"
-                  value={namaPeserta}
-                  onChange={e => setNamaPeserta(e.target.value)}
+                  value={namaPesertaManual}
+                  onFocus={() => {
+                    if (lockAutofillNama) setLockAutofillNama(false)
+                  }}
+                  onChange={e => setNamaPesertaManual(e.target.value)}
                 />
               </div>
 
