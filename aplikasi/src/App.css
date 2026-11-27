@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* =================================
@@ -20,7 +19,8 @@ body,
 body,
 button,
 input,
-select {
+select,
+textarea {
   font-family: 'Poppins', Arial, sans-serif;
   color: #292d32;
 }
@@ -39,80 +39,9 @@ button:hover {
 }
 
 input,
-select {
+select,
+textarea {
   outline: none;
-}
-
-/* =================================
-   HEADER PUSMENDIK - APLIKASI TKA
-================================= */
-
-.anbk-header {
-  height: 150px;
-  width: 100%;
-  background:
-    linear-gradient(150deg, transparent 0 12%, #ffffff0c 12.1% 22%, transparent 22.1%),
-    linear-gradient(110deg, #286ba6, #316b9f 60%, #285e90);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 17px 2.5%;
-  color: white;
-}
-
-.anbk-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: white;
-}
-
-.pus-logo {
-  width: 67px;
-  height: 67px;
-  flex-shrink: 0;
-  background-color: transparent;
-  background-image: url('/tutwuri.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  border: none;
-  border-radius: 0;
-  font-size: 0;
-}
-
-.anbk-brand strong {
-  display: block;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.anbk-brand small {
-  display: block;
-  font-size: 11px;
-  margin-top: 5px;
-}
-
-.header-peserta {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 10px;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.header-cap {
-  width: 29px;
-  height: 29px;
-  background: #6fb2e7;
-  display: grid;
-  place-items: center;
-}
-
-.header-peserta-mode {
-  position: relative;
 }
 
 /* =================================
@@ -123,25 +52,28 @@ select {
   min-height: 100vh;
   width: 100%;
   background:
-    radial-gradient(circle, #ffffff20 1.5px, transparent 2px),
-    linear-gradient(110deg, #356b9d, #477fb5);
+    radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.5px, transparent 2px),
+    linear-gradient(110deg, #2d6699, #437db3);
   background-size: 32px 32px, auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .awal-header {
   height: 118px;
   width: 100%;
-  background: linear-gradient(110deg, #326b9e, #4a82b7);
+  background: linear-gradient(110deg, #2d6699, #447fb5);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 20px;
 }
 
 .awal-brand {
   display: flex;
   align-items: center;
-  gap: 15px;
-  color: white;
+  gap: 14px;
+  color: #ffffff;
 }
 
 .awal-logo {
@@ -161,20 +93,25 @@ select {
 }
 
 .awal-brand strong {
-  font-size: 21px;
+  font-size: 20px;
   display: block;
   font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.2px;
 }
 
 .awal-brand small {
   display: block;
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: 3px;
+  color: #f8fafc;
+  font-weight: 500;
 }
 
 .awal-main {
+  flex: 1;
   min-height: calc(100vh - 118px);
-  padding: 7px 20px 35px;
+  padding: 8px 20px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -184,45 +121,46 @@ select {
 .awal-card {
   width: 465px;
   max-width: 100%;
-  background: white;
-  padding: 38px 42px 42px;
+  background: #ffffff;
+  padding: 36px 42px 38px;
   border-radius: 20px;
-  box-shadow: 0 15px 35px #1d355533;
+  box-shadow: 0 15px 35px rgba(29, 53, 85, 0.22);
+  text-align: center;
 }
 
 .awal-icon {
-  width: 78px;
-  height: 78px;
-  margin: 0 auto 15px;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 14px;
   border-radius: 50%;
-  background: #3978ad;
+  background: #3573a8;
   display: grid;
   place-items: center;
-  color: white;
-  font-size: 37px;
-  box-shadow: 0 8px 20px #3978ad30;
+  color: #ffffff;
+  font-size: 34px;
+  box-shadow: 0 8px 20px rgba(53, 115, 168, 0.25);
 }
 
 .awal-card h1 {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 800;
   text-align: center;
-  margin: 0 0 5px;
-  line-height: 1.4;
+  margin: 0 0 6px;
+  line-height: 1.35;
+  color: #0f172a;
 }
 
 .awal-subtitle {
+  max-width: 280px;
+  margin: 0 auto 22px;
   text-align: center;
   font-size: 13px;
   color: #77818d;
-  line-height: 1.6;
-  margin: 0 0 25px;
+  line-height: 1.55;
 }
 
-/* LABEL FORM RATA KIRI */
-
 .awal-group {
-  margin-bottom: 19px;
+  margin-bottom: 18px;
   text-align: left;
 }
 
@@ -232,36 +170,37 @@ select {
   font-weight: 700;
   margin-bottom: 8px;
   text-align: left;
+  color: #1e293b;
 }
 
 .awal-group select {
   width: 100%;
-  height: 52px;
+  height: 50px;
   border: 1px solid #dbe3ed;
   border-radius: 11px;
   padding: 0 16px;
-  background: white;
+  background: #ffffff;
   font-size: 13px;
-  box-shadow: 0 3px 8px #0000000b;
-  outline: none;
+  color: #1e293b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
 }
 
 .awal-group select:focus {
   border-color: #3978ad;
-  box-shadow: 0 0 0 3px #3978ad15;
+  box-shadow: 0 0 0 3px rgba(57, 120, 173, 0.15);
 }
 
 .awal-button {
-  height: 55px;
+  height: 52px;
   width: 100%;
   border: none;
   border-radius: 11px;
-  background: linear-gradient(100deg, #316b9e, #4984bb);
-  color: white;
+  background: linear-gradient(100deg, #2f699c, #447fb5);
+  color: #ffffff;
   font-size: 15px;
   font-weight: 700;
-  margin-top: 5px;
-  box-shadow: 0 8px 18px #316b9e35;
+  margin-top: 6px;
+  box-shadow: 0 8px 18px rgba(47, 105, 156, 0.28);
 }
 
 .awal-button:hover {
@@ -270,14 +209,103 @@ select {
 }
 
 .awal-copyright {
-  margin-top: -17px;
-  background: #fff;
+  margin-top: -16px;
+  background: #ffffff;
   border-radius: 30px;
-  padding: 11px 20px;
+  padding: 9px 22px;
   font-size: 11px;
-  color: #555;
+  color: #555555;
   position: relative;
+  z-index: 2;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* =================================
+   HEADER PUSMENDIK - APLIKASI TKA
+================================= */
+
+.anbk-header {
+  width: 100%;
+  height: 150px;
+  background:
+    linear-gradient(150deg, transparent 0 12%, #ffffff0c 12.1% 22%, transparent 22.1%),
+    linear-gradient(110deg, #286ba6, #316b9f 60%, #285e90);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 4%;
+  box-sizing: border-box;
+  color: white;
+}
+
+.anbk-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  color: white;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.pus-logo {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  flex-shrink: 0;
+  background-image: url('/tutwuri.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  border-radius: 0;
+}
+
+.anbk-brand strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.anbk-brand small {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.header-peserta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  margin: 0;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.header-cap {
+  width: 29px;
+  height: 29px;
+  background: #6fb2e7;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.header-peserta-mode {
+  position: static;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: auto;
 }
 
 /* =================================
@@ -394,8 +422,6 @@ select {
   z-index: 2;
 }
 
-/* TOKEN SEBELAH KIRI */
-
 .token-card {
   min-height: 92px;
   background: white;
@@ -430,25 +456,6 @@ select {
   margin-left: 5px;
 }
 
-.token-watermark,
-.data-watermark {
-  position: absolute;
-  pointer-events: none;
-  color: #f5f3f3;
-  font-family: Georgia, serif;
-  font-weight: bold;
-  user-select: none;
-}
-
-.token-watermark {
-  right: 0;
-  top: -75px;
-  font-size: 230px;
-  transform: rotate(-20deg);
-}
-
-/* FORM DATA SEBELAH KANAN */
-
 .data-card {
   background: white;
   border-radius: 11px;
@@ -462,6 +469,7 @@ select {
 .data-content {
   position: relative;
   z-index: 2;
+  text-align: left;
 }
 
 .data-card h2 {
@@ -471,23 +479,20 @@ select {
   margin: 0 0 22px;
 }
 
-.data-watermark {
-  right: -65px;
-  top: -65px;
-  font-size: 340px;
-  transform: rotate(-20deg);
-}
-
 .data-group {
+  width: 100%;
   margin-bottom: 14px;
   position: relative;
+  text-align: left;
 }
 
 .data-group label {
   display: block;
+  width: 100%;
   font-size: 11px;
   font-weight: 700;
   margin-bottom: 6px;
+  text-align: left !important;
 }
 
 .data-group input,
@@ -502,6 +507,7 @@ select {
   outline: none;
   font-size: 12px;
   color: #30343a;
+  text-align: left !important;
 }
 
 .data-group input:focus,
@@ -510,6 +516,7 @@ select {
 }
 
 .readonly-value {
+  width: 100%;
   min-height: 36px;
   padding: 8px 10px;
   border: 1px solid #dbe3ed;
@@ -517,9 +524,11 @@ select {
   font-size: 12px;
   background: #f9fbfd;
   overflow-wrap: anywhere;
+  text-align: left !important;
 }
 
 .tanggal-row {
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1.05fr 1fr;
   gap: 7px;
@@ -532,6 +541,7 @@ select {
   border: 1px solid #dbe3ed;
   border-radius: 7px;
   font-size: 12px;
+  text-align: left !important;
 }
 
 .token-input-group {
@@ -540,6 +550,7 @@ select {
 
 .token-input-group label {
   color: #176df1;
+  text-align: left !important;
 }
 
 .submit-data {
@@ -577,30 +588,38 @@ select {
   padding: 39px 38px;
   border-radius: 11px;
   box-shadow: 0 25px 45px #00000030;
+  text-align: left;
 }
 
 .tes-card h2 {
   font-size: 23px;
   font-weight: 600;
   margin: 0 0 23px;
+  text-align: center;
 }
 
 .tes-group {
+  width: 100%;
   margin-bottom: 13px;
+  text-align: left !important;
 }
 
 .tes-group label {
   display: block;
+  width: 100%;
+  text-align: left !important;
   font-size: 11px;
   font-weight: 700;
   margin-bottom: 4px;
 }
 
 .tes-group div {
+  width: 100%;
   min-height: 35px;
   border-bottom: 1px solid #e8e8e8;
   padding: 7px 0;
   font-size: 13px;
+  text-align: left !important;
 }
 
 .tes-card .login-button {
@@ -609,445 +628,8 @@ select {
 }
 
 /* =================================
-   HALAMAN UJIAN
-================================= */
-
-.ujian-content {
-  max-width: 1000px;
-  margin: 65px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 10px 30px #00000015;
-}
-
-.ujian-content h1 {
-  font-size: 25px;
-  color: #316b9e;
-}
-
-/* =================================
-   RESPONSIVE TABLET
-================================= */
-
-@media (max-width: 950px) {
-  .konfirmasi-layout {
-    width: calc(100% - 36px);
-    grid-template-columns: 1fr;
-    margin-top: -35px;
-  }
-
-  .data-card,
-  .token-card {
-    width: 100%;
-  }
-}
-
-/* =================================
-   RESPONSIVE HP
-================================= */
-
-@media (max-width: 500px) {
-  .awal-header {
-    height: 95px;
-  }
-
-  .awal-brand {
-    gap: 10px;
-  }
-
-  .awal-logo {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-  }
-
-  .awal-brand strong {
-    font-size: 16px;
-  }
-
-  .awal-brand small {
-    font-size: 9px;
-  }
-
-  .awal-main {
-    min-height: calc(100vh - 95px);
-    padding: 25px 15px 35px;
-  }
-
-  .awal-card {
-    padding: 30px 23px;
-  }
-
-  .awal-card h1 {
-    font-size: 19px;
-  }
-
-  .awal-group select {
-    height: 47px;
-  }
-
-  .anbk-header {
-    height: 110px;
-    padding: 15px;
-  }
-
-  .header-peserta {
-    font-size: 10px;
-    gap: 5px;
-  }
-
-  .pus-logo {
-    width: 48px;
-    height: 48px;
-  }
-
-  .anbk-brand strong {
-    font-size: 13px;
-  }
-
-  .anbk-brand small {
-    font-size: 9px;
-  }
-
-  .login-main {
-    min-height: calc(100vh - 110px);
-    padding: 25px 15px;
-  }
-
-  .login-card {
-    padding: 32px 25px;
-  }
-
-  .konfirmasi-layout {
-    width: calc(100% - 24px);
-    margin-top: -25px;
-    gap: 15px;
-  }
-
-  .token-card {
-    padding: 22px 18px;
-  }
-
-  .token-content {
-    font-size: 14px;
-    flex-wrap: wrap;
-  }
-
-  .data-card {
-    padding: 22px 20px 28px;
-  }
-
-  .data-card h2 {
-    font-size: 20px;
-  }
-
-  .tanggal-row {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 5px;
-  }
-
-  .tes-card {
-    padding: 30px 25px;
-  }
-
-  .ujian-content {
-    margin: 25px 12px;
-    padding: 25px 18px;
-  }
-
-  .ujian-content h1 {
-    font-size: 20px;
-  }
-}
-
-/* =================================
-   AKHIR CSS APLIKASI TKA SAS 1
-================================= */
-
-/* =========================================
-   REVISI HEADER PUSMENDIK - TKA SAS 1
-   ========================================= */
-
-/* HEADER BIRU */
-.anbk-header {
-  width: 100%;
-  height: 150px;
-  background:
-    linear-gradient(150deg, transparent 0 12%, #ffffff0c 12.1% 22%, transparent 22.1%),
-    linear-gradient(110deg, #286ba6, #316b9f 60%, #285e90);
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 17px 4%;
-  box-sizing: border-box;
-  color: white;
-}
-
-/* LOGO DAN IDENTITAS KIRI */
-.anbk-brand {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  color: white;
-  text-align: left;
-  flex-shrink: 0;
-}
-
-.pus-logo {
-  width: 60px;
-  height: 60px;
-  min-width: 60px;
-  flex-shrink: 0;
-
-  background-image: url('/tutwuri.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-
-  border: none;
-  border-radius: 0;
-}
-
-.anbk-brand strong {
-  display: block;
-  font-size: 16px;
-  font-weight: 800;
-  text-align: left;
-}
-
-.anbk-brand small {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  margin-top: 5px;
-  text-align: left;
-}
-
-/* IDENTITAS PESERTA KANAN */
-.header-peserta-mode {
-  position: static;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-left: auto;
-}
-
-.header-peserta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 9px;
-
-  margin: 0;
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.header-cap {
-  width: 29px;
-  height: 29px;
-  background: #6fb2e7;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-/* =========================================
-   REVISI FORM KONFIRMASI PESERTA
-   SEMUA LABEL RATA KIRI
-   ========================================= */
-
-.data-content {
-  text-align: left;
-}
-
-.data-card h2 {
-  text-align: center;
-}
-
-.data-group {
-  width: 100%;
-  margin-bottom: 14px;
-  text-align: left;
-}
-
-.data-group label {
-  display: block;
-  width: 100%;
-  text-align: left !important;
-  margin-bottom: 6px;
-}
-
-.data-group input,
-.data-group select {
-  width: 100%;
-  text-align: left !important;
-}
-
-.readonly-value {
-  width: 100%;
-  text-align: left !important;
-}
-
-.tanggal-row {
-  width: 100%;
-}
-
-.tanggal-row select {
-  text-align: left !important;
-}
-
-.token-input-group label {
-  text-align: left !important;
-}
-
-/* =========================================
-   RESPONSIVE HEADER DAN FORM
-   ========================================= */
-
-@media (max-width: 768px) {
-
-  .anbk-header {
-    height: 120px;
-    padding: 15px 3%;
-  }
-
-  .anbk-brand {
-    gap: 8px;
-  }
-
-  .pus-logo {
-    width: 43px;
-    height: 43px;
-    min-width: 43px;
-  }
-
-  .anbk-brand strong {
-    font-size: 12px;
-  }
-
-  .anbk-brand small {
-    font-size: 8px;
-  }
-
-  .header-peserta {
-    font-size: 10px;
-    gap: 5px;
-  }
-
-  .header-cap {
-    width: 23px;
-    height: 23px;
-  }
-}
-
-@media (max-width: 400px) {
-
-  .anbk-header {
-    padding: 12px 2%;
-  }
-
-  .pus-logo {
-    width: 35px;
-    height: 35px;
-    min-width: 35px;
-  }
-
-  .anbk-brand strong {
-    font-size: 10px;
-  }
-
-  .anbk-brand small {
-    font-size: 7px;
-  }
-
-  .header-peserta {
-    font-size: 8px;
-    gap: 3px;
-  }
-
-  .header-cap {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-/* =========================================
-   REVISI LABEL HALAMAN KONFIRMASI TES
-   ========================================= */
-
-/* Semua kelompok informasi rata kiri */
-.tes-group {
-  width: 100%;
-  margin-bottom: 13px;
-  text-align: left !important;
-}
-
-/* Label rata kiri */
-.tes-group label {
-  display: block;
-  width: 100%;
-  text-align: left !important;
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-/* Isi data tetap di tengah seperti desain semula */
-.tes-group div {
-  text-align: center;
-}
-
-/* Judul tetap di tengah */
-.tes-card h2 {
-  text-align: center;
-}
-
-/* =========================================
-   REVISI KONFIRMASI TES - SEMUA RATA KIRI
-   ========================================= */
-
-.tes-group {
-  width: 100%;
-  margin-bottom: 13px;
-  text-align: left !important;
-}
-
-.tes-group label {
-  display: block;
-  width: 100%;
-  text-align: left !important;
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.tes-group div {
-  width: 100%;
-  text-align: left !important;
-  padding-left: 0;
-}
-
-.tes-card {
-  text-align: left;
-}
-
-.tes-card h2 {
-  text-align: center;
-}
-
-/* =========================================
    HALAMAN UJIAN SAS 1 - SOAL DAN NAVIGASI
-========================================= */
+================================= */
 
 .lembar-ujian {
   width: calc(100% - 76px);
@@ -1140,6 +722,8 @@ select {
   min-width: 0;
   font-size: 13px;
   line-height: 1.7;
+  text-align: left !important;
+  align-items: flex-start !important;
 }
 
 .teks-pertanyaan {
@@ -1147,6 +731,7 @@ select {
   font-weight: 500;
   margin: 0 0 15px;
   line-height: 1.8;
+  text-align: left !important;
 }
 
 .petunjuk-soal {
@@ -1154,15 +739,19 @@ select {
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 15px;
+  text-align: left !important;
 }
 
 .pilihan-jawaban {
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start !important;
   gap: 9px;
   margin: 11px 0;
   cursor: pointer;
   line-height: 1.7;
+  text-align: left !important;
+  width: 100%;
 }
 
 .pilihan-jawaban input {
@@ -1182,6 +771,7 @@ select {
   width: 100%;
   border: 1px solid #ccc;
   font-size: 11px;
+  text-align: left !important;
 }
 
 .tabel-header,
@@ -1310,271 +900,6 @@ select {
   margin-top: 8px;
 }
 
-.daftar-soal-grid {
-  display: flex;
-  gap: 10px;
-  margin: 12px 0;
-}
-
-.daftar-soal-grid button {
-  width: 38px;
-  height: 38px;
-  border-radius: 7px;
-  border: 1px solid #ccc;
-  background: white;
-}
-
-.daftar-soal-grid button.aktif {
-  border: 2px solid #176df1;
-  font-weight: 700;
-}
-
-.daftar-soal-grid button.terjawab {
-  background: #d5f5df;
-  border-color: #198754;
-}
-
-.daftar-soal-grid button.ditandai-ragu {
-  background: #ffedb5;
-  border-color: #e58b00;
-}
-
-/* =========================================
-   HALAMAN HASIL PENILAIAN
-========================================= */
-
-.hasil-container {
-  padding: 35px 15px;
-}
-
-.hasil-card {
-  width: 700px;
-  max-width: 100%;
-  margin: auto;
-  background: white;
-  padding: 35px;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px #00000020;
-}
-
-.hasil-card h1 {
-  color: #316b9e;
-  text-align: center;
-  font-size: 23px;
-}
-
-.hasil-nama {
-  text-align: center;
-  font-weight: 600;
-}
-
-.hasil-nilai {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 22px;
-  margin: 20px 0;
-  background: #eef5ff;
-  border-radius: 12px;
-}
-
-.hasil-nilai strong {
-  font-size: 55px;
-  color: #176df1;
-}
-
-.hasil-nilai small {
-  color: #666;
-}
-
-.hasil-ringkas {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.hasil-ringkas div {
-  padding: 17px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hasil-ringkas strong {
-  font-size: 28px;
-}
-
-.hasil-item {
-  padding: 13px;
-  margin: 10px 0;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-.hasil-item p {
-  margin-bottom: 0;
-}
-
-.hasil-benar {
-  background: #e6f7ec;
-  border-left: 4px solid #198754;
-}
-
-.hasil-salah {
-  background: #fff0f0;
-  border-left: 4px solid #dc3545;
-}
-
-.hasil-catatan {
-  color: #777;
-  font-size: 11px;
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* =========================================
-   RESPONSIVE HALAMAN UJIAN
-========================================= */
-
-@media (max-width: 768px) {
-  .lembar-ujian {
-    width: calc(100% - 20px);
-    margin-top: -20px;
-    padding: 15px 12px;
-  }
-
-  .area-soal {
-    grid-template-columns: 1fr;
-    padding: 12px;
-  }
-
-  .bacaan-soal {
-    border-right: none;
-    border-bottom: 2px dotted #ddd;
-    padding: 0 0 15px;
-  }
-
-  .bacaan-soal img {
-    max-width: 100%;
-  }
-
-  .pertanyaan-soal {
-    padding: 10px 2px;
-  }
-
-  .ujian-top {
-    align-items: flex-start;
-  }
-
-  .ujian-tools {
-    justify-content: flex-start;
-  }
-
-  .ujian-mapel {
-    text-align: left;
-  }
-
-  .navigasi-ujian {
-    justify-content: center;
-  }
-
-  .navigasi-ujian button {
-    font-size: 10px;
-    padding: 9px 12px;
-  }
-
-  .tabel-jawaban {
-    font-size: 9px;
-  }
-
-  .tabel-header,
-  .tabel-baris {
-    grid-template-columns: 25px minmax(90px, 1fr) 52px 65px;
-  }
-
-  .tabel-header span,
-  .tabel-baris > span,
-  .tabel-baris label {
-    padding: 7px 3px;
-  }
-
-  .hasil-card {
-    padding: 20px;
-  }
-}
-
-/* =========================================
-   PERBAIKAN: TULISAN SOAL RATA KIRI
-   ========================================= */
-
-.ujian-content {
-  text-align: left !important;
-}
-
-.ujian-content h1,
-.ujian-content h2,
-.ujian-content p,
-.ujian-content label,
-.ujian-content div {
-  text-align: left !important;
-}
-/* =====================================
-   PERBAIKAN: TEKS SOAL RATA KIRI
-===================================== */
-
-/* Area pertanyaan */
-.soal-content,
-.soal-kanan,
-.question-content,
-.question-panel {
-  text-align: left !important;
-}
-
-/* Tulisan pertanyaan */
-.soal-content h3,
-.soal-kanan h3,
-.question-content h3,
-.question-panel h3,
-.soal-content p,
-.question-content p {
-  text-align: left !important;
-}
-
-/* Pilihan jawaban */
-.soal-content label,
-.soal-kanan label,
-.question-content label,
-.question-panel label {
-  text-align: left !important;
-  justify-content: flex-start !important;
-}
-
-/* Teks di dalam pilihan */
-.soal-content label span,
-.question-content label span {
-  text-align: left !important;
-}/* PERBAIKAN RATA KIRI AREA SOAL */
-.pertanyaan-soal,
-.pertanyaan-soal p,
-.pertanyaan-soal .teks-pertanyaan,
-.pertanyaan-soal .petunjuk-soal,
-.pertanyaan-soal .pilihan-jawaban,
-.pertanyaan-soal .tabel-jawaban {
-  text-align: left !important;
-}
-
-.pertanyaan-soal {
-  align-items: flex-start !important;
-}
-
-.pertanyaan-soal .pilihan-jawaban {
-  justify-content: flex-start !important;
-  width: 100%;
-}
-/* UKURAN FONT SOAL */
 .judul-soal-area {
   display: flex;
   flex-direction: column;
@@ -1609,7 +934,6 @@ select {
   font-size: 22px;
 }
 
-/* MODAL DAFTAR SOAL */
 .daftar-soal-panel {
   position: fixed !important;
   top: 50% !important;
@@ -1684,6 +1008,119 @@ select {
   border-color: #ffc107;
 }
 
+/* =================================
+   RESPONSIVE TABLET & HP
+================================= */
+
+@media (max-width: 950px) {
+  .konfirmasi-layout {
+    width: calc(100% - 36px);
+    grid-template-columns: 1fr;
+    margin-top: -35px;
+  }
+
+  .data-card,
+  .token-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .anbk-header {
+    height: 120px;
+    padding: 15px 3%;
+  }
+
+  .anbk-brand {
+    gap: 8px;
+  }
+
+  .pus-logo {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+  }
+
+  .anbk-brand strong {
+    font-size: 12px;
+  }
+
+  .anbk-brand small {
+    font-size: 8px;
+  }
+
+  .header-peserta {
+    font-size: 10px;
+    gap: 5px;
+  }
+
+  .header-cap {
+    width: 23px;
+    height: 23px;
+  }
+
+  .lembar-ujian {
+    width: calc(100% - 20px);
+    margin-top: -20px;
+    padding: 15px 12px;
+  }
+
+  .area-soal {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .bacaan-soal {
+    border-right: none;
+    border-bottom: 2px dotted #ddd;
+    padding: 0 0 15px;
+  }
+
+  .bacaan-soal img {
+    max-width: 100%;
+  }
+
+  .pertanyaan-soal {
+    padding: 10px 2px;
+  }
+
+  .ujian-top {
+    align-items: flex-start;
+  }
+
+  .ujian-tools {
+    justify-content: flex-start;
+  }
+
+  .ujian-mapel {
+    text-align: left;
+  }
+
+  .navigasi-ujian {
+    justify-content: center;
+  }
+
+  .navigasi-ujian button {
+    font-size: 10px;
+    padding: 9px 12px;
+  }
+
+  .tabel-jawaban {
+    font-size: 9px;
+  }
+
+  .tabel-header,
+  .tabel-baris {
+    grid-template-columns: 25px minmax(90px, 1fr) 52px 65px;
+  }
+
+  .tabel-header span,
+  .tabel-baris > span,
+  .tabel-baris label {
+    padding: 7px 3px;
+  }
+}
+
 @media (max-width: 540px) {
   .daftar-soal-panel {
     width: calc(100vw - 30px) !important;
@@ -1691,5 +1128,110 @@ select {
 
   .daftar-soal-grid {
     grid-template-columns: repeat(4, 30px);
+  }
+}
+
+@media (max-width: 500px) {
+  .awal-header {
+    height: auto;
+    min-height: 92px;
+    padding: 12px 16px;
+  }
+
+  .awal-brand {
+    gap: 10px;
+  }
+
+  .awal-logo {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+
+  .awal-brand strong {
+    font-size: 16px;
+  }
+
+  .awal-brand small {
+    font-size: 10px;
+  }
+
+  .awal-main {
+    min-height: calc(100vh - 92px);
+    padding: 22px 15px 32px;
+  }
+
+  .awal-card {
+    padding: 28px 22px 32px;
+  }
+
+  .awal-card h1 {
+    font-size: 19px;
+  }
+
+  .awal-group select {
+    height: 47px;
+  }
+
+  .konfirmasi-layout {
+    width: calc(100% - 24px);
+    margin-top: -25px;
+    gap: 15px;
+  }
+
+  .token-card {
+    padding: 22px 18px;
+  }
+
+  .token-content {
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+
+  .data-card {
+    padding: 22px 20px 28px;
+  }
+
+  .data-card h2 {
+    font-size: 20px;
+  }
+
+  .tanggal-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+  }
+
+  .tes-card {
+    padding: 30px 25px;
+  }
+}
+
+@media (max-width: 400px) {
+  .anbk-header {
+    padding: 12px 2%;
+  }
+
+  .pus-logo {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+  }
+
+  .anbk-brand strong {
+    font-size: 10px;
+  }
+
+  .anbk-brand small {
+    font-size: 7px;
+  }
+
+  .header-peserta {
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .header-cap {
+    width: 20px;
+    height: 20px;
   }
 }
