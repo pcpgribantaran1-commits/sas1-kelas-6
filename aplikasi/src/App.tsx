@@ -106,21 +106,19 @@ function GambarSoal({
       }}
       style={{
         display: 'block',
-        width: isNomorUtuhAtasBawah ? 'auto' : expandFullWidth ? '100%' : 'auto',
+        width: isNomorUtuhAtasBawah || expandFullWidth ? '100%' : 'auto',
         maxWidth: '100%',
         height: 'auto',
-        maxHeight: isNomorUtuhAtasBawah ? '408px' : expandFullWidth ? 'none' : maxHeight,
+        maxHeight: isNomorUtuhAtasBawah || expandFullWidth ? 'none' : maxHeight,
         borderRadius: isBindoGambar1to4 ? '6px' : '8px',
         objectFit: 'contain',
         objectPosition: 'top center',
         transform: 'none',
         flexShrink: 0,
         margin:
-          isNomorUtuhAtasBawah
-            ? '0 auto'
-            : fullWidthScroll || expandFullWidth
-              ? '4px auto 16px auto'
-              : '6px auto 8px auto'
+          isNomorUtuhAtasBawah || fullWidthScroll || expandFullWidth
+            ? '4px auto 16px auto'
+            : '6px auto 8px auto'
       }}
     />
   )
@@ -2215,8 +2213,6 @@ function App() {
           }
         })
 
-        // Penilaian proporsional: jawaban benar menyumbang poin per butir kunci,
-        // salah hanya mengurangi sebagian kecil agar tidak langsung menggugurkan nomor
         const skorParsial = Math.max(
           0,
           (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya
@@ -3191,38 +3187,32 @@ function App() {
                 fontSize: `${ukuranFont}px`,
                 height: '440px',
                 maxHeight: '440px',
-                overflowY: isBindoPasKotakPutih || isBindoNomor20_29_30 ? 'hidden' : 'auto',
-                overflowX: isBindoPasKotakPutih || isBindoNomor20_29_30 ? 'hidden' : 'auto',
-                padding: isBindoNomor20_29_30
-                  ? '12px'
-                  : isBindoGambarScrollPenuh
-                    ? '8px 14px 32px 12px'
-                    : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
-                      ? '6px'
-                      : isMtkGambarBesarTanpaTeks
-                        ? '8px'
-                        : isMtkKelas6
-                          ? '8px 12px 8px 4px'
-                          : isBindoPasKotakPutih
-                            ? '10px'
-                            : isBindoGambarScrollBesar
-                              ? '8px'
-                              : '4px 12px 4px 4px',
+                overflowY: isBindoPasKotakPutih ? 'hidden' : 'auto',
+                overflowX: isBindoPasKotakPutih ? 'hidden' : 'auto',
+                padding: isBindoNomor20_29_30 || isBindoGambarScrollPenuh
+                  ? '8px 14px 32px 12px'
+                  : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
+                    ? '6px'
+                    : isMtkGambarBesarTanpaTeks
+                      ? '8px'
+                      : isMtkKelas6
+                        ? '8px 12px 8px 4px'
+                        : isBindoPasKotakPutih
+                          ? '10px'
+                          : isBindoGambarScrollBesar
+                            ? '8px'
+                            : '4px 12px 4px 4px',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: isBindoNomor20_29_30
+                justifyContent: isBindoNomor20_29_30 || isBindoGambarScrollPenuh
                   ? 'flex-start'
-                  : isBindoGambarScrollPenuh
-                    ? 'flex-start'
-                    : isMtkGambarBesarTanpaTeks || isBindoGambarBesarTanpaTeks || isBindoPasKotakPutih
-                      ? 'center'
-                      : 'flex-start',
-                alignItems: isBindoNomor20_29_30
-                  ? 'center'
-                  : isBindoGambarScrollPenuh
-                    ? 'stretch'
-                    : 'center'
+                  : isMtkGambarBesarTanpaTeks || isBindoGambarBesarTanpaTeks || isBindoPasKotakPutih
+                    ? 'center'
+                    : 'flex-start',
+                alignItems: isBindoNomor20_29_30 || isBindoGambarScrollPenuh
+                  ? 'stretch'
+                  : 'center'
               }}
             >
               {soalAktif.bacaanJudul &&
@@ -3330,26 +3320,24 @@ function App() {
                   nomorAsli={soalAktif.nomorAsli}
                   isMtk={isMtkKelas6}
                   isBindoGambar1to4={isBindoGambar1to4}
-                  fullWidthScroll={isBindoGambarScrollBesar}
-                  expandFullWidth={isBindoGambarScrollPenuh}
+                  fullWidthScroll={isBindoGambarScrollBesar || isBindoNomor20_29_30}
+                  expandFullWidth={isBindoGambarScrollPenuh || isBindoNomor20_29_30}
                   maxHeight={
-                    isBindoNomor20_29_30
-                      ? '408px'
-                      : isBindoGambarScrollPenuh
-                        ? 'none'
-                        : isMtkGambarBesarTanpaTeks
-                          ? '410px'
-                          : isMtkKelas6
-                            ? '280px'
-                            : isBindoPasKotakPutih
+                    isBindoNomor20_29_30 || isBindoGambarScrollPenuh
+                      ? 'none'
+                      : isMtkGambarBesarTanpaTeks
+                        ? '410px'
+                        : isMtkKelas6
+                          ? '280px'
+                          : isBindoPasKotakPutih
+                            ? '360px'
+                            : isBindoGambarScrollBesar
                               ? '360px'
-                              : isBindoGambarScrollBesar
-                                ? '360px'
-                                : isBindoGambarBesarTanpaTeks
-                                  ? '380px'
-                                  : isBindoGambar1to4
-                                    ? '290px'
-                                    : '260px'
+                              : isBindoGambarBesarTanpaTeks
+                                ? '380px'
+                                : isBindoGambar1to4
+                                  ? '290px'
+                                  : '260px'
                   }
                 />
               )}
