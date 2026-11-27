@@ -87,7 +87,7 @@ function GambarSoal({
     return null
   }
 
-  const isNomorUtuhAtasBawah = Boolean(
+  const isNomorUtuhBesarScroll = Boolean(
     !isMtk && nomorAsli !== undefined && [20, 29, 30].includes(nomorAsli)
   )
 
@@ -106,18 +106,18 @@ function GambarSoal({
       }}
       style={{
         display: 'block',
-        width: isNomorUtuhAtasBawah || expandFullWidth ? '100%' : 'auto',
+        width: isNomorUtuhBesarScroll || expandFullWidth ? '100%' : 'auto',
         maxWidth: '100%',
         height: 'auto',
-        maxHeight: isNomorUtuhAtasBawah || expandFullWidth ? 'none' : maxHeight,
+        maxHeight: isNomorUtuhBesarScroll || expandFullWidth ? 'none' : maxHeight,
         borderRadius: isBindoGambar1to4 ? '6px' : '8px',
         objectFit: 'contain',
         objectPosition: 'top center',
         transform: 'none',
         flexShrink: 0,
         margin:
-          isNomorUtuhAtasBawah || fullWidthScroll || expandFullWidth
-            ? '4px auto 16px auto'
+          isNomorUtuhBesarScroll || fullWidthScroll || expandFullWidth
+            ? '2px auto 20px auto'
             : '6px auto 8px auto'
       }}
     />
@@ -3190,7 +3190,7 @@ function App() {
                 overflowY: isBindoPasKotakPutih ? 'hidden' : 'auto',
                 overflowX: isBindoPasKotakPutih ? 'hidden' : 'auto',
                 padding: isBindoNomor20_29_30 || isBindoGambarScrollPenuh
-                  ? '8px 14px 32px 12px'
+                  ? '6px 14px 36px 8px'
                   : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
                     ? '6px'
                     : isMtkGambarBesarTanpaTeks
