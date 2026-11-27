@@ -19,7 +19,7 @@ const KEY_SESI_UJIAN = 'sas1_kelas6_sesi_ujian_v1'
 const URL_APPS_SCRIPT =
   'https://script.google.com/macros/s/AKfycbxhp44qsZdQ9FoE96A2FFQFFFMkle8d4rWPKIGcnrGF5PxlomDBLbNWH5n7Qs_sptY/exec'
 
-const NOMOR_BINDO_LABEL_ATAS_GAMBAR_SCROLL = [20, 24, 26, 29, 30, 31, 32, 33, 34, 35]
+const NOMOR_BINDO_GAMBAR_SCROLL_PENUH = [20, 24, 26, 29, 30, 31, 32, 33, 34, 35]
 
 function GambarSoal({
   srcRaw,
@@ -3057,19 +3057,19 @@ function App() {
       [2, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28].includes(soalAktif.nomorAsli)
   )
   const isBindoGambar1to4 = Boolean(isBindo && soalAktif && [1, 2, 3, 4].includes(soalAktif.nomorAsli))
-  const isBindoNomorTargetScroll = Boolean(
-    isBindo && soalAktif && NOMOR_BINDO_LABEL_ATAS_GAMBAR_SCROLL.includes(soalAktif.nomorAsli)
+  const isBindoGambarScrollPenuh = Boolean(
+    isBindo && soalAktif && NOMOR_BINDO_GAMBAR_SCROLL_PENUH.includes(soalAktif.nomorAsli)
   )
   const isBindoGambarBesarTanpaTeks = Boolean(
     isBindo &&
       soalAktif &&
-      !isBindoNomorTargetScroll &&
+      !isBindoGambarScrollPenuh &&
       [10, 11, 12, 13, 19, 22, 25, 28].includes(soalAktif.nomorAsli)
   )
   const isBindoPasKotakPutih = Boolean(
     isBindo &&
       soalAktif &&
-      !isBindoNomorTargetScroll &&
+      !isBindoGambarScrollPenuh &&
       [22, 25, 28].includes(soalAktif.nomorAsli)
   )
   const isBindoGambarScrollBesar = Boolean(
@@ -3156,8 +3156,8 @@ function App() {
                 maxHeight: '440px',
                 overflowY: isBindoPasKotakPutih ? 'hidden' : 'auto',
                 overflowX: isBindoPasKotakPutih ? 'hidden' : 'auto',
-                padding: isBindoNomorTargetScroll
-                  ? '12px 14px 32px 12px'
+                padding: isBindoGambarScrollPenuh
+                  ? '8px 14px 32px 12px'
                   : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
                     ? '6px'
                     : isMtkGambarBesarTanpaTeks
@@ -3172,36 +3172,14 @@ function App() {
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: isBindoNomorTargetScroll
+                justifyContent: isBindoGambarScrollPenuh
                   ? 'flex-start'
                   : isMtkGambarBesarTanpaTeks || isBindoGambarBesarTanpaTeks || isBindoPasKotakPutih
                     ? 'center'
                     : 'flex-start',
-                alignItems: isBindoNomorTargetScroll ? 'stretch' : 'center'
+                alignItems: isBindoGambarScrollPenuh ? 'stretch' : 'center'
               }}
             >
-              {isBindoNomorTargetScroll && (
-                <div
-                  style={{
-                    fontSize: '1.18em',
-                    fontWeight: 800,
-                    color: '#0f172a',
-                    background: '#eff6ff',
-                    border: '1px solid #bfdbfe',
-                    borderLeft: '4px solid #1d4ed8',
-                    borderRadius: '8px',
-                    padding: '9px 14px',
-                    marginBottom: '12px',
-                    width: '100%',
-                    boxSizing: 'border-box',
-                    flexShrink: 0,
-                    textAlign: 'left'
-                  }}
-                >
-                  Soal Nomor {soalAktif.nomor}
-                </div>
-              )}
-
               {soalAktif.bacaanJudul &&
                 !(isBindo && [1, 2, 3, 4, 10, 11, 12, 13, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35].includes(soalAktif.nomorAsli)) && (
                   <h3 style={{ marginTop: 0, marginBottom: '12px', textAlign: 'center', color: '#1e293b', width: '100%' }}>
@@ -3308,9 +3286,9 @@ function App() {
                   isMtk={isMtkKelas6}
                   isBindoGambar1to4={isBindoGambar1to4}
                   fullWidthScroll={isBindoGambarScrollBesar}
-                  expandFullWidth={isBindoNomorTargetScroll}
+                  expandFullWidth={isBindoGambarScrollPenuh}
                   maxHeight={
-                    isBindoNomorTargetScroll
+                    isBindoGambarScrollPenuh
                       ? 'none'
                       : isMtkGambarBesarTanpaTeks
                         ? '410px'
