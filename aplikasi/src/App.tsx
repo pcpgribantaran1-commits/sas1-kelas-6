@@ -20,7 +20,6 @@ const URL_APPS_SCRIPT =
   'https://script.google.com/macros/s/AKfycbxhp44qsZdQ9FoE96A2FFQFFFMkle8d4rWPKIGcnrGF5PxlomDBLbNWH5n7Qs_sptY/exec'
 
 const NOMOR_BINDO_GAMBAR_SCROLL_PENUH = [20, 24, 26, 29, 30, 31, 32, 33, 34, 35]
-const NOMOR_BINDO_TUTUP_LABEL_ATAS = [20, 24, 26, 29, 30, 31, 32, 33, 34, 35]
 
 function GambarSoal({
   srcRaw,
@@ -88,61 +87,32 @@ function GambarSoal({
     return null
   }
 
-  const tutupLabelAtas = Boolean(
-    !isMtk && nomorAsli !== undefined && NOMOR_BINDO_TUTUP_LABEL_ATAS.includes(nomorAsli)
-  )
-
   return (
-    <div
+    <img
+      key={`${srcRaw}-${nomorAsli ?? ''}-${isMtk ? 'mtk' : 'lain'}-${idxKandidat}`}
+      src={kandidatUrl[idxKandidat]}
+      alt={alt}
+      loading="eager"
+      decoding="sync"
+      fetchPriority="high"
+      onError={() => {
+        if (idxKandidat + 1 < kandidatUrl.length) {
+          setIdxKandidat(prev => prev + 1)
+        }
+      }}
       style={{
-        position: 'relative',
         display: 'block',
         width: expandFullWidth ? '100%' : 'auto',
         maxWidth: '100%',
-        overflow: 'hidden',
+        height: 'auto',
+        maxHeight: expandFullWidth ? 'none' : maxHeight,
         borderRadius: isBindoGambar1to4 ? '6px' : '8px',
+        objectFit: 'contain',
+        transform: 'none',
         flexShrink: 0,
         margin: fullWidthScroll || expandFullWidth ? '4px auto 16px auto' : '6px auto 8px auto'
       }}
-    >
-      <img
-        key={`${srcRaw}-${nomorAsli ?? ''}-${isMtk ? 'mtk' : 'lain'}-${idxKandidat}`}
-        src={kandidatUrl[idxKandidat]}
-        alt={alt}
-        loading="eager"
-        decoding="sync"
-        fetchPriority="high"
-        onError={() => {
-          if (idxKandidat + 1 < kandidatUrl.length) {
-            setIdxKandidat(prev => prev + 1)
-          }
-        }}
-        style={{
-          display: 'block',
-          width: expandFullWidth ? '100%' : 'auto',
-          maxWidth: '100%',
-          height: 'auto',
-          maxHeight: expandFullWidth ? 'none' : maxHeight,
-          objectFit: 'contain',
-          transform: 'none',
-          margin: 0
-        }}
-      />
-      {tutupLabelAtas && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '38px',
-            background: '#ffffff',
-            pointerEvents: 'none'
-          }}
-        />
-      )}
-    </div>
+    />
   )
 }
 
