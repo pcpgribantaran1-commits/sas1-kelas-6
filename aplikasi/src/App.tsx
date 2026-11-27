@@ -2314,9 +2314,7 @@ function App() {
     setUsername(userFinal)
     setPassword(passFinal)
     setNamaLembaga(lembagaFinal)
-    if (!namaPeserta.trim()) {
-      setNamaPeserta(userFinal)
-    }
+    setNamaPeserta('')
     const tBaru = buatToken()
     setToken(tBaru)
     setTokenInput('')
@@ -2330,12 +2328,17 @@ function App() {
   }
 
   const submitKonfirmasi = () => {
+    if (!namaPeserta.trim()) {
+      alert('Silakan tulis Nama Peserta terlebih dahulu.')
+      return
+    }
+
     if (tokenInput.trim().toUpperCase() !== token.trim().toUpperCase()) {
       alert('Token yang Anda tulis belum sesuai dengan token di atas. Silakan tulis ulang token dengan benar.')
       return
     }
 
-    const namaFinal = namaPeserta.trim() || username.trim() || 'Peserta Ujian'
+    const namaFinal = namaPeserta.trim()
     setNamaPeserta(namaFinal)
 
     const bankSoalFinal = susunSoalBerdasarkanMapel(mapel)
@@ -2680,6 +2683,7 @@ function App() {
               <div className="data-group">
                 <label>Nama Peserta</label>
                 <input
+                  key={`nama-peserta-input-${sesiKey}`}
                   type="text"
                   name={`tka_nama_${sesiKey}`}
                   autoComplete="off"
