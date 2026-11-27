@@ -87,6 +87,10 @@ function GambarSoal({
     return null
   }
 
+  const isNomorUtuhAtasBawah = Boolean(
+    !isMtk && nomorAsli !== undefined && [20, 29, 30].includes(nomorAsli)
+  )
+
   return (
     <img
       key={`${srcRaw}-${nomorAsli ?? ''}-${isMtk ? 'mtk' : 'lain'}-${idxKandidat}`}
@@ -102,15 +106,21 @@ function GambarSoal({
       }}
       style={{
         display: 'block',
-        width: expandFullWidth ? '100%' : 'auto',
+        width: isNomorUtuhAtasBawah ? 'auto' : expandFullWidth ? '100%' : 'auto',
         maxWidth: '100%',
         height: 'auto',
-        maxHeight: expandFullWidth ? 'none' : maxHeight,
+        maxHeight: isNomorUtuhAtasBawah ? '408px' : expandFullWidth ? 'none' : maxHeight,
         borderRadius: isBindoGambar1to4 ? '6px' : '8px',
         objectFit: 'contain',
+        objectPosition: 'top center',
         transform: 'none',
         flexShrink: 0,
-        margin: fullWidthScroll || expandFullWidth ? '4px auto 16px auto' : '6px auto 8px auto'
+        margin:
+          isNomorUtuhAtasBawah
+            ? '0 auto'
+            : fullWidthScroll || expandFullWidth
+              ? '4px auto 16px auto'
+              : '6px auto 8px auto'
       }}
     />
   )
@@ -2021,6 +2031,7 @@ function App() {
   const [halaman, setHalaman] = useState<'awal' | 'login' | 'konfirmasi' | 'konfirmasiTes' | 'ujian' | 'konfirmasiSelesai' | 'reviu'>('awal')
   const [sesiKey, setSesiKey] = useState(0)
   const [sedangMengirim, setSedangMengirim] = useState(false)
+  const bacaanRef = useRef<HTMLDivElement | null>(null)
 
   const [jenjang, setJenjang] = useState('SD/MI/Sederajat')
   const [jenis, setJenis] = useState('Mata Pelajaran Wajib')
@@ -2119,6 +2130,12 @@ function App() {
       // abaikan jika storage penuh
     }
   }, [halaman, mapel, username, namaPeserta, namaLembaga, bankSoalAktif, nomorAktif, jawaban, ragu, sisaWaktu])
+
+  useEffect(() => {
+    if (halaman === 'ujian' && bacaanRef.current) {
+      bacaanRef.current.scrollTop = 0
+    }
+  }, [halaman, nomorAktif, mapel])
 
   useEffect(() => {
     if (halaman !== 'konfirmasi') return
@@ -3060,6 +3077,9 @@ function App() {
   const isBindoGambarScrollPenuh = Boolean(
     isBindo && soalAktif && NOMOR_BINDO_GAMBAR_SCROLL_PENUH.includes(soalAktif.nomorAsli)
   )
+  const isBindoNomor20_29_30 = Boolean(
+    isBindo && soalAktif && [20, 29, 30].includes(soalAktif.nomorAsli)
+  )
   const isBindoGambarBesarTanpaTeks = Boolean(
     isBindo &&
       soalAktif &&
@@ -3149,35 +3169,44 @@ function App() {
         {soalAktif && (
           <div className="area-soal">
             <div
+              ref={bacaanRef}
               className="bacaan-soal"
               style={{
                 fontSize: `${ukuranFont}px`,
                 height: '440px',
                 maxHeight: '440px',
-                overflowY: isBindoPasKotakPutih ? 'hidden' : 'auto',
-                overflowX: isBindoPasKotakPutih ? 'hidden' : 'auto',
-                padding: isBindoGambarScrollPenuh
-                  ? '8px 14px 32px 12px'
-                  : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
-                    ? '6px'
-                    : isMtkGambarBesarTanpaTeks
-                      ? '8px'
-                      : isMtkKelas6
-                        ? '8px 12px 8px 4px'
-                        : isBindoPasKotakPutih
-                          ? '10px'
-                          : isBindoGambarScrollBesar
-                            ? '8px'
-                            : '4px 12px 4px 4px',
+                overflowY: isBindoPasKotakPutih || isBindoNomor20_29_30 ? 'hidden' : 'auto',
+                overflowX: isBindoPasKotakPutih || isBindoNomor20_29_30 ? 'hidden' : 'auto',
+                padding: isBindoNomor20_29_30
+                  ? '12px'
+                  : isBindoGambarScrollPenuh
+                    ? '8px 14px 32px 12px'
+                    : isMtkNomor2GambarBesar || isMtkNomor5GambarBesar || isMtkNomor7GambarBesar
+                      ? '6px'
+                      : isMtkGambarBesarTanpaTeks
+                        ? '8px'
+                        : isMtkKelas6
+                          ? '8px 12px 8px 4px'
+                          : isBindoPasKotakPutih
+                            ? '10px'
+                            : isBindoGambarScrollBesar
+                              ? '8px'
+                              : '4px 12px 4px 4px',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: isBindoGambarScrollPenuh
+                justifyContent: isBindoNomor20_29_30
                   ? 'flex-start'
-                  : isMtkGambarBesarTanpaTeks || isBindoGambarBesarTanpaTeks || isBindoPasKotakPutih
-                    ? 'center'
-                    : 'flex-start',
-                alignItems: isBindoGambarScrollPenuh ? 'stretch' : 'center'
+                  : isBindoGambarScrollPenuh
+                    ? 'flex-start'
+                    : isMtkGambarBesarTanpaTeks || isBindoGambarBesarTanpaTeks || isBindoPasKotakPutih
+                      ? 'center'
+                      : 'flex-start',
+                alignItems: isBindoNomor20_29_30
+                  ? 'center'
+                  : isBindoGambarScrollPenuh
+                    ? 'stretch'
+                    : 'center'
               }}
             >
               {soalAktif.bacaanJudul &&
@@ -3288,21 +3317,23 @@ function App() {
                   fullWidthScroll={isBindoGambarScrollBesar}
                   expandFullWidth={isBindoGambarScrollPenuh}
                   maxHeight={
-                    isBindoGambarScrollPenuh
-                      ? 'none'
-                      : isMtkGambarBesarTanpaTeks
-                        ? '410px'
-                        : isMtkKelas6
-                          ? '280px'
-                          : isBindoPasKotakPutih
-                            ? '360px'
-                            : isBindoGambarScrollBesar
+                    isBindoNomor20_29_30
+                      ? '408px'
+                      : isBindoGambarScrollPenuh
+                        ? 'none'
+                        : isMtkGambarBesarTanpaTeks
+                          ? '410px'
+                          : isMtkKelas6
+                            ? '280px'
+                            : isBindoPasKotakPutih
                               ? '360px'
-                              : isBindoGambarBesarTanpaTeks
-                                ? '380px'
-                                : isBindoGambar1to4
-                                  ? '290px'
-                                  : '260px'
+                              : isBindoGambarScrollBesar
+                                ? '360px'
+                                : isBindoGambarBesarTanpaTeks
+                                  ? '380px'
+                                  : isBindoGambar1to4
+                                    ? '290px'
+                                    : '260px'
                   }
                 />
               )}
