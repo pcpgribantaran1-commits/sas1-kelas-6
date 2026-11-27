@@ -843,6 +843,7 @@ const BANK_SOAL_BINDO_PAKET_1: Omit<DataSoal, 'nomor'>[] = [
       { kode: 'C', teks: 'Tradisi meminang dan penggunaan pakaian adat saat upacara perkawinan' },
       { kode: 'D', teks: 'Membiarkan sampah menumpuk di depan rumah tanpa dibersihkan' }
     ],
+    kunciTabel: ['A', 'B', 'C'],
     kunciText: 'Kunci jawaban: 1-A, 2-B, 3-C.',
     kunciTeksReviu: '1-A, 2-B, 3-C'
   },
@@ -2193,64 +2194,79 @@ function App() {
 
     bankSoalAktif.forEach(soal => {
       const jawabSiswa = jawaban[soal.nomor]
-      if (!jawabSiswa) return
+      if (jawabSiswa === undefined || jawabSiswa === null) return
 
       if (soal.tipe === 'pg') {
-        if (soal.kunciKodePg) {
-          if (jawabSiswa === soal.kunciKodePg) totalPoinMentah += 1
-        } else {
-          const opsiPilih = soal.opsi?.find(o => o.kode === jawabSiswa)
-          if (
-            (opsiPilih && soal.kunciTeksReviu && opsiPilih.teks.toLowerCase().includes(soal.kunciTeksReviu.toLowerCase().substring(0, 15))) ||
-            jawabSiswa === soal.kunciTeksReviu
-          ) {
-            totalPoinMentah += 1
-          }
+        if (soal.kunciKodePg && jawabSiswa === soal.kunciKodePg) {
+          totalPoinMentah += 1
         }
       } else if (soal.tipe === 'pgk' && Array.isArray(jawabSiswa)) {
-        const kodeBenarList = soal.kunciKodePgk
-          ? soal.kunciKodePgk
-          : (soal.opsi
-              ?.filter(o => soal.kunciTeksReviu?.toLowerCase().includes(o.teks.toLowerCase().substring(0, 10)))
-              .map(o => o.kode) || [])
+        const kodeBenarList = soal.kunciKodePgk || []
+        const totalBenarSeharusnya = Math.max(kodeBenarList.length, 1)
 
-        const totalBenarSeharusnya = kodeBenarList.length > 0 ? kodeBenarList.length : 1
         let benarDipilih = 0
         let salahDipilih = 0
 
         jawabSiswa.forEach((kode: string) => {
-          if (kodeBenarList.includes(kode)) benarDipilih += 1
-          else salahDipilih += 1
+          if (kodeBenarList.includes(kode)) {
+            benarDipilih += 1
+          } else {
+            salahDipilih += 1
+          }
         })
 
-        const skorParsial = Math.max(0, (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya)
+        // Penilaian proporsional: jawaban benar menyumbang poin per butir kunci,
+        // salah hanya mengurangi sebagian kecil agar tidak langsung menggugurkan nomor
+        const skorParsial = Math.max(
+          0,
+          (benarDipilih - salahDipilih * 0.5) / totalBenarSeharusnya
+        )
         totalPoinMentah += skorParsial
-      } else if ((soal.tipe === 'tabel' || soal.tipe === 'jodoh') && typeof jawabSiswa === 'object') {
-        const jumlahItem = soal.barisTabel?.length || soal.kolomKiri?.length || 1
+      } else if (soal.tipe === 'tabel' && typeof jawabSiswa === 'object') {
+        const jumlahBaris = Math.max(soal.barisTabel?.length || 1, 1)
         if (soal.kunciTabel && Array.isArray(soal.kunciTabel)) {
-          let itemBenar = 0
+          let barisBenar = 0
           soal.kunciTabel.forEach((kunciBaris, idx) => {
             const pilihanBaris = jawabSiswa[idx + 1]
-            if (pilihanBaris && String(pilihanBaris).trim().toLowerCase() === String(kunciBaris).trim().toLowerCase()) {
-              itemBenar += 1
+            if (
+              pilihanBaris &&
+              String(pilihanBaris).trim().toLowerCase() ===
+                String(kunciBaris).trim().toLowerCase()
+            ) {
+              barisBenar += 1
             }
           })
-          totalPoinMentah += itemBenar / jumlahItem
-        } else if (soal.tipe === 'jodoh' && soal.nomorAsli === 3) {
-          let benarJodoh = 0
-          if (jawabSiswa[1] === 'A') benarJodoh += 1
-          if (jawabSiswa[2] === 'B') benarJodoh += 1
-          if (jawabSiswa[3] === 'C') benarJodoh += 1
-          totalPoinMentah += benarJodoh / jumlahItem
-        } else {
-          const itemTerisi = Object.keys(jawabSiswa).length
-          totalPoinMentah += itemTerisi / jumlahItem
+          totalPoinMentah += barisBenar / jumlahBaris
         }
+      } else if (soal.tipe === 'jodoh' && typeof jawabSiswa === 'object') {
+        const jumlahPasangan = Math.max(soal.kolomKiri?.length || 1, 1)
+        let pasanganBenar = 0
+
+        if (soal.kunciTabel && Array.isArray(soal.kunciTabel)) {
+          soal.kunciTabel.forEach((kunciKode, idx) => {
+            const pilihanSiswa = jawabSiswa[idx + 1]
+            if (
+              pilihanSiswa &&
+              String(pilihanSiswa).trim().toUpperCase() ===
+                String(kunciKode).trim().toUpperCase()
+            ) {
+              pasanganBenar += 1
+            }
+          })
+        } else if (soal.nomorAsli === 3) {
+          if (jawabSiswa[1] === 'A') pasanganBenar += 1
+          if (jawabSiswa[2] === 'B') pasanganBenar += 1
+          if (jawabSiswa[3] === 'C') pasanganBenar += 1
+        }
+
+        totalPoinMentah += pasanganBenar / jumlahPasangan
       } else if (soal.tipe === 'isian' || soal.tipe === 'uraian') {
         if (typeof jawabSiswa === 'string' && jawabSiswa.trim().length > 0) {
           if (soal.kunciIsianList && soal.kunciIsianList.length > 0) {
             const bersih = jawabSiswa.trim().toLowerCase()
-            const cocok = soal.kunciIsianList.some(k => bersih.includes(k.toLowerCase()))
+            const cocok = soal.kunciIsianList.some(k =>
+              bersih.includes(k.toLowerCase())
+            )
             if (cocok) totalPoinMentah += 1
           } else {
             totalPoinMentah += 1
