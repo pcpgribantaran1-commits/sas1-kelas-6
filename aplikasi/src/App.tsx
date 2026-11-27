@@ -2721,9 +2721,13 @@ function App() {
               <div className="data-group token-input-group">
                 <label>Token</label>
                 <input
+                  key={`token-input-${token}-${sesiKey}`}
                   type="text"
-                  name={`tka_token_${sesiKey}`}
-                  autoComplete="off"
+                  name={`manual_kode_token_${token}_${sesiKey}`}
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
                   placeholder="Ketikkan Token sesuai di atas"
                   value={tokenInput}
                   onChange={e => setTokenInput(e.target.value.toUpperCase())}
