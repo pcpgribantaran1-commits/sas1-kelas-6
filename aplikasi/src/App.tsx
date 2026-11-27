@@ -44,51 +44,32 @@ function GambarSoal({
     const normalizedBase = base.endsWith('/') ? base : `${base}/`
     const stem = clean.replace(/\.[^/.]+$/, '')
 
+    const utama = `${normalizedBase}${clean}`
+    const daftar: string[] = [utama]
+
     if (nomorAsli === 13 && !isMtk) {
-      return Array.from(
-        new Set([
-          `${normalizedBase}bindo6-soal-13.png`,
-          `./bindo6-soal-13.png`,
-          `${normalizedBase}bindo6-soal-13.jpg`,
-          `./bindo6-soal-13.jpg`,
-          `${normalizedBase}bindo6-soal-13.webp`,
-          `${normalizedBase}${clean}`,
-          `${normalizedBase}bindo6-soal-12.png`,
-          `./bindo6-soal-12.png`
-        ])
-      )
-    }
-
-    if (nomorAsli === 30 && !isMtk) {
-      return Array.from(
-        new Set([
-          `${normalizedBase}bindo6-soal-30.png`,
-          `./bindo6-soal-30.png`,
-          `${normalizedBase}bindo6-soal-30.jpg`,
-          `./bindo6-soal-30.jpg`,
-          `${normalizedBase}bindo6-soal-30.webp`,
-          `${normalizedBase}${clean}`,
-          `${normalizedBase}bindo6-soal-29.png`,
-          `./bindo6-soal-29.png`
-        ])
-      )
-    }
-
-    const daftar: string[] = [
-      `${normalizedBase}${clean}`,
-      `./${clean}`,
-      `${normalizedBase}${stem}.png`,
-      `${normalizedBase}${stem}.jpg`,
-      `${normalizedBase}${stem}.jpeg`,
-      `${normalizedBase}${stem}.webp`
-    ]
-
-    if (clean === 'bindo6-soal-10.png') {
       daftar.push(
-        `${normalizedBase}bindo6-soal-11.png`,
-        `./bindo6-soal-11.png`,
-        `${normalizedBase}bindo6-soal-11.jpg`
+        `${normalizedBase}bindo6-soal-13.png`,
+        `${normalizedBase}bindo6-soal-13.jpg`,
+        `${normalizedBase}bindo6-soal-13.webp`,
+        `${normalizedBase}bindo6-soal-12.png`
       )
+    } else if (nomorAsli === 30 && !isMtk) {
+      daftar.push(
+        `${normalizedBase}bindo6-soal-30.png`,
+        `${normalizedBase}bindo6-soal-30.jpg`,
+        `${normalizedBase}bindo6-soal-30.webp`,
+        `${normalizedBase}bindo6-soal-29.png`
+      )
+    } else {
+      daftar.push(
+        `${normalizedBase}${stem}.png`,
+        `${normalizedBase}${stem}.jpg`,
+        `${normalizedBase}${stem}.webp`
+      )
+      if (clean === 'bindo6-soal-10.png') {
+        daftar.push(`${normalizedBase}bindo6-soal-11.png`)
+      }
     }
 
     return Array.from(new Set(daftar))
@@ -109,7 +90,7 @@ function GambarSoal({
       alt={alt}
       loading="eager"
       decoding="sync"
-      fetchPriority={nomorAsli === 13 || nomorAsli === 30 ? 'high' : 'auto'}
+      fetchPriority="high"
       onError={() => {
         if (idxKandidat + 1 < kandidatUrl.length) {
           setIdxKandidat(prev => prev + 1)
@@ -2052,9 +2033,8 @@ function App() {
   const [bulan, setBulan] = useState('')
   const [tahun, setTahun] = useState('')
 
-  const tokenOtomatis = buatToken()
-  const [token, setToken] = useState(tokenOtomatis)
-  const [tokenInput, setTokenInput] = useState(tokenOtomatis)
+  const [token, setToken] = useState(() => buatToken())
+  const [tokenInput, setTokenInput] = useState('')
   const [logoError, setLogoError] = useState(false)
 
   const [bankSoalAktif, setBankSoalAktif] = useState<DataSoal[]>([])
@@ -2152,7 +2132,7 @@ function App() {
 
     const tokenBaru = buatToken()
     setToken(tokenBaru)
-    setTokenInput(tokenBaru)
+    setTokenInput('')
 
     setBankSoalAktif([])
     setNomorAktif(1)
@@ -2295,9 +2275,12 @@ function App() {
   useEffect(() => {
     if (halaman !== 'ujian' || bankSoalAktif.length === 0) return
 
+    const indeksTarget = [nomorAktif - 2, nomorAktif - 1, nomorAktif]
     const preloaded: HTMLImageElement[] = []
-    bankSoalAktif.forEach(soal => {
-      if (!soal.bacaanGambar) return
+
+    indeksTarget.forEach(idx => {
+      const soal = bankSoalAktif[idx]
+      if (!soal?.bacaanGambar) return
       const img = new Image()
       img.decoding = 'async'
       img.src = resolveAssetUrl(soal.bacaanGambar)
@@ -2307,7 +2290,7 @@ function App() {
     return () => {
       preloaded.length = 0
     }
-  }, [halaman, bankSoalAktif])
+  }, [halaman, bankSoalAktif, nomorAktif])
 
   const formatWaktu = (detik: number) => {
     const menit = Math.floor(detik / 60)
@@ -2336,17 +2319,22 @@ function App() {
     }
     const tBaru = buatToken()
     setToken(tBaru)
-    setTokenInput(tBaru)
+    setTokenInput('')
     setHalaman('konfirmasi')
   }
 
   const refreshToken = () => {
     const tBaru = buatToken()
     setToken(tBaru)
-    setTokenInput(tBaru)
+    setTokenInput('')
   }
 
   const submitKonfirmasi = () => {
+    if (tokenInput.trim().toUpperCase() !== token.trim().toUpperCase()) {
+      alert('Token yang Anda tulis belum sesuai dengan token di atas. Silakan tulis ulang token dengan benar.')
+      return
+    }
+
     const namaFinal = namaPeserta.trim() || username.trim() || 'Peserta Ujian'
     setNamaPeserta(namaFinal)
 
@@ -2736,7 +2724,7 @@ function App() {
                   type="text"
                   name={`tka_token_${sesiKey}`}
                   autoComplete="off"
-                  placeholder="Token otomatis terisi"
+                  placeholder="Ketikkan Token sesuai di atas"
                   value={tokenInput}
                   onChange={e => setTokenInput(e.target.value.toUpperCase())}
                 />
