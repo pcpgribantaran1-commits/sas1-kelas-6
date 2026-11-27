@@ -2324,9 +2324,9 @@ function App() {
   }
 
   const loginPeserta = () => {
-    const userFinal = username.trim() || 'SISWA24JAM'
-    const passFinal = password.trim() || 'MANDIRI24'
-    const lembagaFinal = namaLembaga.trim() || 'SD Negeri Mandiri'
+    const userFinal = username.trim() || 'SISWA'
+    const passFinal = password.trim() || 'UJIAN'
+    const lembagaFinal = namaLembaga.trim() || 'SD Negeri'
 
     setUsername(userFinal)
     setPassword(passFinal)
@@ -2482,7 +2482,7 @@ function App() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.35 }}>
               <strong>PUSMENDIK</strong>
               <small>APLIKASI Sumatif Akhir Semester 1 (SAS 1)</small>
-              <small style={{ fontWeight: 600, color: '#ffffff', marginTop: '2px' }}>Kelas VI (Enam) • Akses Mandiri 24 Jam</small>
+              <small style={{ fontWeight: 600, color: '#ffffff', marginTop: '2px' }}>Kelas VI (Enam)</small>
             </div>
           </div>
         </header>
@@ -2491,7 +2491,7 @@ function App() {
           <div className="awal-card">
             <div className="awal-icon">🎓</div>
             <h1 style={{ color: '#0f172a', fontWeight: 800 }}>Sumatif Akhir Semester 1 (SAS 1)</h1>
-            <p className="awal-subtitle">Pilih jenjang dan mata pelajaran untuk memulai simulasi (Akses 24 Jam)</p>
+            <p className="awal-subtitle">Pilih jenjang dan mata pelajaran untuk memulai simulasi</p>
 
             <div className="awal-group">
               <label>📚 &nbsp;Jenjang Pendidikan:</label>
@@ -2574,7 +2574,7 @@ function App() {
             }}
           >
             <h3>Selamat Datang</h3>
-            <p>Akses mandiri 24 jam tanpa admin online — silakan isi data login untuk memulai</p>
+            <p>Silakan login untuk memulai simulasi</p>
 
             <div className="login-field">
               <span>👤</span>
@@ -2582,7 +2582,7 @@ function App() {
                 type="text"
                 name={`tka_user_${sesiKey}`}
                 autoComplete="off"
-                placeholder="Username (opsional, otomatis jika kosong)"
+                placeholder="Username"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
               />
@@ -2599,7 +2599,7 @@ function App() {
                 spellCheck={false}
                 data-form-type="other"
                 data-lpignore="true"
-                placeholder="Password (bebas / otomatis)"
+                placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 style={
@@ -2765,7 +2765,7 @@ function App() {
             </div>
             <div className="tes-group">
               <label>Status Tes</label>
-              <div>Tes Baru (Akses 24 Jam)</div>
+              <div>Tes Baru</div>
             </div>
             <div className="tes-group">
               <label>Waktu Tes</label>
